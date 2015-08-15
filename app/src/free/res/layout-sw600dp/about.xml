@@ -27,13 +27,13 @@
                 android:id="@+id/textView1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/qBittorrent_logo"
+                android:layout_below="@+id/torrent_logo"
                 android:layout_centerHorizontal="true"
                 android:text="@string/app_name"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <ImageView
-                android:id="@+id/qBittorrent_logo"
+                android:id="@+id/torrent_logo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"

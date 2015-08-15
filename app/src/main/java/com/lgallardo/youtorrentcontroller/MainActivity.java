@@ -307,7 +307,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
         int drawerItemSize;
 
         // Drawer item list objects
-        if (packageName.equals("com.lgallardo.qbittorrentclient")) {
+        if (packageName.equals("com.lgallardo.youtorrentcontroller")) {
             drawerItemSize = 10;
         } else {
             drawerItemSize = 9;
@@ -326,7 +326,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
         drawerItem[7] = new ObjectDrawerItem(R.drawable.ic_drawer_settings, navigationDrawerItemTitles[7]);
         drawerItem[8] = new ObjectDrawerItem(R.drawable.ic_drawer_help, navigationDrawerItemTitles[8]);
 
-        if (packageName.equals("com.lgallardo.qbittorrentclient")) {
+        if (packageName.equals("com.lgallardo.youtorrentcontroller")) {
             drawerItem[8] = new ObjectDrawerItem(R.drawable.ic_drawer_pro, navigationDrawerItemTitles[8]);
             drawerItem[9] = new ObjectDrawerItem(R.drawable.ic_drawer_help, navigationDrawerItemTitles[9]);
         }

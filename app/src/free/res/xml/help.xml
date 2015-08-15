@@ -33,7 +33,7 @@
         <Preference
             android:summary="@string/app_name"
             android:title="@string/help_about_title">
-            <intent android:action="com.lgallardo.qbittorrentclient.AboutActivity" />
+            <intent android:action="com.lgallardo.youtorrentcontroller.AboutActivity" />
         </Preference>
     </PreferenceCategory>
 </PreferenceScreen>
