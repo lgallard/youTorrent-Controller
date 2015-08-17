@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
-    <string name="app_name">qBittorrent Controller Pro</string>
+    <string name="app_name">youTorrent Controller Pro</string>
     <string name="app_shortname">Controller</string>
     <string name="action_settings">Ustawienia</string>
     <string name="action_refresh">Odśwież</string>
     <string name="action_add">Dodaj</string>
     <string name="action_pause">Wstrzymaj</string>
-    <string name="action_resume">Wznów</string>
+    <string name="action_resume">Rozpocznij</string>
     <string name="action_resume_all">Wznów wszystko</string>
     <string name="action_pause_all">Pauza wszystko</string>
     <string name="action_delete">Usuń</string>

@@ -9,13 +9,13 @@
       Luis M. Gallardo D.
 -->
 <resources>
-    <string name="app_name">qBittorrent Controller Pro</string>
+    <string name="app_name">youTorrent Controller Pro</string>
     <string name="app_shortname">Controller Pro</string>
     <string name="action_settings">Ajustes</string>
     <string name="action_refresh">Actualizar</string>
     <string name="action_add">Añadir</string>
     <string name="action_pause">Pausar</string>
-    <string name="action_resume">Reanudar</string>
+    <string name="action_resume">Iniciar</string>
     <string name="action_resume_all">Reanudar todos</string>
     <string name="action_pause_all">Pausar todos</string>
     <string name="action_delete_drive">Eliminar datos</string>
