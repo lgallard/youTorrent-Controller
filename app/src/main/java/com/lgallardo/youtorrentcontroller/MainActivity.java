@@ -2595,15 +2595,18 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
                         // Get torrent info
                         hash = torrentArray.getString(0);
+                        Log.d("Debug", "Hash:" + hash);
+
                         // TODO: Delete status, dont' used
                         status = "" + torrentArray.getInt(1);
 
                         Log.d("Debug", "Status:" + status);
 
                         name = torrentArray.getString(2);
-                        size = "" + torrentArray.getInt(3);
+                        size = "" + torrentArray.getLong(3);
 
-                        Log.d("Debug", "Hash:" + hash);
+                        Log.d("Debug", "Name:" + name);
+                        Log.d("Debug", "Size:" + size);
 
                         // Move progress and ratio calculation to Common
                         progress = String.format("%.2f", (float) torrentArray.getInt(4)/10) + "%";
