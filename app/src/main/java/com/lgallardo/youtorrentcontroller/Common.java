@@ -112,7 +112,13 @@ public class Common {
                         if (minute > 0) {
                             secs = minute + "m";
                         } else {
-                            secs = second + "s";
+
+                            if(second >= 0) {
+                                secs = second + "s";
+                            }
+                            else{
+                                secs = "∞";
+                            }
                         }
 
                     }

@@ -367,10 +367,6 @@ class Torrent {
      */
     public String getEta() {
 
-        if (eta.equals("8640000")) {
-            return "∞";
-        }
-
         return eta;
     }
 

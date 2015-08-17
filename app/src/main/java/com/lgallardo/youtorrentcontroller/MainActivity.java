@@ -2611,7 +2611,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
                         Log.d("Debug", "Progress:" + progress);
 
-                        ratio =  String.format("%.2f", (float) torrentArray.getInt(7)/1000);
+                        ratio =  String.format("%.2f", (float) torrentArray.getInt(7) / 1000);
                         ratio = ratio.replace(",", ".");
 
                         Log.d("Debug", "Ratio:" + ratio);
@@ -2620,6 +2620,9 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
                         downloadSpeed = "" + torrentArray.getInt(8);
                         uploadSpeed = "" + torrentArray.getInt(9);
                         eta = "" + torrentArray.getInt(10);
+
+                        Log.d("Debug", "Eta:" + eta);
+
                         label = torrentArray.getString(11);
                         peersConnected = torrentArray.getInt(12);
                         peersInSwarm = torrentArray.getInt(13);
@@ -2636,6 +2639,10 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
                         downloadSpeed = Common.calculateSize(downloadSpeed) + "/s";
                         uploadSpeed = Common.calculateSize(uploadSpeed) + "/s";
 
+                        if(torrentArray.getInt(4) >= 1000){
+                            completed = true;
+                        }
+
                         Log.d("Debug", "Completed: " + torrentArray.getInt(4));
 
 
@@ -2646,6 +2653,10 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
                         torrents[i] = new Torrent(name, size, state, hash, info, ratio, progress, peersConnected, peersInSwarm,
                                 seedsConnected, seedInSwarm, priority, eta, downloadSpeed, uploadSpeed, sequentialDownload, firstLastPiecePrio, status, label, availability, completed);
+
+
+
+                        Log.d("Debug", "Eta2:" + torrents[i].getEta());
 
                         MainActivity.names[i] = name;
 
@@ -2735,7 +2746,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
                     }
 
                     if (params[1].equals("downloading") && (searchField == "" || result[i].getFile().toUpperCase().contains(searchField.toUpperCase()))) {
-                        if ("downloading".equals(result[i].getState())) {
+                        if ("downloading".equals(result[i].getState()) || !result[i].isCompleted()) {
                             torrentsFiltered.add(result[i]);
                         }
                     }

@@ -51,6 +51,9 @@ class TorrentListAdapter extends ArrayAdapter<String> {
 
             String state = torrentsData[position].getState();
 
+            int donwloadSpeedWeigth = torrentsData[position].getDownloadSpeedWeight();
+            int uploadSpeedWeigth = torrentsData[position].getUploadSpeedWeight();
+
             TextView name = (TextView) row.findViewById(R.id.file);
             name.setText(file);
 
@@ -64,36 +67,40 @@ class TorrentListAdapter extends ArrayAdapter<String> {
                 icon.setImageResource(R.drawable.paused);
             }
 
-            if ("stalledUP".equals(state)) {
-                icon.setImageResource(R.drawable.stalledup);
-            }
-
-            if ("stalledDL".equals(state)) {
-                icon.setImageResource(R.drawable.stalleddl);
-            }
 
             if ("downloading".equals(state)) {
-                icon.setImageResource(R.drawable.downloading);
+                icon.setImageResource(R.drawable.stalleddl);
+
+                if (donwloadSpeedWeigth > 0) {
+                    icon.setImageResource(R.drawable.downloading);
+                }
             }
 
-            if ("uploading".equals(state)) {
-                icon.setImageResource(R.drawable.uploading);
+            if ("seeding".equals(state)) {
+
+                icon.setImageResource(R.drawable.stalledup);
+
+                if (uploadSpeedWeigth > 0) {
+                    icon.setImageResource(R.drawable.uploading);
+                }
             }
 
-            if ("queuedDL".equals(state) || "queuedUP".equals(state)) {
+            if ("queued".equals(state)) {
                 icon.setImageResource(R.drawable.queued);
             }
 
-            if ("checkingDL".equals(state) || "checkingUP".equals(state)) {
+            if ("checking".equals(state)) {
                 icon.setImageResource(R.drawable.ic_action_recheck);
             }
 
-            if(MainActivity.packageName.equals("com.lgallardo.qbittorrentclientpro")) {
+            if(MainActivity.packageName.equals("com.lgallardo.youtorrentcontrollerpro")) {
                 // Set progress bar
                 ProgressBar progressBar = (ProgressBar) row.findViewById(R.id.progressBar1);
                 TextView percentageTV = (TextView) row.findViewById(R.id.percentage);
 
                 String percentage = torrentsData[position].getPercentage();
+
+                Log.d("Debug", "TorrentListAdapter - percentage: " + percentage);
 
                 progressBar.setProgress(Integer.parseInt(percentage));
 
@@ -113,7 +120,7 @@ class TorrentListAdapter extends ArrayAdapter<String> {
             name.setText(context.getString(R.string.no_results));
 
             // Hide progress bar
-            if(MainActivity.packageName.equals("com.lgallardo.qbittorrentclientpro")) {
+            if(MainActivity.packageName.equals("com.lgallardo.youtorrentcontrollerpro")) {
 
                 ProgressBar progressBar = (ProgressBar) row.findViewById(R.id.progressBar1);
                 TextView percentageTV = (TextView) row.findViewById(R.id.percentage);
