@@ -29,5 +29,5 @@ proguard/
 .idea
 .idea/workspace.xml
 app/app.iml
-app/build.gradle
+#app/build.gradle
 
