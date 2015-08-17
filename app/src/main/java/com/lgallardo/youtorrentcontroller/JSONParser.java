@@ -71,8 +71,8 @@ public class JSONParser {
     private String password;
     private int connection_timeout;
     private int data_timeout;
-    private String token;
-    private String cookie;
+    private static String token;
+    private static String cookie;
 
     // constructor
     public JSONParser() {
@@ -339,11 +339,11 @@ public class JSONParser {
         String url = "";
 
         if ("start".equals(command) || "startSelected".equals(command)) {
-            url = "command/resume";
+            url = url + "gui/?action=start&hash="+hash;
         }
 
         if ("pause".equals(command) || "pauseSelected".equals(command)) {
-            url = "command/pause";
+            url = url + "gui/?action=pause&hash="+hash;
         }
 
         if ("delete".equals(command) || "deleteSelected".equals(command)) {
@@ -466,7 +466,7 @@ public class JSONParser {
         // Set http parameters
         HttpConnectionParams.setConnectionTimeout(httpParameters, timeoutConnection);
         HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
-        HttpProtocolParams.setUserAgent(httpParameters, "qBittorrent for Android");
+        HttpProtocolParams.setUserAgent(httpParameters, "youTorrent Controller");
         HttpProtocolParams.setVersion(httpParameters, HttpVersion.HTTP_1_1);
         HttpProtocolParams.setContentCharset(httpParameters, HTTP.UTF_8);
 
@@ -487,7 +487,9 @@ public class JSONParser {
 
             httpclient.getCredentialsProvider().setCredentials(authScope, credentials);
 
-            url = protocol + "://" + hostname + ":" + port + "/" + url;
+            url = protocol + "://" + hostname + ":" + port + "/" + url + "&token=" + token;
+
+            Log.d("Debug", "JSONParser - url: " + url);
 
             HttpPost httpget = new HttpPost(url);
 
