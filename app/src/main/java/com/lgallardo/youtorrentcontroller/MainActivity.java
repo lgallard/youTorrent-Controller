@@ -2650,6 +2650,9 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
                         if(torrentArray.getInt(4) >= 1000){
                             completed = true;
+                        }else{
+                            // Let's assume it's not completed
+                            completed = false;
                         }
 
                         Log.d("Debug", "Completed: " + torrentArray.getInt(4));
@@ -2782,7 +2785,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
                     }
 
                     if (params[1].equals("inactive") && (searchField == "" || result[i].getFile().toUpperCase().contains(searchField.toUpperCase()))) {
-                        if (result[i].getPeersConnected() == 0  || result[i].getSeedsConnected() == 0) {
+                        if (result[i].getUploadSpeedWeight() == 0  || result[i].getDownloadSpeedWeight() == 0) {
                             torrentsFiltered.add(result[i]);
                         }
                     }
