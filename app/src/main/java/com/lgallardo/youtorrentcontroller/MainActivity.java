@@ -2631,6 +2631,12 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
                         availability = "" + torrentArray.getInt(16) / 65536f;
                         priority = "" + torrentArray.getInt(17);
 
+                        Log.d("Debug", "peersConnected:" + peersConnected);
+                        Log.d("Debug", "peersInSwarm:" + peersInSwarm);
+                        Log.d("Debug", "seedsConnected:" + seedsConnected);
+                        Log.d("Debug", "seedInSwarm:" + seedInSwarm);
+
+
                         info = "";
 
                         // Adjust values
@@ -2654,9 +2660,6 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
                         torrents[i] = new Torrent(name, size, state, hash, info, ratio, progress, peersConnected, peersInSwarm,
                                 seedsConnected, seedInSwarm, priority, eta, downloadSpeed, uploadSpeed, sequentialDownload, firstLastPiecePrio, status, label, availability, completed);
 
-
-
-                        Log.d("Debug", "Eta2:" + torrents[i].getEta());
 
                         MainActivity.names[i] = name;
 
