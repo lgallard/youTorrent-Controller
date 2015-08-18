@@ -93,6 +93,11 @@ class TorrentListAdapter extends ArrayAdapter<String> {
                 icon.setImageResource(R.drawable.ic_action_recheck);
             }
 
+            if ("stopped".equals(state)) {
+                icon.setImageResource(R.drawable.ic_action_stopped);
+            }
+
+
             if(MainActivity.packageName.equals("com.lgallardo.youtorrentcontrollerpro")) {
                 // Set progress bar
                 ProgressBar progressBar = (ProgressBar) row.findViewById(R.id.progressBar1);

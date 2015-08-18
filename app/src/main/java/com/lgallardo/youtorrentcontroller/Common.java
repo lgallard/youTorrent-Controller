@@ -151,11 +151,14 @@ public class Common {
         } else if ((status & 16) == 16) {
             // Error
             return "error";
-        } else if ((status & 128) == 128) {
+        } else if ((status & 64) == 64) {
             // Queued
             return "queued";
+        } else if ((status & 128) == 128) {
+            // Queued
+            return "stopped";
         } else {
-            return "waiting";
+            return "stopped";
         }
     }
 
