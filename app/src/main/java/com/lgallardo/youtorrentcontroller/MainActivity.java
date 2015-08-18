@@ -776,14 +776,15 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
                 qBittorrentNoSettingsFoundDialog(R.string.info, R.string.about_help1);
             } else {
 
-                if (token == null || token.equals("") || cookie ==  null || cookie.equals("")) {
-                    // Request new token and execute task in background
+//                if (token == null || token.equals("") || cookie ==  null || cookie.equals("")) {
+                    // Request new token and execute task in background, and Execute task in background
                     new torrentTokenTask().execute();
 
-                }else{
-                    // Execute the  in background
-                    new torrentTask().execute(params);
-                }
+//                }else{
+//                    // Execute the  in background
+//                    params[2] = token;
+//                    new torrentTask().execute(params);
+//                }
             }
 
         } else {
@@ -2238,21 +2239,25 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
         @Override
         protected void onPostExecute(String result[]) {
 
-            MainActivity.token = result[0];
-            MainActivity.cookie = result[1];
+            if(MainActivity.token == null || !MainActivity.token.equals(result[0]) || MainActivity.cookie == null || !MainActivity.cookie.equals(result[1])) {
+
+                MainActivity.token = result[0];
+                MainActivity.cookie = result[1];
 
 
-            // Save options locally
-            sharedPrefs = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
-            Editor editor = sharedPrefs.edit();
+                // Save options locally
+                sharedPrefs = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+                Editor editor = sharedPrefs.edit();
 
-            // Save key-values
-            editor.putString("token", result[0]);
-            editor.putString("cookie", result[1]);
+                // Save key-values
+                editor.putString("token", result[0]);
+                editor.putString("cookie", result[1]);
 
 
-            // Commit changes
-            editor.apply();
+                // Commit changes
+                editor.apply();
+
+            }
 
             params[2] = token;
 
@@ -2700,6 +2705,11 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
                 }
             } catch (JSONParserStatusCodeException e) {
                 httpStatusCode = e.getCode();
+
+                if(httpStatusCode == 400){
+                    cookie = null;
+                    token = null;
+                }
                 torrents = null;
                 Log.e("JSONParserStatusCode", e.toString());
 
