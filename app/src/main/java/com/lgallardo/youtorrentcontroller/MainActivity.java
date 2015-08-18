@@ -383,6 +383,9 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
         // get intent from the intent filter and Add URL torrent
         addTorrentByIntent(getIntent());
 
+        // Get Token and Cookie
+        new torrentTokenTask().execute();
+
         // Fragments
 
         // Check whether the activity is using the layout version with
@@ -777,13 +780,13 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
             } else {
 
 //                if (token == null || token.equals("") || cookie ==  null || cookie.equals("")) {
-                    // Request new token and execute task in background, and Execute task in background
-                    new torrentTokenTask().execute();
-
+//                    // Request new token and execute task in background, and Execute task in background
+//                    new torrentTokenTask().execute();
+//
 //                }else{
-//                    // Execute the  in background
+                    // Execute the  in background
 //                    params[2] = token;
-//                    new torrentTask().execute(params);
+                    new torrentTask().execute(params);
 //                }
             }
 
@@ -1201,8 +1204,8 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
             // Get values from preferences
             getSettings();
 
-            // Get new cookie
-            cookie = null;
+            // Get new token and cookie
+            new torrentTokenTask().execute();
 
             // redraw menu
             invalidateOptionsMenu();
@@ -1237,6 +1240,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
             // Refresh
             canrefresh = true;
+
 
         }
 
@@ -2261,8 +2265,8 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
             params[2] = token;
 
-            // Execute the task in background
-            new torrentTask().execute(params);
+//            // Execute the task in background
+//            new torrentTask().execute(params);
 
         }
     }
