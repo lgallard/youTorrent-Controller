@@ -314,25 +314,26 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
         }
 
-        ObjectDrawerItem[] drawerItem = new ObjectDrawerItem[drawerItemSize];
 
-        drawerItem[0] = new ObjectDrawerItem(R.drawable.ic_drawer_all, navigationDrawerItemTitles[0]);
-        drawerItem[1] = new ObjectDrawerItem(R.drawable.ic_drawer_downloading, navigationDrawerItemTitles[1]);
-        drawerItem[2] = new ObjectDrawerItem(R.drawable.ic_drawer_completed, navigationDrawerItemTitles[2]);
-        drawerItem[3] = new ObjectDrawerItem(R.drawable.ic_drawer_paused, navigationDrawerItemTitles[3]);
-        drawerItem[4] = new ObjectDrawerItem(R.drawable.ic_drawer_active, navigationDrawerItemTitles[4]);
-        drawerItem[5] = new ObjectDrawerItem(R.drawable.ic_drawer_inactive, navigationDrawerItemTitles[5]);
-        drawerItem[6] = new ObjectDrawerItem(R.drawable.ic_action_options, navigationDrawerItemTitles[6]);
-        drawerItem[7] = new ObjectDrawerItem(R.drawable.ic_drawer_settings, navigationDrawerItemTitles[7]);
-        drawerItem[8] = new ObjectDrawerItem(R.drawable.ic_drawer_help, navigationDrawerItemTitles[8]);
+        ArrayList<ObjectDrawerItem> drawerItems = new ArrayList<ObjectDrawerItem>();
+
+        drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_all, navigationDrawerItemTitles[0]));
+        drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_downloading, navigationDrawerItemTitles[1]));
+
+        drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_completed, navigationDrawerItemTitles[2]));
+        drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_paused, navigationDrawerItemTitles[3]));
+        drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_active, navigationDrawerItemTitles[4]));
+        drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_inactive, navigationDrawerItemTitles[5]));
+//        drawerItems.add(new ObjectDrawerItem(R.drawable.ic_action_options, navigationDrawerItemTitles[6],6));
+        drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_settings, navigationDrawerItemTitles[7]));
+        drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_help, navigationDrawerItemTitles[8]));
 
         if (packageName.equals("com.lgallardo.youtorrentcontroller")) {
-            drawerItem[8] = new ObjectDrawerItem(R.drawable.ic_drawer_pro, navigationDrawerItemTitles[8]);
-            drawerItem[9] = new ObjectDrawerItem(R.drawable.ic_drawer_help, navigationDrawerItemTitles[9]);
+            drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_help, navigationDrawerItemTitles[9]));
         }
 
         // Create object for drawer item OnbjectDrawerItem
-        DrawerItemCustomAdapter adapter = new DrawerItemCustomAdapter(this, R.layout.drawer_row, drawerItem);
+        DrawerItemCustomAdapter adapter = new DrawerItemCustomAdapter(this, R.layout.drawer_row, drawerItems);
         drawerList.setAdapter(adapter);
 
         // Set selection according to last state
@@ -965,10 +966,10 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
                 // Add URL torrent
                 addUrlTorrent();
                 return true;
-            case R.id.action_rss:
-                // Open RSS Activity
-                startActivity(new Intent(getBaseContext(), com.lgallardo.youtorrentcontroller.RSSFeedActivity.class));
-                return true;
+//            case R.id.action_rss:
+//                // Open RSS Activity
+//                startActivity(new Intent(getBaseContext(), com.lgallardo.youtorrentcontroller.RSSFeedActivity.class));
+//                return true;
             case R.id.action_pause:
                 if (com.lgallardo.youtorrentcontroller.TorrentDetailsFragment.hashToUpdate != null) {
                     pauseTorrent(com.lgallardo.youtorrentcontroller.TorrentDetailsFragment.hashToUpdate);
@@ -2094,12 +2095,13 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
                 saveLastState("inactive");
                 break;
             case 6:
-                // Options - Execute the task in background
-                Toast.makeText(getApplicationContext(), R.string.getQBittorrentPrefefrences, Toast.LENGTH_SHORT).show();
-                qBittorrentOptions qso = new qBittorrentOptions();
-                qso.execute(new String[]{qbQueryString + "/preferences", "setOptions"});
-                break;
-            case 7:
+//TODO: Uncomment to add options
+//                // Options - Execute the task in background
+//                Toast.makeText(getApplicationContext(), R.string.getQBittorrentPrefefrences, Toast.LENGTH_SHORT).show();
+//                qBittorrentOptions qso = new qBittorrentOptions();
+//                qso.execute(new String[]{qbQueryString + "/preferences", "setOptions"});
+//                break;
+//            case 7:
                 // Settings
                 openSettings();
                 break;

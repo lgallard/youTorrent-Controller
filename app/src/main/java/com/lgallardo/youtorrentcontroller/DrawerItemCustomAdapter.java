@@ -19,19 +19,22 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 public class DrawerItemCustomAdapter extends ArrayAdapter<ObjectDrawerItem> {
 
 	Context mContext;
 	int layoutResourceId;
-	ObjectDrawerItem data[] = null;
+
+	public static ArrayList<ObjectDrawerItem> items;
 
 	public DrawerItemCustomAdapter(Context mContext, int layoutResourceId,
-			ObjectDrawerItem[] data) {
+								   ArrayList<ObjectDrawerItem> items) {
 
-		super(mContext, layoutResourceId, data);
+		super(mContext, R.layout.drawer_row, items);
 		this.layoutResourceId = layoutResourceId;
 		this.mContext = mContext;
-		this.data = data;
+		this.items= items;
 	}
 
 	@Override
@@ -40,12 +43,12 @@ public class DrawerItemCustomAdapter extends ArrayAdapter<ObjectDrawerItem> {
 		View listItem =  convertView;
 
 		LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
-		listItem = inflater.inflate(layoutResourceId, parent, false);
+		listItem = inflater.inflate(R.layout.drawer_row, parent, false);
 
 		ImageView imageViewIcon = (ImageView) listItem.findViewById(R.id.imageViewIcon);
 		TextView textViewName = (TextView) listItem.findViewById(R.id.textViewName);
 
-		ObjectDrawerItem folder = data[position];
+		ObjectDrawerItem folder = items.get(position);
 		
 		imageViewIcon.setImageResource(folder.icon);
 		textViewName.setText(folder.name);

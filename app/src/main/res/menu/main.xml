@@ -145,10 +145,10 @@
         app:showAsAction="collapseActionView"
         android:title="@string/search_title" />
 
-    <item
-        android:id="@+id/action_rss"
-        android:icon="@drawable/ic_action_add_rss"
-        app:showAsAction="collapseActionView|ifRoom"
-        android:title="@string/action_rss" />
+    <!--<item-->
+        <!--android:id="@+id/action_rss"-->
+        <!--android:icon="@drawable/ic_action_add_rss"-->
+        <!--app:showAsAction="collapseActionView|ifRoom"-->
+        <!--android:title="@string/action_rss" />-->
 
 </menu>
