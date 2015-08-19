@@ -52,6 +52,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.security.KeyStore;
 import java.util.ArrayList;
 import java.util.Date;
@@ -356,17 +357,32 @@ public class JSONParser {
         }
 
         if ("addTorrent".equals(command)) {
-            url = "command/download";
-            key = "urls";
+
+            URI hash_uri = null;
+
+            try {
+                hash_uri = new URI(hash);
+                hash = hash_uri.toString();
+
+                Log.d("Debug","Torrent URL: "+ hash);
+
+            } catch (URISyntaxException e) {
+                Log.e("Debug", "URISyntaxException: " + e.toString());
+            }
+
+
+            url = url + "gui/?action=add-url&s="+hash;
+//            key = "urls";
         }
 
         if ("addTorrentFile".equals(command)) {
-            url = "command/upload";
+            url = url + "gui/?action=add-file";
             key = "urls";
 
             boundary = "-----------------------" + (new Date()).getTime();
 
             urlContentType = "multipart/form-data; boundary=" + boundary;
+            urlContentType = "multipart/form-data";
 
         }
 
@@ -418,17 +434,17 @@ public class JSONParser {
             url = url + "gui/?action=recheck&hash="+hash;
         }
 
-        if ("toggleFirstLastPiecePrio".equals(command)) {
-            url = "command/toggleFirstLastPiecePrio";
-            key = "hashes";
-
-        }
-
-        if ("toggleSequentialDownload".equals(command)) {
-            url = "command/toggleSequentialDownload";
-            key = "hashes";
-
-        }
+//        if ("toggleFirstLastPiecePrio".equals(command)) {
+//            url = "command/toggleFirstLastPiecePrio";
+//            key = "hashes";
+//
+//        }
+//
+//        if ("toggleSequentialDownload".equals(command)) {
+//            url = "command/toggleSequentialDownload";
+//            key = "hashes";
+//
+//        }
 
 
         // if server is publish in a subfolder, fix url
@@ -491,7 +507,7 @@ public class JSONParser {
             httpget.setEntity(new UrlEncodedFormEntity(nvps, HTTP.UTF_8));
 
             // Set content type and urls
-            if ("addTorrent".equals(command) || "increasePrio".equals(command) || "decreasePrio".equals(command) || "maxPrio".equals(command)) {
+            if ("increasePrio".equals(command) || "decreasePrio".equals(command) || "maxPrio".equals(command)) {
                 httpget.setHeader("Content-Type", urlContentType);
 
             }
@@ -513,18 +529,13 @@ public class JSONParser {
                 // Add boundary
                 builder.setBoundary(boundary);
 
-                // Add text expected by qBittorrent server
-                // builder.addTextBody("text",
-                // "Content-Disposition: form-data; name=\"torrents\"; filename=\""
-                // + hash + "\"\n"
-                // + "Content-Type: application/x-bittorrent\n\n");
 
                 // Add torrent file as binary
                 File file = new File(hash);
                 // FileBody fileBody = new FileBody(file);
                 // builder.addPart("file", fileBody);
 
-                builder.addBinaryBody("upfile", file, ContentType.DEFAULT_BINARY, hash);
+                builder.addBinaryBody("torrent_file", file, ContentType.DEFAULT_BINARY, hash);
 //                builder.addBinaryBody("upfile", file, ContentType.create(urlContentType), hash);
 
                 // Build entity
