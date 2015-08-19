@@ -18,7 +18,7 @@
             android:title="@string/help_documentation_title">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="https://github.com/lgallard/qBittorrent-Client/wiki" />
+                android:data="https://github.com/lgallard/youTorrent-Controller/wiki" />
         </Preference>
         <Preference
             android:key="version"
@@ -29,13 +29,13 @@
             android:title="@string/help_rate_title">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="https://play.google.com/store/apps/details?id=com.lgallardo.qbittorrentclientpro" />
+                android:data="https://play.google.com/store/apps/details?id=com.lgallardo.youtorrentconttollerpro" />
         </Preference>
 
         <Preference
             android:summary="@string/app_name"
             android:title="@string/help_about_title">
-            <intent android:action="com.lgallardo.qbittorrentclientpro.AboutActivity" />
+            <intent android:action="com.lgallardo.youtorrentcontrollerpro.AboutActivity" />
         </Preference>
     </PreferenceCategory>
 </PreferenceScreen>

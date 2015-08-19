@@ -326,9 +326,12 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
         drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_inactive, navigationDrawerItemTitles[5]));
 //        drawerItems.add(new ObjectDrawerItem(R.drawable.ic_action_options, navigationDrawerItemTitles[6],6));
         drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_settings, navigationDrawerItemTitles[7]));
-        drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_help, navigationDrawerItemTitles[8]));
+
 
         if (packageName.equals("com.lgallardo.youtorrentcontroller")) {
+            drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_pro, navigationDrawerItemTitles[8]));
+            drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_help, navigationDrawerItemTitles[9]));
+        }else{
             drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_help, navigationDrawerItemTitles[9]));
         }
 
@@ -2095,7 +2098,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
                 saveLastState("inactive");
                 break;
             case 6:
-//TODO: Uncomment to add options
+//TODO: Uncomment to add options, and +1 to each case
 //                // Options - Execute the task in background
 //                Toast.makeText(getApplicationContext(), R.string.getQBittorrentPrefefrences, Toast.LENGTH_SHORT).show();
 //                qBittorrentOptions qso = new qBittorrentOptions();
@@ -2105,7 +2108,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
                 // Settings
                 openSettings();
                 break;
-            case 8:
+            case 7:
                 if (packageName.equals("com.lgallardo.youtorrentcontroller")) {
                     // Get Pro version
                     getPRO();
@@ -2113,7 +2116,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
                     openHelp();
                 }
                 break;
-            case 9:
+            case 8:
                 openHelp();
                 break;
             default:
