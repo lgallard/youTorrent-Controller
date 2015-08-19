@@ -389,23 +389,23 @@ public class JSONParser {
         }
 
         if ("increasePrio".equals(command)) {
-            url = "command/increasePrio";
+            url = url + "gui/?action=queueup&hash="+hash;
             key = "hashes";
         }
 
         if ("decreasePrio".equals(command)) {
-            url = "command/decreasePrio";
+            url = url + "gui/?action=queuedown&hash="+hash;
             key = "hashes";
 
         }
 
         if ("maxPrio".equals(command)) {
-            url = "command/topPrio";
+            url = url + "gui/?action=queuetop&hash="+hash;
             key = "hashes";
         }
 
         if ("minPrio".equals(command)) {
-            url = "command/bottomPrio";
+            url = url + "gui/?action=queuebottom&hash="+hash;
             key = "hashes";
 
         }
