@@ -380,8 +380,8 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
 
         // Get options and save them as shared preferences
-        qBittorrentOptions qso = new qBittorrentOptions();
-        qso.execute(new String[]{qbQueryString + "/preferences", "getSettings"});
+//        qBittorrentOptions qso = new qBittorrentOptions();
+//        qso.execute(new String[]{qbQueryString + "/preferences", "getSettings"});
 
         // If it were awaked from an intent-filter,
         // get intent from the intent filter and Add URL torrent
@@ -621,7 +621,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
     // Load Banner
     public void loadBanner() {
 
-        if (packageName.equals("com.lgallardo.qbittorrentclient")) {
+        if (packageName.equals("com.lgallardo.youTorrentController")) {
 
             // Look up the AdView as a resource and load a request.
             adView = (AdView) this.findViewById(R.id.adView);
@@ -1108,12 +1108,12 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
                     }
                 }
                 return true;
-            case R.id.action_resume_all:
-                resumeAllTorrents();
-                return true;
-            case R.id.action_pause_all:
-                pauseAllTorrents();
-                return true;
+//            case R.id.action_resume_all:
+//                resumeAllTorrents();
+//                return true;
+//            case R.id.action_pause_all:
+//                pauseAllTorrents();
+//                return true;
             case R.id.action_recheck:
                 if (com.lgallardo.youtorrentcontroller.TorrentDetailsFragment.hashToUpdate != null) {
                     recheckTorrents(com.lgallardo.youtorrentcontroller.TorrentDetailsFragment.hashToUpdate);
@@ -1197,8 +1197,8 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
             // Get options from server and save them as shared preferences
             // locally
-            qBittorrentOptions qso = new qBittorrentOptions();
-            qso.execute(new String[]{qbQueryString + "/preferences", "getSettings"});
+//            qBittorrentOptions qso = new qBittorrentOptions();
+//            qso.execute(new String[]{qbQueryString + "/preferences", "getSettings"});
 
             // Now it can be refreshed
             canrefresh = true;
@@ -3074,6 +3074,12 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
             } catch (JSONParserStatusCodeException e) {
 
                 httpStatusCode = e.getCode();
+
+                if(httpStatusCode == 400){
+                    cookie = null;
+                    token = null;
+                }
+
                 Log.e("JSONParserStatusCode", e.toString());
             }
 

@@ -50,16 +50,16 @@
         </menu>
 
     </item>
-    <item
-        android:id="@+id/action_resume_all"
-        android:icon="@drawable/ic_action_resume"
-        app:showAsAction="ifRoom"
-        android:title="@string/action_resume_all" />
-    <item
-        android:id="@+id/action_pause_all"
-        android:icon="@drawable/ic_action_pause"
-        app:showAsAction="ifRoom"
-        android:title="@string/action_pause_all" />
+    <!--<item-->
+        <!--android:id="@+id/action_resume_all"-->
+        <!--android:icon="@drawable/ic_action_resume"-->
+        <!--app:showAsAction="ifRoom"-->
+        <!--android:title="@string/action_resume_all" />-->
+    <!--<item-->
+        <!--android:id="@+id/action_pause_all"-->
+        <!--android:icon="@drawable/ic_action_pause"-->
+        <!--app:showAsAction="ifRoom"-->
+        <!--android:title="@string/action_pause_all" />-->
     <item
         android:id="@+id/action_add"
         android:icon="@drawable/ic_action_add"
@@ -121,14 +121,14 @@
         android:id="@+id/action_recheck"
         app:showAsAction="ifRoom"
         android:title="@string/action_force_recheck" />
-    <item
-        android:id="@+id/action_sequential_download"
-        app:showAsAction="ifRoom"
-        android:title="@string/torrent_details_seq_download" />
-    <item
-        android:id="@+id/action_firts_last_piece_prio"
-        app:showAsAction="ifRoom"
-        android:title="@string/torrent_details_first_last" />
+    <!--<item-->
+        <!--android:id="@+id/action_sequential_download"-->
+        <!--app:showAsAction="ifRoom"-->
+        <!--android:title="@string/torrent_details_seq_download" />-->
+    <!--<item-->
+        <!--android:id="@+id/action_firts_last_piece_prio"-->
+        <!--app:showAsAction="ifRoom"-->
+        <!--android:title="@string/torrent_details_first_last" />-->
 
     <item
         android:id="@+id/action_search"

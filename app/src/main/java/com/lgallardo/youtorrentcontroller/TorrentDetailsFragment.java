@@ -498,8 +498,8 @@ public class TorrentDetailsFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         if (menu != null) {
 
-            menu.findItem(R.id.action_resume_all).setVisible(false);
-            menu.findItem(R.id.action_pause_all).setVisible(false);
+//            menu.findItem(R.id.action_resume_all).setVisible(false);
+//            menu.findItem(R.id.action_pause_all).setVisible(false);
             menu.findItem(R.id.action_add).setVisible(false);
 
             if (getActivity().findViewById(R.id.one_frame) != null) {
@@ -531,14 +531,6 @@ public class TorrentDetailsFragment extends Fragment {
                 menu.findItem(R.id.action_search).setVisible(true);
             }
 
-            if (MainActivity.qb_version.equals("3.2.x")) {
-                menu.findItem(R.id.action_firts_last_piece_prio).setVisible(true);
-                menu.findItem(R.id.action_sequential_download).setVisible(true);
-            }
-            else {
-                menu.findItem(R.id.action_firts_last_piece_prio).setVisible(false);
-                menu.findItem(R.id.action_sequential_download).setVisible(false);
-            }
 
         }
     }
