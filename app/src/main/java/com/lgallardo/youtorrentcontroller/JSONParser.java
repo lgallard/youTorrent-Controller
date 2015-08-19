@@ -347,12 +347,12 @@ public class JSONParser {
         }
 
         if ("delete".equals(command) || "deleteSelected".equals(command)) {
-            url = "command/delete";
+            url = url + "gui/?action=remove&hash="+hash;
             key = "hashes";
         }
 
         if ("deleteDrive".equals(command) || "deleteDriveSelected".equals(command)) {
-            url = "command/deletePerm";
+            url = url + "gui/?action=removedata&hash="+hash;
             key = "hashes";
         }
 

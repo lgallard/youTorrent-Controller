@@ -332,7 +332,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
             drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_pro, navigationDrawerItemTitles[8]));
             drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_help, navigationDrawerItemTitles[9]));
         }else{
-            drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_help, navigationDrawerItemTitles[9]));
+            drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_help, navigationDrawerItemTitles[8]));
         }
 
         // Create object for drawer item OnbjectDrawerItem
