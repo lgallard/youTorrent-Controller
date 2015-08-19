@@ -89,7 +89,7 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
             public boolean onPreferenceChange(Preference preference, Object newValue) {
                 // do whatever you want with new value
 
-                if (MainActivity.packageName.equals("com.lgallardo.qbittorrentclient")) {
+                if (MainActivity.packageName.equals("com.lgallardo.youtorrentcontroller")) {
 
                     Builder builder = new Builder(SettingsActivity.this);
 
