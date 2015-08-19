@@ -415,7 +415,7 @@ public class JSONParser {
         }
 
         if ("recheckSelected".equals(command)) {
-            url = "command/recheck";
+            url = url + "gui/?action=recheck&hash="+hash;
         }
 
         if ("toggleFirstLastPiecePrio".equals(command)) {
