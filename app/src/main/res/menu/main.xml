@@ -118,14 +118,6 @@
     </item>
 
     <item
-        android:id="@+id/action_download_rate_limit"
-        app:showAsAction="ifRoom"
-        android:title="@string/action_download_rate_limit" />
-    <item
-        android:id="@+id/action_upload_rate_limit"
-        app:showAsAction="ifRoom"
-        android:title="@string/action_upload_rate_limit" />
-    <item
         android:id="@+id/action_recheck"
         app:showAsAction="ifRoom"
         android:title="@string/action_force_recheck" />

@@ -348,36 +348,6 @@ public class ItemstFragment extends ListFragment {
                             mode.finish();
 
                             return true;
-
-                        case R.id.action_upload_rate_limit:
-
-                            m.uploadRateLimitDialog(hashes);
-
-                            // Clear selection
-                            nr = 0;
-
-                            // Enable SwipeRefresh
-                            mSwipeRefreshLayout.setEnabled(true);
-
-                            mAdapter.clearSelection();
-                            mode.finish();
-
-                            return true;
-
-                        case R.id.action_download_rate_limit:
-
-                            m.downloadRateLimitDialog(hashes);
-
-                            // Clear selection
-                            nr = 0;
-
-                            // Enable SwipeRefresh
-                            mSwipeRefreshLayout.setEnabled(true);
-
-                            mAdapter.clearSelection();
-                            mode.finish();
-
-                            return true;
                         case R.id.action_recheck:
 
                             m.recheckTorrents(hashes);
@@ -594,14 +564,6 @@ public class ItemstFragment extends ListFragment {
 
             if (menu.findItem(R.id.action_delete_drive) != null) {
                 menu.findItem(R.id.action_delete_drive).setVisible(false);
-            }
-
-            if (menu.findItem(R.id.action_upload_rate_limit) != null) {
-                menu.findItem(R.id.action_upload_rate_limit).setVisible(false);
-            }
-
-            if (menu.findItem(R.id.action_download_rate_limit) != null) {
-                menu.findItem(R.id.action_download_rate_limit).setVisible(false);
             }
 
             if (menu.findItem(R.id.action_recheck) != null) {

@@ -1114,25 +1114,6 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
             case R.id.action_pause_all:
                 pauseAllTorrents();
                 return true;
-            case R.id.action_upload_rate_limit:
-                if (com.lgallardo.youtorrentcontroller.TorrentDetailsFragment.hashToUpdate != null) {
-                    uploadRateLimitDialog(com.lgallardo.youtorrentcontroller.TorrentDetailsFragment.hashToUpdate);
-
-                    if (findViewById(R.id.one_frame) != null) {
-                        popBackStackPhoneView();
-                    }
-                }
-                return true;
-
-            case R.id.action_download_rate_limit:
-                if (com.lgallardo.youtorrentcontroller.TorrentDetailsFragment.hashToUpdate != null) {
-                    downloadRateLimitDialog(com.lgallardo.youtorrentcontroller.TorrentDetailsFragment.hashToUpdate);
-
-                    if (findViewById(R.id.one_frame) != null) {
-                        popBackStackPhoneView();
-                    }
-                }
-                return true;
             case R.id.action_recheck:
                 if (com.lgallardo.youtorrentcontroller.TorrentDetailsFragment.hashToUpdate != null) {
                     recheckTorrents(com.lgallardo.youtorrentcontroller.TorrentDetailsFragment.hashToUpdate);

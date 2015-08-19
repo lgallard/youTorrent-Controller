@@ -327,7 +327,6 @@ public class JSONParser {
 
         String urlContentType = "application/x-www-form-urlencoded";
 
-        String limit = "";
         String boundary = null;
 
 
@@ -415,22 +414,6 @@ public class JSONParser {
             key = "json";
         }
 
-        if ("setUploadRateLimit".equals(command)) {
-            url = "command/setTorrentUpLimit";
-
-            String[] tmpString = hash.split("&");
-            hash = tmpString[0];
-            limit = tmpString[1];
-        }
-
-        if ("setDownloadRateLimit".equals(command)) {
-            url = "command/setTorrentDlLimit";
-
-            String[] tmpString = hash.split("&");
-            hash = tmpString[0];
-            limit = tmpString[1];
-        }
-
         if ("recheckSelected".equals(command)) {
             url = "command/recheck";
         }
@@ -504,11 +487,6 @@ public class JSONParser {
             List<NameValuePair> nvps = new ArrayList<NameValuePair>();
             nvps.add(bnvp);
 
-            // Add limit
-            if (!limit.equals("")) {
-                nvps.add(new BasicNameValuePair("limit", limit));
-
-            }
 
             httpget.setEntity(new UrlEncodedFormEntity(nvps, HTTP.UTF_8));
 

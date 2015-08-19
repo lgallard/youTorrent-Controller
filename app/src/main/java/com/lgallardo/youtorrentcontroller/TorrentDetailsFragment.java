@@ -523,8 +523,6 @@ public class TorrentDetailsFragment extends Fragment {
             menu.findItem(R.id.action_min_prio).setVisible(true);
             menu.findItem(R.id.action_delete).setVisible(true);
             menu.findItem(R.id.action_delete_drive).setVisible(true);
-            menu.findItem(R.id.action_download_rate_limit).setVisible(true);
-            menu.findItem(R.id.action_upload_rate_limit).setVisible(true);
             menu.findItem(R.id.action_recheck).setVisible(true);
 
             if (getActivity().findViewById(R.id.one_frame) != null) {
