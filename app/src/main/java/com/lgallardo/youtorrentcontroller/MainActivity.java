@@ -904,12 +904,6 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
                 urlTorrent = "file://" + getFilePathFromUri(this, Uri.parse(urlTorrent));
 
-//                try {
-//                    urlTorrent = Uri.decode(URLEncoder.encode(urlTorrent, "UTF-8"));
-//                } catch (UnsupportedEncodingException e) {
-//                    Log.e("Debug", "MainActivity Check File: " + e.toString());
-//                }
-
                 Log.d("Debug", " MainActivity - New file path: " + urlTorrent);
 
             }
@@ -2592,10 +2586,12 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
             if ("addTorrent".equals(result)) {
                 messageId = R.string.torrentAdded;
+                delay = 3;
             }
 
             if ("addTorrentFile".equals(result)) {
                 messageId = R.string.torrentFileAdded;
+                delay = 3;
             }
 
             if ("pauseAll".equals(result)) {
