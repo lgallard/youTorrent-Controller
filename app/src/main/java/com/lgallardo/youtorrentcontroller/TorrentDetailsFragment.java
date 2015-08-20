@@ -232,8 +232,8 @@ public class TorrentDetailsFragment extends Fragment {
             nameTextView.setText(name);
             ratioTextView.setText(ratio);
             stateTextView.setText(state);
-            leechsTextView.setText("" + peersConnected+"("+ peersInSwarm+")");
-            seedsTextView.setText("" + seedsConnected+"("+ seedsInSwarm+")");
+            leechsTextView.setText("" + peersConnected+" ("+ peersInSwarm+")");
+            seedsTextView.setText("" + seedsConnected+" ("+ seedsInSwarm+")");
             progressTextView.setText(progress);
             hashTextView.setText(hash);
             etaTextView.setText(eta);
@@ -395,8 +395,8 @@ public class TorrentDetailsFragment extends Fragment {
             nameTextView.setText(name);
             ratioTextView.setText(ratio);
             stateTextView.setText(state);
-            leechsTextView.setText("" + peersConnected+"("+ peersInSwarm+")");
-            seedsTextView.setText("" + seedsConnected+"("+ seedsInSwarm+")");
+            leechsTextView.setText("" + peersConnected+" ("+ peersInSwarm+")");
+            seedsTextView.setText("" + seedsConnected+" ("+ seedsInSwarm+")");
             progressTextView.setText(progress);
             hashTextView.setText(hash);
             priorityTextView.setText(priority);
