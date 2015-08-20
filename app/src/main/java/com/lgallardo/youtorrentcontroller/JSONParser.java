@@ -97,12 +97,12 @@ public class JSONParser {
 
     }
 
-    public void setToken(String token) {
-        this.token = token;
+    public static void setToken(String token) {
+        JSONParser.token = token;
     }
 
-    public void setCookie(String cookie) {
-        this.cookie = cookie;
+    public static void setCookie(String cookie) {
+        JSONParser.cookie = cookie;
     }
 
     public JSONObject getJSONFromUrl(String url) throws JSONParserStatusCodeException {
@@ -347,12 +347,12 @@ public class JSONParser {
         }
 
         if ("delete".equals(command) || "deleteSelected".equals(command)) {
-            url = url + "gui/?action=remove&hash="+hash;
+            url = url + "gui/?action=remove&hash="+hash.replace("|","&hash=");
             key = "hashes";
         }
 
         if ("deleteDrive".equals(command) || "deleteDriveSelected".equals(command)) {
-            url = url + "gui/?action=removedata&hash="+hash;
+            url = url + "gui/?action=removedata&hash="+hash.replace("|","&hash=");
             key = "hashes";
         }
 
@@ -382,7 +382,7 @@ public class JSONParser {
             boundary = "-----------------------" + (new Date()).getTime();
 
             urlContentType = "multipart/form-data; boundary=" + boundary;
-            urlContentType = "multipart/form-data";
+//            urlContentType = "multipart/form-data";
 
         }
 
@@ -404,23 +404,23 @@ public class JSONParser {
 //        }
 
         if ("increasePrio".equals(command)) {
-            url = url + "gui/?action=queueup&hash="+hash;
+            url = url + "gui/?action=queueup&hash="+hash.replace("|","&hash=");
             key = "hashes";
         }
 
         if ("decreasePrio".equals(command)) {
-            url = url + "gui/?action=queuedown&hash="+hash;
+            url = url + "gui/?action=queuedown&hash="+hash.replace("|","&hash=");
             key = "hashes";
 
         }
 
         if ("maxPrio".equals(command)) {
-            url = url + "gui/?action=queuetop&hash="+hash;
+            url = url + "gui/?action=queuetop&hash="+hash.replace("|","&hash=");
             key = "hashes";
         }
 
         if ("minPrio".equals(command)) {
-            url = url + "gui/?action=queuebottom&hash="+hash;
+            url = url + "gui/?action=queuebottom&hash="+hash.replace("|","&hash=");
             key = "hashes";
 
         }
@@ -431,7 +431,7 @@ public class JSONParser {
         }
 
         if ("recheckSelected".equals(command)) {
-            url = url + "gui/?action=recheck&hash="+hash;
+            url = url + "gui/?action=recheck&hash="+hash.replace("|","&hash=");
         }
 
 //        if ("toggleFirstLastPiecePrio".equals(command)) {
@@ -521,6 +521,14 @@ public class JSONParser {
             // Set content type and urls
             if ("addTorrentFile".equals(command)) {
 
+                Log.d("Debug", "JSONParser - urlContentType: " +  urlContentType);
+
+//                Log.d("Debug", "JSONParser - hash: " +  Uri.decode(URLEncoder.encode(hash, "UTF-8")));
+
+                Log.d("Debug", "JSONParser - hash: " +  hash);
+
+
+
                 httpget.setHeader("Content-Type", urlContentType);
 
                 MultipartEntityBuilder builder = MultipartEntityBuilder.create();
@@ -535,7 +543,7 @@ public class JSONParser {
                 // FileBody fileBody = new FileBody(file);
                 // builder.addPart("file", fileBody);
 
-                builder.addBinaryBody("torrent_file", file, ContentType.DEFAULT_BINARY, hash);
+                builder.addBinaryBody("torrent_file", file, ContentType.DEFAULT_BINARY, null);
 //                builder.addBinaryBody("upfile", file, ContentType.create(urlContentType), hash);
 
                 // Build entity

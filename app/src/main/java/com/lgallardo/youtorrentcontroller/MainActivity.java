@@ -21,6 +21,7 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.SearchManager;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -28,6 +29,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -37,6 +39,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
+import android.provider.MediaStore;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -60,6 +63,7 @@ import com.google.android.gms.ads.AdView;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -384,11 +388,10 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 //        qso.execute(new String[]{qbQueryString + "/preferences", "getSettings"});
 
         // If it were awaked from an intent-filter,
+        // Get token and cookie and then
         // get intent from the intent filter and Add URL torrent
-        addTorrentByIntent(getIntent());
-
-        // Get Token and Cookie
-        new torrentTokenTask().execute();
+        Log.d("Debug", "MainActivity - 1");
+        new torrentTokenSendFileTask().execute(getIntent());
 
         // Fragments
 
@@ -821,9 +824,17 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
         if (Intent.ACTION_VIEW.equals(intent.getAction())) {
 
-            // Add torrent (file, url or magnet)
-            addTorrentByIntent(intent);
+           if(token == null || cookie == null){
+               // Get token and cookie and then
+               // get intent from the intent filter and Add URL torrent
+            Log.d("Debug", "MainActivity - 2");
+               new torrentTokenSendFileTask().execute(getIntent());
 
+           }else {
+
+               // Add torrent (file, url or magnet)
+               addTorrentByIntent(intent);
+           }
             // // Activity is visble
             activityIsVisible = true;
 
@@ -859,15 +870,55 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
         }
     }
 
+    // Get path from content reference, such as content//downloads/0
+    // Taken from here http://stackoverflow.com/questions/9194361/how-to-use-android-downloadmanager
+    public static String getFilePathFromUri(Context c, Uri uri) {
+        String filePath = null;
+        if ("content".equals(uri.getScheme())) {
+            String[] filePathColumn = {MediaStore.MediaColumns.DATA};
+            ContentResolver contentResolver = c.getContentResolver();
+
+            Cursor cursor = contentResolver.query(uri, filePathColumn, null,
+                    null, null);
+
+            cursor.moveToFirst();
+
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            filePath = cursor.getString(columnIndex);
+            cursor.close();
+        } else if ("file".equals(uri.getScheme())) {
+            filePath = new File(uri.getPath()).getAbsolutePath();
+        }
+        return filePath;
+    }
+
     private void addTorrentByIntent(Intent intent) {
 
         String urlTorrent = intent.getDataString();
 
         if (urlTorrent != null && urlTorrent.length() != 0) {
 
-            if (urlTorrent.substring(0, 4).equals("file")) {
+            Log.d("Debug", "MainActivity - " + urlTorrent);
+
+            if(urlTorrent.substring(0, 7).equals("content")){
+
+                urlTorrent = "file://" + getFilePathFromUri(this, Uri.parse(urlTorrent));
+
+//                try {
+//                    urlTorrent = Uri.decode(URLEncoder.encode(urlTorrent, "UTF-8"));
+//                } catch (UnsupportedEncodingException e) {
+//                    Log.e("Debug", "MainActivity Check File: " + e.toString());
+//                }
+
+                Log.d("Debug", " MainActivity - New file path: " + urlTorrent);
+
+            }
+
+            if (urlTorrent.substring(0, 4).equals("file") ) {
 
                 // File
+                Log.d("Debug", " MainActivity - Trying to send file");
+                Log.d("Debug", "MainActivity - PATH: " + Uri.parse(urlTorrent).getPath());
                 addTorrentFile(Uri.parse(urlTorrent).getPath());
 
             } else {
@@ -2188,6 +2239,8 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
     }
 
+
+
     // Here is where the action happens
     private class torrentTokenTask extends AsyncTask<String, Integer, String[]> {
 
@@ -2253,6 +2306,85 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
 //            // Execute the task in background
 //            new torrentTask().execute(params);
+
+        }
+    }
+
+    // This request the token and the launch the provide intent (send url or file to utorrent server)
+    private class torrentTokenSendFileTask extends AsyncTask<Intent, Integer, UtorrentSession> {
+
+        @Override
+        protected UtorrentSession doInBackground(Intent... intents) {
+
+            // Get values from preferences
+            getSettings();
+
+            // Creating new JSON Parser
+            JSONParser jParser = new JSONParser(hostname, subfolder, protocol, port, username, password, connection_timeout, data_timeout);
+
+            String[] tokenCookie = new String[2];
+            String newToken = null;
+            String newCookie = null;
+
+
+            try {
+                tokenCookie = jParser.getToken();
+                newToken = tokenCookie[0];
+                newCookie = tokenCookie[1];
+
+            } catch (JSONParserStatusCodeException e) {
+                httpStatusCode = e.getCode();
+            }
+
+            if (newToken == null) {
+                newToken = "";
+            }
+
+            if (newCookie == null) {
+                newCookie = "";
+            }
+
+            return new UtorrentSession(newToken, newCookie, intents[0]);
+
+        }
+
+        @Override
+        protected void onPostExecute(UtorrentSession result) {
+
+            if(MainActivity.token == null || !MainActivity.token.equals(result.getToken()) || MainActivity.cookie == null || !MainActivity.cookie.equals(result.getCookie())) {
+
+                MainActivity.token = result.getToken();
+                MainActivity.cookie = result.getCookie();
+
+
+                // Save options locally
+                sharedPrefs = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+                Editor editor = sharedPrefs.edit();
+
+                // Save key-values
+                editor.putString("token", result.getToken());
+                editor.putString("cookie", result.getCookie());
+
+
+                // Commit changes
+                editor.apply();
+
+            }
+
+            params[2] = token;
+
+
+            Log.d("Debug", "torrentTokenSendFileTask - token: " + token);
+            Log.d("Debug", "torrentTokenSendFileTask - cookie: " + cookie);
+            Log.d("Debug", "torrentTokenSendFileTask - Intent: " + result.getIntent().getDataString());
+            // After getting the token & cookie, sedn the url or file
+
+            // Set new Token and Cookie
+            JSONParser.setToken(MainActivity.token);
+            JSONParser.setCookie(MainActivity.cookie);
+
+            // Now send file
+            addTorrentByIntent(result.getIntent());
 
         }
     }
@@ -2565,7 +2697,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
                 // Getting torrents
 
                 // Get the complete JSON
-                Log.d("Debug", "Getting JSON");
+//                Log.d("Debug", "Getting JSON");
 
                 JSONObject json = jParser.getJSONFromUrl(params[0]);
 
@@ -2573,7 +2705,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
                 Log.d("Debug", "Getting torrents array");
                 JSONArray jArray = json.getJSONArray("torrents");
 
-                Log.d("Debug", "N° Torrents:" + jArray.length());
+//                Log.d("Debug", "N° Torrents:" + jArray.length());
 
                 if (jArray != null) {
 
@@ -2590,36 +2722,36 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
                         // Get torrent info
                         hash = torrentArray.getString(0);
-                        Log.d("Debug", "Hash:" + hash);
+//                        Log.d("Debug", "Hash:" + hash);
 
                         // TODO: Delete status, dont' used
                         status = "" + torrentArray.getInt(1);
 
-                        Log.d("Debug", "Status:" + status);
+//                        Log.d("Debug", "Status:" + status);
 
                         name = torrentArray.getString(2);
                         size = "" + torrentArray.getLong(3);
 
-                        Log.d("Debug", "Name:" + name);
-                        Log.d("Debug", "Size:" + size);
+//                        Log.d("Debug", "Name:" + name);
+//                        Log.d("Debug", "Size:" + size);
 
                         // Move progress and ratio calculation to Common
                         progress = String.format("%.2f", (float) torrentArray.getInt(4)/10) + "%";
                         progress = progress.replace(",", ".");
 
-                        Log.d("Debug", "Progress:" + progress);
+//                        Log.d("Debug", "Progress:" + progress);
 
                         ratio =  String.format("%.2f", (float) torrentArray.getInt(7) / 1000);
                         ratio = ratio.replace(",", ".");
 
-                        Log.d("Debug", "Ratio:" + ratio);
+//                        Log.d("Debug", "Ratio:" + ratio);
 
 
                         downloadSpeed = "" + torrentArray.getInt(8);
                         uploadSpeed = "" + torrentArray.getInt(9);
                         eta = "" + torrentArray.getInt(10);
 
-                        Log.d("Debug", "Eta:" + eta);
+//                        Log.d("Debug", "Eta:" + eta);
 
                         label = torrentArray.getString(11);
                         peersConnected = torrentArray.getInt(12);
@@ -2629,11 +2761,11 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
                         availability = "" + torrentArray.getInt(16) / 65536f;
                         priority = "" + torrentArray.getInt(17);
 
-                        Log.d("Debug", "peersConnected:" + peersConnected);
-                        Log.d("Debug", "peersInSwarm:" + peersInSwarm);
-                        Log.d("Debug", "seedsConnected:" + seedsConnected);
-                        Log.d("Debug", "seedInSwarm:" + seedInSwarm);
-
+//                        Log.d("Debug", "peersConnected:" + peersConnected);
+//                        Log.d("Debug", "peersInSwarm:" + peersInSwarm);
+//                        Log.d("Debug", "seedsConnected:" + seedsConnected);
+//                        Log.d("Debug", "seedInSwarm:" + seedInSwarm);
+//
 
                         info = "";
 
@@ -2650,13 +2782,13 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
                             completed = false;
                         }
 
-                        Log.d("Debug", "Completed: " + torrentArray.getInt(4));
+//                        Log.d("Debug", "Completed: " + torrentArray.getInt(4));
 
 
                         // Use status and progress to calculate torrent state
                         state = Common.getStateFromStatus(torrentArray.getInt(1),torrentArray.getInt(4));
 
-                        Log.d("Debug", "State:" + state);
+//                        Log.d("Debug", "State:" + state);
 
                         torrents[i] = new Torrent(name, size, state, hash, info, ratio, progress, peersConnected, peersInSwarm,
                                 seedsConnected, seedInSwarm, priority, eta, downloadSpeed, uploadSpeed, sequentialDownload, firstLastPiecePrio, status, label, availability, completed);
