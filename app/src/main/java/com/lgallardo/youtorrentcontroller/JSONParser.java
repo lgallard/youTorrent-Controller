@@ -338,6 +338,8 @@ public class JSONParser {
 
         String url = "";
 
+        Log.d("Debug", "JSONParser - command: " + command);
+
         if ("start".equals(command) || "startSelected".equals(command)) {
             url = url + "gui/?action=start&hash="+hash;
         }

@@ -159,7 +159,7 @@ public class TorrentDetailsFragment extends Fragment {
                 hashToUpdate = hash;
 
                 // Only for Pro version
-                if(MainActivity.packageName.equals("com.lgallardo.qbittorrentclientpro")) {
+                if(MainActivity.packageName.equals("com.lgallardo.youtorrentcontrollerpro")) {
                     int index = progress.indexOf(".");
 
                     if (index == -1) {
@@ -194,7 +194,7 @@ public class TorrentDetailsFragment extends Fragment {
                 hashToUpdate = hash;
 
                 // Only for Pro version
-                if(MainActivity.packageName.equals("com.lgallardo.qbittorrentclientpro")) {
+                if(MainActivity.packageName.equals("com.lgallardo.youtorrentcontrollerpro")) {
                     int index = this.torrent.getProgress().indexOf(".");
 
                     if (index == -1) {
@@ -240,7 +240,7 @@ public class TorrentDetailsFragment extends Fragment {
             priorityTextView.setText(priority);
 
             // Only for Pro version
-            if(MainActivity.packageName.equals("com.lgallardo.qbittorrentclientpro")) {
+            if(MainActivity.packageName.equals("com.lgallardo.youtorrentcontrollerpro")) {
                 downloadSpeedTextView.setText(Character.toString('\u2193') + " " + downloadSpeed);
                 uploadSpeedTextView.setText(Character.toString('\u2191') + " " + uploadSpeed);
 
@@ -312,7 +312,7 @@ public class TorrentDetailsFragment extends Fragment {
             Log.e("Debug", "TorrentDetailsFragment - onCreateView: " + e.toString());
         }
 
-        if(MainActivity.packageName.equals("com.lgallardo.qbittorrentclient")) {
+        if(MainActivity.packageName.equals("com.lgallardo.youtorrentcontroller")) {
             // Load banner
             loadBanner();
         }
@@ -403,7 +403,7 @@ public class TorrentDetailsFragment extends Fragment {
             etaTextView.setText(eta);
 
             // Only for Pro version
-            if(MainActivity.packageName.equals("com.lgallardo.qbittorrentclientpro")) {
+            if(MainActivity.packageName.equals("com.lgallardo.youtorrentcontrollerpro")) {
                 downloadSpeedTextView.setText(Character.toString('\u2193') + " " + downloadSpeed);
                 uploadSpeedTextView.setText(Character.toString('\u2191') + " " + uploadSpeed);
 
