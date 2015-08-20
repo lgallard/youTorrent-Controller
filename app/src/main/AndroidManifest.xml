@@ -168,8 +168,8 @@
             android:theme="@android:style/Theme.Translucent" />
 
         <!-- TODO: Uncomment this line to enable the service -->
-        <!--<receiver android:name=".NotifierService" />-->
-        <receiver android:name=".RSSService" />
+        <receiver android:name=".NotifierService" />
+        <!--<receiver android:name=".RSSService" />-->
 
         <!-- Set alarm on boot -->
         <receiver

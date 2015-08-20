@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
     //TODO: Delete unused cookie var
     public static String cookie = null;
     public static String token = null;
-    public static String qb_version = "3.1.x";
+//    public static String qb_version = "3.1.x";
     public static LinearLayout headerInfo;
 
     // Current state
@@ -390,7 +390,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
         // If it were awaked from an intent-filter,
         // Get token and cookie and then
         // get intent from the intent filter and Add URL torrent
-        Log.d("Debug", "MainActivity - 1");
+//        Log.d("Debug", "MainActivity - 1");
         new torrentTokenSendFileTask().execute(getIntent());
 
         // Fragments
@@ -827,7 +827,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
            if(token == null || cookie == null){
                // Get token and cookie and then
                // get intent from the intent filter and Add URL torrent
-            Log.d("Debug", "MainActivity - 2");
+//            Log.d("Debug", "MainActivity - 2");
                new torrentTokenSendFileTask().execute(getIntent());
 
            }else {
@@ -898,21 +898,14 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
         if (urlTorrent != null && urlTorrent.length() != 0) {
 
-            Log.d("Debug", "MainActivity - " + urlTorrent);
-
             if(urlTorrent.substring(0, 7).equals("content")){
 
                 urlTorrent = "file://" + getFilePathFromUri(this, Uri.parse(urlTorrent));
-
-                Log.d("Debug", " MainActivity - New file path: " + urlTorrent);
-
             }
 
             if (urlTorrent.substring(0, 4).equals("file") ) {
 
                 // File
-                Log.d("Debug", " MainActivity - Trying to send file");
-                Log.d("Debug", "MainActivity - PATH: " + Uri.parse(urlTorrent).getPath());
                 addTorrentFile(Uri.parse(urlTorrent).getPath());
 
             } else {
@@ -1355,7 +1348,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
 
         if (resultCode == RESULT_OK) {
-            new qBittorrentApiTask().execute(new Intent[]{data});
+
         }
 
     }
@@ -1427,7 +1420,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
     private void getPRO() {
         Intent intent = new Intent(
-                new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.lgallardo.qbittorrentclientpro")));
+                new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.lgallardo.youtorrentcontrollerpro")));
         startActivityForResult(intent, GETPRO_CODE);
     }
 
@@ -1526,23 +1519,14 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
         // Execute the task in background
         qBittorrentCommand qtc = new qBittorrentCommand();
 
-        if (qb_version.equals("3.2.x")) {
             qtc.execute(new String[]{"pauseAll", null});
-        }
-        else {
-            qtc.execute(new String[]{"pauseall", null});
-        }
     }
 
     public void resumeAllTorrents() {
         // Execute the task in background
         qBittorrentCommand qtc = new qBittorrentCommand();
 
-        if (qb_version.equals("3.2.x")) {
             qtc.execute(new String[]{"resumeAll", null});
-        } else {
-            qtc.execute(new String[]{"resumeall", null});
-        }
     }
 
     public void increasePrioTorrent(String hash) {
@@ -1940,8 +1924,6 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
         reverse_order = sharedPrefs.getBoolean("reverse_order", false);
 
         dark_ui = sharedPrefs.getBoolean("dark_ui", false);
-
-        qb_version = sharedPrefs.getString("qb_version", "3.1.x");
 
         MainActivity.token = sharedPrefs.getString("token", null);
         MainActivity.cookie = sharedPrefs.getString("cookie", null);
@@ -2367,10 +2349,6 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
             params[2] = token;
 
-
-            Log.d("Debug", "torrentTokenSendFileTask - token: " + token);
-            Log.d("Debug", "torrentTokenSendFileTask - cookie: " + cookie);
-            Log.d("Debug", "torrentTokenSendFileTask - Intent: " + result.getIntent().getDataString());
             // After getting the token & cookie, sedn the url or file
 
             // Set new Token and Cookie
@@ -2382,119 +2360,6 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
         }
     }
-
-    // Here is where the action happens
-    private class qBittorrentApiTask extends AsyncTask<Intent, Integer, String[]> {
-
-        @Override
-        protected String[] doInBackground(Intent... intents) {
-
-            // Get values from preferences
-            getSettings();
-
-            // Creating new JSON Parser
-            com.lgallardo.youtorrentcontroller.JSONParser jParser = new com.lgallardo.youtorrentcontroller.JSONParser(hostname, subfolder, protocol, port, username, password, connection_timeout, data_timeout);
-
-            String apiVersion = "";
-
-            httpStatusCode = 0;
-
-            // Try to get the API number
-            try {
-                apiVersion = jParser.getApi();
-
-            } catch (JSONParserStatusCodeException e) {
-                httpStatusCode = e.getCode();
-            }
-
-
-//            Log.d("Debug", "<ApiVersion>: "+ apiVersion);
-
-            // If < 3.2.x, get qBittorrent version
-            if (httpStatusCode > 200 || apiVersion == null) {
-
-//                Log.d("Debug", "> ApiVersion httpStatusCode: "+ httpStatusCode);
-
-                try {
-                    apiVersion = jParser.getVersion();
-
-                } catch (JSONParserStatusCodeException e) {
-                    httpStatusCode = e.getCode();
-                }
-
-            }
-
-            return new String[]{apiVersion, intents[0].getStringExtra("currentState")};
-
-        }
-
-        @Override
-        protected void onPostExecute(String[] result) {
-
-
-            String apiVersion = result[0];
-
-            int api = 0;
-
-            try{
-
-                api = Integer.parseInt(apiVersion);
-
-            }catch (Exception e){
-                api = 0;
-            }
-
-
-//            Log.d("Debug", "API: " + apiVersion);
-
-            if (apiVersion != null && (api > 1 || apiVersion.contains("3.2") || apiVersion.contains("3.3"))) {
-
-                qb_version = "3.2.x";
-
-                // Get new cookie
-                cookie = null;
-
-            } else if (apiVersion.contains("3.1")) {
-
-                qb_version = "3.1.x";
-
-            } else {
-
-                qb_version = "2.x";
-
-            }
-
-            // Save options locally
-            sharedPrefs = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
-            Editor editor = sharedPrefs.edit();
-
-            // Save key-values
-            editor.putString("qb_version", qb_version);
-
-            // Commit changes
-            editor.apply();
-
-
-            // Refresh
-            String stateBefore = result[1];
-
-            if (stateBefore != null) {
-
-                // Set selection according to last state
-                setSelectionAndTitle(stateBefore);
-
-                // Refresh state
-                refresh(stateBefore);
-
-            } else {
-
-                refresh();
-            }
-
-
-        }
-    }
-
 
     // Here is where the action happens
     private class qBittorrentCommand extends AsyncTask<String, Integer, String> {
@@ -2545,9 +2410,8 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
             if (httpStatusCode == 403 || httpStatusCode == 404) {
 
-                if (qb_version.equals("3.2.x")) {
-                    cookie = null;
-                }
+                cookie = null;
+                token = null;
 
                 Toast.makeText(getApplicationContext(), R.string.error403, Toast.LENGTH_SHORT).show();
 
@@ -2686,10 +2550,10 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
                 jParser.setToken(MainActivity.token);
                 jParser.setCookie(MainActivity.cookie);
 
-                Log.d("Debug", "MainActivity - Token: " + token);
-                Log.d("Debug", "MainActivity - Cookie: " + cookie);
-
-
+//                Log.d("Debug", "MainActivity - Token: " + token);
+//                Log.d("Debug", "MainActivity - Cookie: " + cookie);
+//
+//
                 // Getting torrents
 
                 // Get the complete JSON
@@ -2698,7 +2562,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
                 JSONObject json = jParser.getJSONFromUrl(params[0]);
 
                 // Get the torrents array
-                Log.d("Debug", "Getting torrents array");
+//                Log.d("Debug", "Getting torrents array");
                 JSONArray jArray = json.getJSONArray("torrents");
 
 //                Log.d("Debug", "N° Torrents:" + jArray.length());
@@ -2787,7 +2651,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 //                        Log.d("Debug", "State:" + state);
 
                         torrents[i] = new Torrent(name, size, state, hash, info, ratio, progress, peersConnected, peersInSwarm,
-                                seedsConnected, seedInSwarm, priority, eta, downloadSpeed, uploadSpeed, sequentialDownload, firstLastPiecePrio, status, label, availability, completed);
+                                seedsConnected, seedInSwarm, priority, eta, downloadSpeed, uploadSpeed, status, label, availability, completed);
 
 
                         MainActivity.names[i] = name;
@@ -2861,10 +2725,10 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
                 if (httpStatusCode == 403 || httpStatusCode == 404) {
 
-                    if (qb_version.equals("3.2.x")) {
-                        // Get new Cookie
-                        cookie = null;
-                    }
+                    // Get new Cookie
+                    cookie = null;
+                    token = null;
+
 
                     Toast.makeText(getApplicationContext(), R.string.error403, Toast.LENGTH_SHORT).show();
                     httpStatusCode = 0;
@@ -3295,10 +3159,8 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
                     Toast.makeText(getApplicationContext(), R.string.error403, Toast.LENGTH_SHORT).show();
                     httpStatusCode = 0;
 
-                    if (qb_version.equals("3.2.x")) {
-                        // Get new Cookie
-                        cookie = null;
-                    }
+                    // Get new Cookie
+                    cookie = null;token=null;
                 }
 
             } else {

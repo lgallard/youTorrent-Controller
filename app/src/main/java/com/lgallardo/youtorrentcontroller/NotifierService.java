@@ -23,10 +23,10 @@ import java.util.Iterator;
  */
 public class NotifierService extends BroadcastReceiver {
 
-    public static String qb_version = "3.1.x";
     public static String completed_hashes;
     // Cookie (SID - Session ID)
     public static String cookie = null;
+    public static String token = null;
     protected static HashMap<String, Torrent> last_completed, completed, notify;
     protected static String hostname;
     protected static String subfolder;
@@ -45,7 +45,7 @@ public class NotifierService extends BroadcastReceiver {
     protected static int currentServer;
     protected static boolean enable_notifications;
 
-    private static String[] params = new String[2];
+    private static String[] params = new String[3];
     private static Context context;
 
     // Preferences fields
@@ -79,34 +79,17 @@ public class NotifierService extends BroadcastReceiver {
 
             String state = "all";
 
-            // Get Settings thr params?
+            // Gett all torrents
+            params[0] = "gui/?list=1&token=";
 
-            if (qb_version.equals("2.x")) {
-                qbQueryString = "json";
-                params[0] = qbQueryString + "/events";
-            }
-
-            if (qb_version.equals("3.1.x")) {
-                qbQueryString = "json";
-                params[0] = qbQueryString + "/torrents";
-            }
-
-            if (qb_version.equals("3.2.x")) {
-                qbQueryString = "query";
-                params[0] = qbQueryString + "/torrents?filter=" + state;
-
-                if (cookie == null || cookie.equals("")) {
-                    new qBittorrentCookie().execute();
-                }
-
-//            Log.i("onReceive", "Cookie:" + cookie);
-
-            }
-
+            // Set state
             params[1] = state;
 
+            // Set token
+            params[2] = token;
+
 //            Log.i("Notifier", "onReceive reached");
-            new FetchTorrentListTask().execute(params);
+            new torrentTokenTask().execute(params);
 
         }
 
@@ -162,10 +145,8 @@ public class NotifierService extends BroadcastReceiver {
         }
 
 
-        qb_version = sharedPrefs.getString("qb_version", "3.1.x");
-
-
-        cookie = sharedPrefs.getString("qbCookie2", null);
+        token = sharedPrefs.getString("token2", null);
+        cookie = sharedPrefs.getString("cookie2", null);
 
         // Get last state
         lastState = sharedPrefs.getString("lastState", null);
@@ -175,6 +156,84 @@ public class NotifierService extends BroadcastReceiver {
         completed_hashes = sharedPrefs.getString("completed_hashes" + currentServer, "");
 
 
+    }
+
+    private class torrentTokenTask extends AsyncTask<String, Integer, String[]> {
+
+        @Override
+        protected String[] doInBackground(String... params) {
+
+            // Get values from preferences
+            getSettings();
+
+            // Creating new JSON Parser
+            JSONParser jParser = new JSONParser(hostname, subfolder, protocol, port, username, password, connection_timeout, data_timeout);
+
+            String[] tokenCookie = new String[2];
+            String newToken = null;
+            String newCookie = null;
+
+
+            try {
+                tokenCookie = jParser.getToken();
+                newToken = tokenCookie[0];
+                newCookie = tokenCookie[1];
+
+            } catch (JSONParserStatusCodeException e) {
+                httpStatusCode = e.getCode();
+            }
+
+            if (newToken == null) {
+                newToken = "";
+            }
+
+            if (newCookie == null) {
+                newCookie = "";
+            }
+
+            return new String[]{newToken, newCookie};
+
+        }
+
+        @Override
+        protected void onPostExecute(String[] result) {
+
+            if(NotifierService.token == null || !NotifierService.token.equals(result[0]) || NotifierService.cookie == null || !NotifierService.cookie.equals(result[1])) {
+
+                NotifierService.token = result[0];
+                NotifierService.cookie = result[1];
+
+
+                // Save options locally
+                sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+                SharedPreferences.Editor editor = sharedPrefs.edit();
+
+                // Save key-values
+                editor.putString("token2", result[0]);
+                editor.putString("cookie2", result[1]);
+
+
+                // Commit changes
+                editor.apply();
+
+            }
+
+            params[2] = token;
+
+
+//            Log.d("Debug", "NotifierService - token: " + token);
+//            Log.d("Debug", "NotifierService - cookie: " + cookie);
+            // After getting the token & cookie, sedn the url or file
+
+            // Set new Token and Cookie
+            JSONParser.setToken(NotifierService.token);
+            JSONParser.setCookie(NotifierService.cookie);
+
+            // Fetch torrent data
+            new FetchTorrentListTask().execute(params);
+
+
+        }
     }
 
     class FetchTorrentListTask extends AsyncTask<String, Integer, Torrent[]> {
@@ -196,7 +255,9 @@ public class NotifierService extends BroadcastReceiver {
         @Override
         protected Torrent[] doInBackground(String... params) {
 
-            String name, size, info, progress, state, hash, ratio, leechs, seeds, priority, eta, uploadSpeed, downloadSpeed;
+            String name, size, info, progress, state, hash, ratio, priority, eta, uploadSpeed, downloadSpeed, status, label, availability;
+            int  peersConnected, peersInSwarm, seedsConnected, seedInSwarm;
+            boolean completed = false;
 
             Torrent[] torrents = null;
 
@@ -210,13 +271,28 @@ public class NotifierService extends BroadcastReceiver {
 //            Log.i("Notifier", "Getting torrents");
 
             try {
+
                 // Creating new JSON Parser
                 jParser = new JSONParser(hostname, subfolder, protocol, port, username, password, connection_timeout, data_timeout);
+                jParser.setToken(NotifierService.token);
+                jParser.setCookie(NotifierService.cookie);
+//
+//                Log.d("Debug", "NotifierService - Token: " + token);
+//                Log.d("Debug", "NotifierService - Cookie: " + cookie);
 
-                jParser.setCookie(cookie);
 
-                JSONArray jArray = jParser.getJSONArrayFromUrl(params[0]);
+                // Getting torrents
 
+                // Get the complete JSON
+//                Log.d("Debug", "Getting JSON");
+
+                JSONObject json = jParser.getJSONFromUrl(params[0]);
+
+                // Get the torrents array
+//                Log.d("Debug", "Getting torrents array");
+                JSONArray jArray = json.getJSONArray("torrents");
+
+//                Log.d("Debug", "N° Torrents:" + jArray.length());
 
                 if (jArray != null) {
 
@@ -225,25 +301,82 @@ public class NotifierService extends BroadcastReceiver {
 
                     for (int i = 0; i < jArray.length(); i++) {
 
-                        JSONObject json = jArray.getJSONObject(i);
+                        // Get each torrent as an JSON array
+                        JSONArray torrentArray = jArray.getJSONArray(i);
 
-                        name = json.getString(TAG_NAME);
-                        size = json.getString(TAG_SIZE).replace(",", ".");
-                        progress = String.format("%.2f", json.getDouble(TAG_PROGRESS) * 100) + "%";
+
+                        // Get torrent info
+                        hash = torrentArray.getString(0);
+//                        Log.d("Debug", "Hash:" + hash);
+
+                        // TODO: Delete status, dont' used
+                        status = "" + torrentArray.getInt(1);
+
+//                        Log.d("Debug", "Status:" + status);
+
+                        name = torrentArray.getString(2);
+                        size = "" + torrentArray.getLong(3);
+
+//                        Log.d("Debug", "Name:" + name);
+//                        Log.d("Debug", "Size:" + size);
+
+                        // Move progress and ratio calculation to Common
+                        progress = String.format("%.2f", (float) torrentArray.getInt(4)/10) + "%";
                         progress = progress.replace(",", ".");
-                        info = "";
-                        state = json.getString(TAG_STATE);
-                        hash = json.getString(TAG_HASH);
-                        ratio = json.getString(TAG_RATIO).replace(",", ".");
-                        leechs = json.getString(TAG_NUMLEECHS);
-                        seeds = json.getString(TAG_NUMSEEDS);
-                        priority = json.getString(TAG_PRIORITY);
-                        eta = json.getString(TAG_ETA);
-                        downloadSpeed = json.getString(TAG_DLSPEED);
-                        uploadSpeed = json.getString(TAG_UPSPEED);
 
-                        // TODO: uncomment this line and adapt to youTorrent
-//                        torrents[i] = new Torrent(name, size, state, hash, info, ratio, progress, leechs, seeds, priority, eta, downloadSpeed, uploadSpeed, false, false);
+//                        Log.d("Debug", "Progress:" + progress);
+
+                        ratio =  String.format("%.2f", (float) torrentArray.getInt(7) / 1000);
+                        ratio = ratio.replace(",", ".");
+
+//                        Log.d("Debug", "Ratio:" + ratio);
+
+
+                        downloadSpeed = "" + torrentArray.getInt(8);
+                        uploadSpeed = "" + torrentArray.getInt(9);
+                        eta = "" + torrentArray.getInt(10);
+
+//                        Log.d("Debug", "Eta:" + eta);
+
+                        label = torrentArray.getString(11);
+                        peersConnected = torrentArray.getInt(12);
+                        peersInSwarm = torrentArray.getInt(13);
+                        seedsConnected = torrentArray.getInt(14);
+                        seedInSwarm = torrentArray.getInt(15);
+                        availability = "" + torrentArray.getInt(16) / 65536f;
+                        priority = "" + torrentArray.getInt(17);
+
+//                        Log.d("Debug", "peersConnected:" + peersConnected);
+//                        Log.d("Debug", "peersInSwarm:" + peersInSwarm);
+//                        Log.d("Debug", "seedsConnected:" + seedsConnected);
+//                        Log.d("Debug", "seedInSwarm:" + seedInSwarm);
+//
+
+                        info = "";
+
+                        // Adjust values
+                        size = Common.calculateSize(size);
+                        eta = Common.secondsToEta(eta);
+                        downloadSpeed = Common.calculateSize(downloadSpeed) + "/s";
+                        uploadSpeed = Common.calculateSize(uploadSpeed) + "/s";
+
+                        if(torrentArray.getInt(4) >= 1000){
+                            completed = true;
+                        }else{
+                            // Let's assume it's not completed
+                            completed = false;
+                        }
+
+//                        Log.d("Debug", "Completed: " + torrentArray.getInt(4));
+
+
+                        // Use status and progress to calculate torrent state
+                        state = Common.getStateFromStatus(torrentArray.getInt(1),torrentArray.getInt(4));
+
+//                        Log.d("Debug", "State:" + state);
+
+                        torrents[i] = new Torrent(name, size, state, hash, info, ratio, progress, peersConnected, peersInSwarm,
+                                seedsConnected, seedInSwarm, priority, eta, downloadSpeed, uploadSpeed, status, label, availability, completed);
 
 
                         // Get torrent generic properties

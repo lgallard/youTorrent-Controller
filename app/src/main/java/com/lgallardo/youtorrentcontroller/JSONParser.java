@@ -153,9 +153,8 @@ public class JSONParser {
 
             url = protocol + "://" + hostname + ":" + port + "/" + url + token;
 
-            Log.d("Debug", "getJSONFromUrl - url: " + url);
-            Log.d("Debug", "getJSONFromUrl - cookie: " + cookie);
-
+//            Log.d("Debug", "getJSONFromUrl - url: " + url);
+//            Log.d("Debug", "getJSONFromUrl - cookie: " + cookie);
 
             HttpGet httpget = new HttpGet(url);
 
@@ -338,7 +337,7 @@ public class JSONParser {
 
         String url = "";
 
-        Log.d("Debug", "JSONParser - command: " + command);
+//        Log.d("Debug", "JSONParser - command: " + command);
 
         if ("start".equals(command) || "startSelected".equals(command)) {
             url = url + "gui/?action=start&hash="+hash;
@@ -366,7 +365,7 @@ public class JSONParser {
                 hash_uri = new URI(hash);
                 hash = hash_uri.toString();
 
-                Log.d("Debug","Torrent URL: "+ hash);
+//                Log.d("Debug","Torrent URL: "+ hash);
 
             } catch (URISyntaxException e) {
                 Log.e("Debug", "URISyntaxException: " + e.toString());
@@ -490,7 +489,7 @@ public class JSONParser {
 
             url = protocol + "://" + hostname + ":" + port + "/" + url + "&token=" + token;
 
-            Log.d("Debug", "JSONParser - url: " + url);
+//            Log.d("Debug", "JSONParser - url: " + url);
 
             HttpPost httpget = new HttpPost(url);
 
@@ -523,13 +522,9 @@ public class JSONParser {
             // Set content type and urls
             if ("addTorrentFile".equals(command)) {
 
-                Log.d("Debug", "JSONParser - urlContentType: " +  urlContentType);
-
+//                Log.d("Debug", "JSONParser - urlContentType: " +  urlContentType);
 //                Log.d("Debug", "JSONParser - hash: " +  Uri.decode(URLEncoder.encode(hash, "UTF-8")));
-
-                Log.d("Debug", "JSONParser - hash: " +  hash);
-
-
+//                Log.d("Debug", "JSONParser - hash: " +  hash);
 
                 httpget.setHeader("Content-Type", urlContentType);
 
@@ -998,7 +993,7 @@ public class JSONParser {
 
             int mStatusCode = statusLine.getStatusCode();
 
-            Log.d("Debug", "Token - mStatusCode: " + mStatusCode);
+//            Log.d("Debug", "Token - mStatusCode: " + mStatusCode);
 
             if (mStatusCode != 200) {
                 httpclient.getConnectionManager().shutdown();
@@ -1018,7 +1013,7 @@ public class JSONParser {
 
                 }
 
-                Log.d("Debug", "JSONParser - cookieString: " + cookieString);
+//                Log.d("Debug", "JSONParser - cookieString: " + cookieString);
 
                 // Get token
 
@@ -1037,7 +1032,7 @@ public class JSONParser {
                 // Replace html tags with ""
                 tokenString = tokenString.replaceAll("<.*?>", "").trim();
 
-                Log.d("Debug", "API - Token: " + tokenString);
+//                Log.d("Debug", "API - Token: " + tokenString);
             }
 
 

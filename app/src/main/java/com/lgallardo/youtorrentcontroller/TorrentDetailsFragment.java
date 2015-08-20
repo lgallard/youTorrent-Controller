@@ -573,17 +573,7 @@ public class TorrentDetailsFragment extends Fragment {
         protected View[] doInBackground(View... rootViews) {
 
             // Get torrent's files
-            if (MainActivity.qb_version.equals("2.x")) {
-                qbQueryString = "json";
-            }
-
-            if (MainActivity.qb_version.equals("3.1.x")) {
-                qbQueryString = "json";
-            }
-
-            if (MainActivity.qb_version.equals("3.2.x")) {
-                qbQueryString = "query";
-            }
+            qbQueryString = "query";
 
 
             url = qbQueryString + "/propertiesFiles/";
@@ -614,9 +604,7 @@ public class TorrentDetailsFragment extends Fragment {
                         progress = json.getDouble(MainActivity.TAG_PROGRESS);
                         priority = json.getInt(MainActivity.TAG_PRIORITY);
 
-                        if (MainActivity.qb_version.equals("3.2.x")) {
-                            size = Common.calculateSize(json.getString(MainActivity.TAG_SIZE)).replace(",", ".");
-                        }
+                        size = Common.calculateSize(json.getString(MainActivity.TAG_SIZE)).replace(",", ".");
 
                         files[i] = new ContentFile(name, size, progress, priority);
                         names[i] = name;
@@ -668,17 +656,8 @@ public class TorrentDetailsFragment extends Fragment {
 
         protected View[] doInBackground(View... rootViews) {
             // Get torrent's trackers
-            if (MainActivity.qb_version.equals("2.x")) {
-                qbQueryString = "json";
-            }
 
-            if (MainActivity.qb_version.equals("3.1.x")) {
-                qbQueryString = "json";
-            }
-
-            if (MainActivity.qb_version.equals("3.2.x")) {
-                qbQueryString = "query";
-            }
+            qbQueryString = "query";
 
             url = qbQueryString + "/propertiesTrackers/";
 
@@ -756,17 +735,8 @@ public class TorrentDetailsFragment extends Fragment {
 
         protected View[] doInBackground(View... rootViews) {
             // Get torrent's extra info
-            if (MainActivity.qb_version.equals("2.x")) {
-                qbQueryString = "json";
-            }
 
-            if (MainActivity.qb_version.equals("3.1.x")) {
-                qbQueryString = "json";
-            }
-
-            if (MainActivity.qb_version.equals("3.2.x")) {
-                qbQueryString = "query";
-            }
+            qbQueryString = "query";
 
             url = qbQueryString + "/propertiesGeneral/";
 
@@ -829,7 +799,7 @@ public class TorrentDetailsFragment extends Fragment {
                     values[10] = json2.getString(TAG_DOWNLOAD_LIMIT);
 
 
-                    if (MainActivity.qb_version.equals("3.2.x")) {
+//                    if (MainActivity.qb_version.equals("3.2.x")) {
 
                         // Creation date
                         values[1] = Common.unixTimestampToDate(json2.getString(TAG_CREATION_DATE));
@@ -866,7 +836,7 @@ public class TorrentDetailsFragment extends Fragment {
                     }
 
 
-                }
+//                }
 
             } catch (Exception e) {
 
