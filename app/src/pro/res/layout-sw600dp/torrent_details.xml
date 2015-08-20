@@ -46,7 +46,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="10dp"
@@ -138,7 +138,7 @@
                 android:id="@+id/properties"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
                 android:layout_marginTop="5dp"
                 android:text="@string/torrent_details_properties"
@@ -148,7 +148,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
                 android:layout_marginBottom="10dp"
                 android:background="?dropShadowBackground"
@@ -217,7 +217,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Leechs" />
+                        android:text="Peers" />
 
                     <View
                         android:layout_width="1dp"
@@ -306,53 +306,6 @@
                         android:layout_weight="1"
                         android:text="hash" />
                 </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="0dp"
-                    android:layout_marginRight="5dp"
-                    android:orientation="horizontal">
-
-                    <CheckBox
-                        android:id="@+id/torrentSequentialDownload"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:clickable="false"
-                        android:gravity="start" />
-
-                    <TextView
-                        android:id="@+id/torrentSequentialDownloadLabel"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/torrent_details_torrent_sequential"
-                        android:layout_gravity="center" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="0dp"
-                    android:layout_marginRight="5dp"
-                    android:orientation="horizontal">
-
-
-                    <CheckBox
-                        android:id="@+id/torrentFirstLastPiecePrio"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:clickable="false"
-                        android:gravity="start" />
-
-                    <TextView
-                        android:id="@+id/torrentFirstLastPiecePrioLabel"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/torrent_details_torrent_first_last_piece_first"
-                        android:layout_gravity="center" />
-                </LinearLayout>
-
             </LinearLayout>
 
             <LinearLayout
@@ -360,7 +313,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:visibility="visible">
+                android:visibility="invisible">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -372,7 +325,7 @@
                         android:id="@+id/content"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginLeft="15dp"
                         android:layout_marginRight="15dp"
                         android:text="@string/torrent_details_content"
                         android:textSize="18sp"
@@ -382,7 +335,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
                     android:layout_marginBottom="10dp"
                     android:background="?dropShadowBackground"
@@ -410,7 +363,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:visibility="visible">
+                android:visibility="invisible">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -421,7 +374,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginLeft="15dp"
                         android:layout_marginRight="15dp"
                         android:text="@string/torrent_details_trackers"
                         android:textSize="18sp"
@@ -431,7 +384,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
                     android:layout_marginBottom="10dp"
                     android:background="?dropShadowBackground"
@@ -453,7 +406,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:visibility="visible">
+                android:visibility="invisible">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -464,7 +417,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginLeft="15dp"
                         android:layout_marginRight="15dp"
                         android:text="@string/torrent_details_general_info"
                         android:textSize="18sp"
@@ -474,7 +427,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
                     android:layout_marginBottom="10dp"
                     android:background="?dropShadowBackground"
@@ -490,6 +443,7 @@
                         android:orientation="vertical"></LinearLayout>
                 </LinearLayout>
             </LinearLayout>
+
             <!-- Hidden fields -->
             <TextView
                 android:id="@+id/downloadedVsTotal"

@@ -58,10 +58,11 @@ public class TorrentDetailsFragment extends Fragment {
     static String[] names, trackerNames;
 
     // Torrent variables
-    String name, info, hash, ratio, size, progress, state, leechs, seeds, priority, savePath, creationDate, comment, totalWasted, totalUploaded,
+    String name, info, hash, ratio, size, progress, state, priority, savePath, creationDate, comment, totalWasted, totalUploaded,
             totalDownloaded, timeElapsed, nbConnections, shareRatio, uploadRateLimit, downloadRateLimit, downloaded, eta, downloadSpeed, uploadSpeed,
             percentage = "";
 
+    int  peersConnected, peersInSwarm, seedsConnected, seedsInSwarm;
     static String hashToUpdate;
 
     String url;
@@ -102,11 +103,7 @@ public class TorrentDetailsFragment extends Fragment {
 
         View rootView;
 
-        if (MainActivity.qb_version.equals("3.2.x")) {
-            rootView = inflater.inflate(R.layout.torrent_details, container, false);
-        } else {
-            rootView = inflater.inflate(R.layout.torrent_details_old, container, false);
-        }
+        rootView = inflater.inflate(R.layout.torrent_details, container, false);
 
         // Get Refresh Listener
         refreshListener = (RefreshListener) getActivity();
@@ -149,8 +146,10 @@ public class TorrentDetailsFragment extends Fragment {
                 hash = savedInstanceState.getString("torrentDetailHash", "");
                 ratio = savedInstanceState.getString("torrentDetailRatio", "");
                 state = savedInstanceState.getString("torrentDetailState", "");
-                leechs = savedInstanceState.getString("torrentDetailLeechs", "");
-                seeds = savedInstanceState.getString("torrentDetailSeeds", "");
+                peersConnected = savedInstanceState.getInt("torrentDetailPeersConnected", 0);
+                peersInSwarm = savedInstanceState.getInt("torrentDetailPeersInSwarm", 0);
+                seedsConnected = savedInstanceState.getInt("torrentDetailSeedsConnected", 0);
+                seedsInSwarm = savedInstanceState.getInt("torrentDetailSeedsInSwarm", 0);
                 progress = savedInstanceState.getString("torrentDetailProgress", "");
                 priority = savedInstanceState.getString("torrentDetailPriority", "");
                 eta = savedInstanceState.getString("torrentDetailEta", "");
@@ -182,8 +181,10 @@ public class TorrentDetailsFragment extends Fragment {
                 hash = this.torrent.getHash();
                 ratio = this.torrent.getRatio();
                 state = this.torrent.getState();
-//                leechs = this.torrent.getLeechs();
-//                seeds = this.torrent.getSeeds();
+                peersConnected = this.torrent.getPeersConnected();
+                peersInSwarm = this.torrent.getPeersInSwarm();
+                seedsConnected = this.torrent.getSeedsConnected();
+                seedsInSwarm = this.torrent.getSeedInSwarm();
                 progress = this.torrent.getProgress();
                 priority = this.torrent.getPriority();
                 eta = this.torrent.getEta();
@@ -208,6 +209,10 @@ public class TorrentDetailsFragment extends Fragment {
                 }
             }
 
+            int donwloadSpeedWeigth = torrent.getDownloadSpeedWeight();
+            int uploadSpeedWeigth = torrent.getUploadSpeedWeight();
+
+
             TextView nameTextView = (TextView) rootView.findViewById(R.id.torrentName);
             TextView sizeTextView = (TextView) rootView.findViewById(R.id.torrentSize);
             TextView ratioTextView = (TextView) rootView.findViewById(R.id.torrentRatio);
@@ -227,20 +232,12 @@ public class TorrentDetailsFragment extends Fragment {
             nameTextView.setText(name);
             ratioTextView.setText(ratio);
             stateTextView.setText(state);
-            leechsTextView.setText(leechs);
-            seedsTextView.setText(seeds);
+            leechsTextView.setText("" + peersConnected+"("+ peersInSwarm+")");
+            seedsTextView.setText("" + seedsConnected+"("+ seedsInSwarm+")");
             progressTextView.setText(progress);
             hashTextView.setText(hash);
             etaTextView.setText(eta);
             priorityTextView.setText(priority);
-
-            if (MainActivity.qb_version.equals("3.2.x")) {
-                sequentialDownloadCheckBox = (CheckBox) rootView.findViewById(R.id.torrentSequentialDownload);
-                firstLAstPiecePrioCheckBox = (CheckBox) rootView.findViewById(R.id.torrentFirstLastPiecePrio);
-
-                sequentialDownloadCheckBox.setChecked(this.torrent.getSequentialDownload());
-                firstLAstPiecePrioCheckBox.setChecked(this.torrent.getisFirstLastPiecePrio());
-            }
 
             // Only for Pro version
             if(MainActivity.packageName.equals("com.lgallardo.qbittorrentclientpro")) {
@@ -264,46 +261,52 @@ public class TorrentDetailsFragment extends Fragment {
 
             nameTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.error, 0, 0, 0);
 
-            // Set status icon
-            if ("pausedUP".equals(state) || "pausedDL".equals(state)) {
+            Log.d("Debug", "TorrentDetailsFragment - state: " + state);
+
+            if ("paused".equals(state)){
                 nameTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.paused, 0, 0, 0);
             }
 
-            if ("stalledUP".equals(state)) {
-                nameTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.stalledup, 0, 0, 0);
-            }
-
-            if ("stalledDL".equals(state)) {
-                nameTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.stalleddl, 0, 0, 0);
-            }
-
             if ("downloading".equals(state)) {
-                nameTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.downloading, 0, 0, 0);
+                nameTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.stalleddl, 0, 0, 0);
+
+                if (donwloadSpeedWeigth > 0) {
+                    nameTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.downloading, 0, 0, 0);
+                }
             }
 
-            if ("uploading".equals(state)) {
-                nameTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.uploading, 0, 0, 0);
+
+            if ("seeding".equals(state)) {
+                nameTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.stalledup, 0, 0, 0);
+
+                if (uploadSpeedWeigth > 0) {
+                    nameTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.uploading, 0, 0, 0);
+                }
             }
 
-            if ("queuedDL".equals(state) || "queuedUP".equals(state)) {
+            if ("queued".equals(state) ) {
                 nameTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.queued, 0, 0, 0);
             }
 
-            if ("checkingDL".equals(state) || "checkingUP".equals(state)) {
+            if ("checking".equals(state)) {
                 nameTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_action_recheck, 0, 0, 0);
             }
 
-            // Get Content files in background
-            qBittorrentContentFile qcf = new qBittorrentContentFile();
-            qcf.execute(new View[]{rootView});
+            if ("stopped".equals(state)) {
+                nameTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_action_stopped, 0, 0, 0);
+            }
 
-            // Get trackers in background
-            qBittorrentTrackers qt = new qBittorrentTrackers();
-            qt.execute(new View[]{rootView});
-
-            // Get general info in background
-            qBittorrentGeneralInfoTask qgit = new qBittorrentGeneralInfoTask();
-            qgit.execute(new View[]{rootView});
+//            // Get Content files in background
+//            qBittorrentContentFile qcf = new qBittorrentContentFile();
+//            qcf.execute(new View[]{rootView});
+//
+//            // Get trackers in background
+//            qBittorrentTrackers qt = new qBittorrentTrackers();
+//            qt.execute(new View[]{rootView});
+//
+//            // Get general info in background
+//            qBittorrentGeneralInfoTask qgit = new qBittorrentGeneralInfoTask();
+//            qgit.execute(new View[]{rootView});
 
         } catch (Exception e) {
             Log.e("Debug", "TorrentDetailsFragment - onCreateView: " + e.toString());
@@ -332,8 +335,10 @@ public class TorrentDetailsFragment extends Fragment {
             hash = torrent.getHash();
             ratio = torrent.getRatio();
             state = torrent.getState();
-//            leechs = torrent.getLeechs();
-//            seeds = torrent.getSeeds();
+            peersConnected = torrent.getPeersConnected();
+            peersInSwarm = torrent.getPeersInSwarm();
+            seedsConnected = torrent.getSeedsConnected();
+            seedsInSwarm = torrent.getSeedInSwarm();
             progress = torrent.getProgress();
             priority = torrent.getPriority();
             eta = torrent.getEta();
@@ -352,6 +357,10 @@ public class TorrentDetailsFragment extends Fragment {
             }
 
             percentage = torrent.getProgress().substring(0, index);
+
+            int donwloadSpeedWeigth = torrent.getDownloadSpeedWeight();
+            int uploadSpeedWeigth = torrent.getUploadSpeedWeight();
+
 
 
             FragmentManager fragmentManager = getFragmentManager();
@@ -386,20 +395,12 @@ public class TorrentDetailsFragment extends Fragment {
             nameTextView.setText(name);
             ratioTextView.setText(ratio);
             stateTextView.setText(state);
-            leechsTextView.setText(leechs);
-            seedsTextView.setText(seeds);
+            leechsTextView.setText("" + peersConnected+"("+ peersInSwarm+")");
+            seedsTextView.setText("" + seedsConnected+"("+ seedsInSwarm+")");
             progressTextView.setText(progress);
             hashTextView.setText(hash);
             priorityTextView.setText(priority);
             etaTextView.setText(eta);
-
-            if (MainActivity.qb_version.equals("3.2.x")) {
-                sequentialDownloadCheckBox = (CheckBox) rootView.findViewById(R.id.torrentSequentialDownload);
-                firstLAstPiecePrioCheckBox = (CheckBox) rootView.findViewById(R.id.torrentFirstLastPiecePrio);
-
-                sequentialDownloadCheckBox.setChecked(torrent.getSequentialDownload());
-                firstLAstPiecePrioCheckBox.setChecked(torrent.getisFirstLastPiecePrio());
-            }
 
             // Only for Pro version
             if(MainActivity.packageName.equals("com.lgallardo.qbittorrentclientpro")) {
@@ -423,45 +424,53 @@ public class TorrentDetailsFragment extends Fragment {
 
             nameTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.error, 0, 0, 0);
 
-            if ("pausedUP".equals(state) || "pausedDL".equals(state)) {
+            Log.d("Debug", "TorrentDetailsFragment - state: " + state);
+
+            if ("paused".equals(state)){
                 nameTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.paused, 0, 0, 0);
             }
 
-            if ("stalledUP".equals(state)) {
-                nameTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.stalledup, 0, 0, 0);
-            }
-
-            if ("stalledDL".equals(state)) {
-                nameTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.stalleddl, 0, 0, 0);
-            }
-
             if ("downloading".equals(state)) {
-                nameTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.downloading, 0, 0, 0);
+                nameTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.stalleddl, 0, 0, 0);
+
+                if (donwloadSpeedWeigth > 0) {
+                    nameTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.downloading, 0, 0, 0);
+                }
             }
 
-            if ("uploading".equals(state)) {
-                nameTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.uploading, 0, 0, 0);
+
+            if ("seeding".equals(state)) {
+                nameTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.stalledup, 0, 0, 0);
+
+                if (uploadSpeedWeigth > 0) {
+                    nameTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.uploading, 0, 0, 0);
+                }
             }
 
-            if ("queuedDL".equals(state) || "queuedUP".equals(state)) {
+            if ("queued".equals(state) ) {
                 nameTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.queued, 0, 0, 0);
             }
 
-            if ("checkingDL".equals(state) || "checkingUP".equals(state)) {
+            if ("checking".equals(state)) {
                 nameTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_action_recheck, 0, 0, 0);
             }
 
-            // Get Content files in background
-            qBittorrentContentFile qcf = new qBittorrentContentFile();
-            qcf.execute(new View[]{rootView});
+            if ("stopped".equals(state)) {
+                nameTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_action_stopped, 0, 0, 0);
+            }
 
-            // Get trackers in background
-            qBittorrentTrackers qt = new qBittorrentTrackers();
-            qt.execute(new View[]{rootView});
 
-            // Get General info in background
-            qBittorrentGeneralInfoTask qgit = new qBittorrentGeneralInfoTask();
-            qgit.execute(new View[]{rootView});
+//            // Get Content files in background
+//            qBittorrentContentFile qcf = new qBittorrentContentFile();
+//            qcf.execute(new View[]{rootView});
+//
+//            // Get trackers in background
+//            qBittorrentTrackers qt = new qBittorrentTrackers();
+//            qt.execute(new View[]{rootView});
+//
+//            // Get General info in background
+//            qBittorrentGeneralInfoTask qgit = new qBittorrentGeneralInfoTask();
+//            qgit.execute(new View[]{rootView});
 
         } catch (Exception e) {
 
@@ -478,8 +487,10 @@ public class TorrentDetailsFragment extends Fragment {
         outState.putString("torrentDetailHash", hash);
         outState.putString("torrentDetailRatio", ratio);
         outState.putString("torrentDetailState", state);
-        outState.putString("torrentDetailLeechs", leechs);
-        outState.putString("torrentDetailSeeds", seeds);
+        outState.putInt("torrentDetailPeersConnected", peersConnected);
+        outState.putInt("torrentDetailPeersInSwarm", peersInSwarm);
+        outState.putInt("torrentDetailSeedsConnected", seedsConnected);
+        outState.putInt("torrentDetailSeedsInSwarm", seedsInSwarm);
         outState.putString("torrentDetailProgress", progress);
         outState.putString("torrentDetailPriority", priority);
         outState.putString("torrentDetailEta", eta);

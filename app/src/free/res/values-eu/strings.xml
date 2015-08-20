@@ -77,7 +77,7 @@
   <string name="torrent_details_priority">Lehentasuna:</string>
   <string name="torrent_details_downloadSpeed">Jeisketa Abiadura:</string>
   <string name="torrent_details_uploadSpeed">Igoera Abiadura:</string>
-  <string name="torrent_details_leechs">Izainak:</string>
+  <string name="torrent_details_leechs">Peers:</string>
   <string name="torrent_details_seeds">Emaleak:</string>
   <string name="torrent_details_state">Egoera:</string>
   <string name="torrent_details_progress">Garapena:</string>

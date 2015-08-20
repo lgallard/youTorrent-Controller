@@ -64,7 +64,7 @@
     <string name="torrent_details_save_path">Sökväg:</string>
     <string name="torrent_details_ratio">Förhå:</string>
     <string name="torrent_details_priority">Prioritet:</string>
-    <string name="torrent_details_leechs">Leeches:</string>
+    <string name="torrent_details_leechs">Peers:</string>
     <string name="torrent_details_seeds">Seeds:</string>
     <string name="torrent_details_state">Status:</string>
     <string name="torrent_details_progress">Framsteg:</string>

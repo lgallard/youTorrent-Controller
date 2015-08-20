@@ -93,7 +93,7 @@
     <string name="torrent_details_eta">ETA:</string>
     <string name="torrent_details_ratio">Ratio:</string>
     <string name="torrent_details_priority">Priority:</string>
-    <string name="torrent_details_leechs">Leeches:</string>
+    <string name="torrent_details_leechs">Peers:</string>
     <string name="torrent_details_seeds">Seeds:</string>
     <string name="torrent_details_state">State:</string>
     <string name="torrent_details_progress">Progress:</string>

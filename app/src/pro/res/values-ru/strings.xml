@@ -84,7 +84,7 @@
   <string name="torrent_details_ratio">Коэфф.:</string>
   <string name="torrent_details_priority">Приоритет:</string>
   <string name="torrent_details_leechs">Пиры:</string>
-  <string name="torrent_details_seeds">Сиды:</string>
+  <string name="torrent_details_seeds">Сверстники:</string>
   <string name="torrent_details_state">Статус:</string>
   <string name="torrent_details_progress">Завершено:</string>
   <string name="torrent_details_torrent_hash">Хеш торрента:</string>

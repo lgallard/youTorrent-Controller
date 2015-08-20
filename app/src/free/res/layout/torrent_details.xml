@@ -17,7 +17,7 @@
     <ScrollView
         android:id="@+id/scrollView1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:id="@+id/linearLayout3"
@@ -55,7 +55,6 @@
                         android:id="@+id/torrentSizeLabel"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/torrentName"
                         android:layout_weight="1"
                         android:paddingLeft="5dp"
                         android:text="@string/torrent_details_size" />
@@ -64,7 +63,6 @@
                         android:id="@+id/torrentSize"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/torrentName"
                         android:layout_weight="1"
                         android:paddingLeft="5dp"
                         android:text="Size" />
@@ -151,7 +149,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:paddingLeft="5dp"
-                        android:text="Leeches" />
+                        android:text="Peers" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -280,52 +278,6 @@
                         android:text="hash" />
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="0dp"
-                    android:layout_marginRight="5dp"
-                    android:orientation="horizontal">
-
-                    <CheckBox
-                        android:id="@+id/torrentSequentialDownload"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:clickable="false"
-                        android:gravity="start" />
-
-                    <TextView
-                        android:id="@+id/torrentSequentialDownloadLabel"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="@string/torrent_details_torrent_sequential" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="0dp"
-                    android:layout_marginRight="5dp"
-                    android:orientation="horizontal">
-
-
-                    <CheckBox
-                        android:id="@+id/torrentFirstLastPiecePrio"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:clickable="false"
-                        android:gravity="start" />
-
-                    <TextView
-                        android:id="@+id/torrentFirstLastPiecePrioLabel"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="@string/torrent_details_torrent_first_last_piece_first" />
-                </LinearLayout>
-
             </LinearLayout>
 
             <LinearLayout
@@ -333,7 +285,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:visibility="visible">
+                android:visibility="invisible">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -358,6 +310,7 @@
                     android:layout_marginBottom="10dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
+                    android:layout_marginTop="5dp"
                     android:background="?dropShadowBackground"
                     android:elevation="5dp"
                     android:orientation="vertical">
@@ -383,7 +336,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:visibility="visible">
+                android:visibility="invisible">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -407,6 +360,7 @@
                     android:layout_marginBottom="10dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
+                    android:layout_marginTop="5dp"
                     android:background="?dropShadowBackground"
                     android:elevation="5dp"
                     android:orientation="vertical">
@@ -426,7 +380,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:visibility="visible">
+                android:visibility="invisible">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -450,6 +404,7 @@
                     android:layout_marginBottom="10dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
+                    android:layout_marginTop="5dp"
                     android:background="?dropShadowBackground"
                     android:elevation="5dp"
                     android:orientation="vertical">
@@ -472,5 +427,4 @@
                 android:visibility="gone"/>
         </LinearLayout>
     </ScrollView>
-
 </android.support.v4.widget.SwipeRefreshLayout>

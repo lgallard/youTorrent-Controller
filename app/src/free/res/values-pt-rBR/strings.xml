@@ -69,7 +69,7 @@
     <string name="torrent_details_priority">Prioridade:</string>
     <string name="torrent_details_downloadSpeed">Velocidade de Download:</string>
     <string name="torrent_details_uploadSpeed">Velocidade de Upload:</string>
-    <string name="torrent_details_leechs">Leeches:</string>
+    <string name="torrent_details_leechs">Peers:</string>
     <string name="torrent_details_seeds">Seeds:</string>
     <string name="torrent_details_state">Estado:</string>
     <string name="torrent_details_progress">Progresso:</string>

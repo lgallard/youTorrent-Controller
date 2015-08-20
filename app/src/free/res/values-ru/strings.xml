@@ -77,7 +77,7 @@
   <string name="torrent_details_priority">Приоритет:</string>
   <string name="torrent_details_downloadSpeed">Прием:</string>
   <string name="torrent_details_uploadSpeed">Отдача:</string>
-  <string name="torrent_details_leechs">Пиры:</string>
+  <string name="torrent_details_leechs">Сверстники:</string>
   <string name="torrent_details_seeds">Сиды:</string>
   <string name="torrent_details_state">Статус:</string>
   <string name="torrent_details_progress">Завершено:</string>

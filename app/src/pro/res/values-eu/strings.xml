@@ -83,7 +83,7 @@
   <string name="torrent_details_eta">UED:</string>
   <string name="torrent_details_ratio">Maila:</string>
   <string name="torrent_details_priority">Lehentasuna:</string>
-  <string name="torrent_details_leechs">Izainak:</string>
+  <string name="torrent_details_leechs">Peers:</string>
   <string name="torrent_details_seeds">Emaleak:</string>
   <string name="torrent_details_state">Egoera:</string>
   <string name="torrent_details_progress">Garapena:</string>
