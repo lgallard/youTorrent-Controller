@@ -13,13 +13,9 @@ This is the repository for **_qBittorrent Controller_**, an Android app for mana
 * Set and save a connection account
 
 <h2>Phone version</h2>
-<img src="https://farm1.staticflickr.com/754/20755043532_fc23ebd264.jpg">&nbsp;<img src="https://farm6.staticflickr.com/5799/20143466743_b0edd78bd2.jpg"><img src="https://farm9.staticflickr.com/8802/18353676772_6679143ba1.jpg">&nbsp;<img src="https://farm1.staticflickr.com/557/17737072013_ea18530489.jpg">
-<img src="https://farm8.staticflickr.com/7798/17737457213_f7a29c30f2.jpg">&nbsp;<img src="https://farm1.staticflickr.com/257/18354102312_75b1245b66.jpg">
-<h2>Tablet version</h2>
-<img src="https://farm4.staticflickr.com/3673/19606436033_7f736a36c8_z.jpg"/>&nbsp;
-<img src="https://farm1.staticflickr.com/386/18170408148_001dc2105b_z.jpg">&nbsp;
+<img src="https://farm1.staticflickr.com/754/20755043532_fc23ebd264.jpg">&nbsp;<img src="https://farm6.staticflickr.com/5799/20143466743_b0edd78bd2.jpg"><img src="https://farm6.staticflickr.com/5667/20577695659_393f5401ee.jpg">&nbsp;<img src="https://farm6.staticflickr.com/5686/20143425354_661e3359e7.jpg">
+<img src="https://farm6.staticflickr.com/5659/20755044302_a0482301ea.jpg">&nbsp;<img src="https://farm6.staticflickr.com/5826/20755041122_daebe1b6cf.jpg">
 
 <h2 id="download">Download</h2>
-* [Google Play Store](https://play.google.com/store/apps/details?id=com.lgallardo.qbittorrentclient)
-* [F-Droid, a free/libre "market"](https://f-droid.org/repository/browse/?fdid=com.lgallardo.qbittorrentclient)
-* [GitHub](https://github.com/lgallard/qBittorrent-Client/releases)
+* [Google Play Store](https://play.google.com/store/apps/details?id=com.lgallardo.youtorrentcontroller)
+* [GitHub](https://github.com/lgallard/youTorrent-Controller/releases)
