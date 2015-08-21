@@ -182,7 +182,7 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
         username.setText(sharedPrefs.getString("username" + value, "admin"));
         username.setSummary(sharedPrefs.getString("username" + value, "admin"));
 
-        password.setText(sharedPrefs.getString("password" + value, "adminadmin"));
+        password.setText(sharedPrefs.getString("password" + value, ""));
 
         if (refresh_period.getEntry() == null) {
             refresh_period.setValueIndex(6);

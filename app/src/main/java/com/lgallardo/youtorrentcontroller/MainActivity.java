@@ -624,7 +624,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
     // Load Banner
     public void loadBanner() {
 
-        if (packageName.equals("com.lgallardo.youtorrentController")) {
+        if (packageName.equals("com.lgallardo.youtorrentcontroller")) {
 
             // Look up the AdView as a resource and load a request.
             adView = (AdView) this.findViewById(R.id.adView);
@@ -1262,8 +1262,10 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
 
             // Refresh
+            token = null;
+            cookie = null;
             canrefresh = true;
-
+            swipeRefresh();
 
         }
 

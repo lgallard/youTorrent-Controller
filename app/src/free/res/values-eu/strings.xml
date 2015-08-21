@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
-  <string name="app_name">qBittorrent Controller</string>
+  <string name="app_name">youTorrent Controller</string>
   <string name="app_shortname">Controller</string>
   <string name="action_settings">Ezarpenak</string>
   <string name="action_refresh">Berritu</string>
@@ -60,9 +60,9 @@
   <string name="navigation_drawer_options">Aukerak</string>
   <string name="navigation_drawer_settins">Ezarpenak</string>
   <string name="navigation_drawer_PRO">Lortu PRO</string>
-  <string name="about_help1">Bezeroak erabiltzen hasteko, zure qBittorrent zerbitzari ezarpenak ezarri</string>
+  <string name="about_help1">Bezeroak erabiltzen hasteko, zure µTorrent zerbitzari ezarpenak ezarri</string>
   <string name="about_help2">Sakatu berritu botoia menuan emaitza berriak lortzeko, edo hautatu aukera bat hedagarria menutik zerbitzariko torrent zerrenda lortzeko.</string>
-  <string name="about_motto">Kudeatu zure torrent guztiak Android-etik qBittorrent Controller erabiliz</string>
+  <string name="about_motto">Kudeatu zure torrent guztiak Android-etik youTorrent Controller erabiliz</string>
   <string name="icon">ikurra</string>
   <string name="no_results">Ez da torrentik aurkitu</string>
   <string name="tablet_help">Erabili hedagarria menua aukera bat hautatzeko</string>
@@ -99,9 +99,9 @@
   <string name="torrent_details_seq_download">Jeisketa sekuentziala</string>
   <string name="torrent_details_cant_general_info">Argibide orokorrak ezin dira berreskuratu</string>
   <string name="settings_qbittorrent_account_category">Kontuak</string>
-  <string name="settings_qbittorrent_currentServer_title">Hautatu qBittorrent zerbitzaria</string>
+  <string name="settings_qbittorrent_currentServer_title">Hautatu µTorrent zerbitzaria</string>
   <string name="settings_qbittorrent_currentServer_dialog_title">Hautatu zerbitzari bat</string>
-  <string name="settings_qbittorrent_currentServer_summary">qBittorrent Zerbitzaria</string>
+  <string name="settings_qbittorrent_currentServer_summary">µTorrent Zerbitzaria</string>
   <string name="settings_qbittorrent_hostname_title">Elkarketa Hostalaria</string>
   <string name="settings_qbittorrent_hostname_summary">Hostalari-izena edo IP-a</string>
   <string name="settings_qbittorrent_hostname_dialog_title">Hostalari-izena edo IP-a?</string>
@@ -120,7 +120,7 @@
   <string name="settings_qbittorrent_password_summary">Eman sarhitza</string>
   <string name="settings_qbittorrent_password_dialog_title">Sarhitza?</string>
   <string name="settings_qbittorrent_pro_title">Ezaugarria ez dago eskuragarri</string>
-  <string name="settings_qbittorrent_pro_message">Ezaugarri hau qBittorrent PRO bertsioan bakarrik dago eskuragarri!</string>
+  <string name="settings_qbittorrent_pro_message">Ezaugarri hau youTorrent Controller Pro bertsioan bakarrik dago eskuragarri!</string>
   <string name="settings_qbittorrent_autorefresh_category">Berez Berritu</string>
   <string name="settings_qbittorrent_autorefresh_title">Berezgaitasunez berritu?</string>
   <string name="settings_qbittorrent_autorefresh_summary">Eguneratu torrent zerrenda</string>

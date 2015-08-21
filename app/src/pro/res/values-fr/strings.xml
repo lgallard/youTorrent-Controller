@@ -55,7 +55,7 @@
     <string name="navigation_drawer_settins">Paramètres</string>
     <string name="about_help1">Pour commencer à utiliser le client, définissez les paramètres de votre serveur qBittorent</string>
     <string name="about_help2">Appuyez sur le bouton de rafraîchissement dans le menu pour obtenir de nouveaux résultats, ou choisissez une option dans le menu de gauche pour obtenir la liste de torrent à partir du serveur.</string>
-    <string name="about_motto">Gérer vos torrents avec Android en utilisant qBittorrent Controller Pro</string>
+    <string name="about_motto">Gérer vos torrents avec Android en utilisant youTorrent Controller Pro</string>
     <string name="icon">icône</string>
     <string name="no_results">Pas de résultat</string>
     <string name="tablet_help">Utilisez le menu de tiroir pour choisir une option</string>
@@ -83,8 +83,8 @@
     <string name="torrent_details_share_ratio">Ratio partage:</string>
     <string name="torrent_details_cant_general_ino">L\'Info générale ne peut pas être récupéré</string>
     <string name="settings_qbittorrent_account_category">Comptes</string>
-    <string name="settings_qbittorrent_currentServer_title">Choisissez un serveur qBittorrent</string>
-    <string name="settings_qbittorrent_currentServer_summary">Serveur qBittorrent</string>
+    <string name="settings_qbittorrent_currentServer_title">Choisissez un serveur µTorrent</string>
+    <string name="settings_qbittorrent_currentServer_summary">Serveur µTorrent</string>
     <string name="settings_qbittorrent_hostname_title">Connexion hôte</string>
     <string name="settings_qbittorrent_hostname_summary">Nom d\'hôte ou IP</string>
     <string name="settings_qbittorrent_hostname_dialog_title">Nom d\'hôte ou IP?</string>
@@ -213,5 +213,5 @@
     <string name="options_qbittorrent_schedule_alt_to">À</string>
     <string name="options_qbittorrent_scheduler_days_title">Quand:</string>
     <string name="settings_qbittorrent_pro_title">Fonction non disponible</string>
-    <string name="settings_qbittorrent_pro_message">Cette fonctionnalité est disponible uniquement sur la version PRO qBittorrent!</string>
+    <string name="settings_qbittorrent_pro_message">Cette fonctionnalité est disponible uniquement sur la version PRO youTorrent!</string>
 </resources>

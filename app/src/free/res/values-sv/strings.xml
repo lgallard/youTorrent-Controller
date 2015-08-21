@@ -54,9 +54,9 @@
     <string name="navigation_drawer_inactive">Inaktiva</string>
     <string name="navigation_drawer_options">Alternativ</string>
     <string name="navigation_drawer_settins">Inställningar</string>
-    <string name="about_help1">För att börja använda klienten ställa in din qBittorrent serverinställningar</string>
+    <string name="about_help1">För att börja använda klienten ställa in din µTorrent serverinställningar</string>
     <string name="about_help2">Tryck på knappen Uppdatera i menyn för att få nya resultat, eller välj ett alternativ på menyn till vänster för att få torrent listan från servern.</string>
-    <string name="about_motto">Hantera alla dina torrents från Android använder qBittorrent Controller Pro</string>
+    <string name="about_motto">Hantera alla dina torrents från Android använder youTorrent Controller</string>
     <string name="icon">icon</string>
     <string name="no_results">Ingen torrents hittades</string>
     <string name="tablet_help">Använd lådan meny att välja ett alternativ</string>
@@ -80,8 +80,8 @@
     <string name="torrent_details_num_connections">Ant. Anslutningar:</string>
     <string name="torrent_details_share_ratio">Förhållande:</string>
     <string name="settings_qbittorrent_account_category">Konton</string>
-    <string name="settings_qbittorrent_currentServer_title">Välj en qBittorrent server</string>
-    <string name="settings_qbittorrent_currentServer_summary">qBittorrent Server</string>
+    <string name="settings_qbittorrent_currentServer_title">Välj en µTorrent server</string>
+    <string name="settings_qbittorrent_currentServer_summary">µTorrent Server</string>
     <string name="settings_qbittorrent_hostname_title">Värd</string>
     <string name="settings_qbittorrent_hostname_summary">Värdnamn eller IP</string>
     <string name="settings_qbittorrent_hostname_dialog_title">Värdnamn eller IP?</string>
@@ -145,7 +145,7 @@
     <string name="dialog_upload_rate_limit">Överför hastighetsgränser (KiB/s)</string>
     <string name="navigation_drawer_PRO">Få Pro</string>
     <string name="settings_qbittorrent_currentServer_dialog_title">Välj en server</string>
-    <string name="settings_qbittorrent_pro_message">Den här funktionen är endast tillgänglig på qBittorrent PRO versionen!</string>
+    <string name="settings_qbittorrent_pro_message">Den här funktionen är endast tillgänglig på youTorrent Controller Pro versionen!</string>
     <string name="settings_qbittorrent_pro_title">Feature inte tillgängligt</string>
     <string name="torrent_details_eta">Beräknad tid:</string>
     <string name="torrent_details_cant_general_info">Allmän information kunde inte hämtas</string>

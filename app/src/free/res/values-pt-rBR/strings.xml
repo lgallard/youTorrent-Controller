@@ -55,9 +55,9 @@
     <string name="navigation_drawer_options">Opções</string>
     <string name="navigation_drawer_settins">Configurações</string>
     <string name="navigation_drawer_PRO">Obter PRO</string>
-    <string name="about_help1">Para começar a usar o cliente, defina as configurações do seu servidor qBittorrent</string>
+    <string name="about_help1">Para começar a usar o cliente, defina as configurações do seu servidor µTorrent</string>
     <string name="about_help2">Pressione o botão de atualização no menu para obter novos resultados, ou escolha uma opção no menu de gaveta para obter a lista de torrents do servidor.</string>
-    <string name="about_motto">Gerenciar todos os seus torrents de Android usando qBittorrent Controller</string>
+    <string name="about_motto">Gerenciar todos os seus torrents de Android usando youTorrent Controller</string>
     <string name="icon">icones</string>
     <string name="no_results">Torrents não encontrados</string>
     <string name="tablet_help">Utilize o menu de gaveta para escolher uma opção</string>
@@ -86,9 +86,9 @@
     <string name="torrent_details_share_ratio">Compartilhar Ratio:</string>
     <string name="torrent_details_cant_general_info">Informação geral não pôde ser recuperada</string>
     <string name="settings_qbittorrent_account_category">Contas</string>
-    <string name="settings_qbittorrent_currentServer_title">Escolha um servidor qBittorrent</string>
+    <string name="settings_qbittorrent_currentServer_title">Escolha um servidor µTorrent</string>
     <string name="settings_qbittorrent_currentServer_dialog_title">Escolha um servidor</string>
-    <string name="settings_qbittorrent_currentServer_summary">Servidor qBitttorent </string>
+    <string name="settings_qbittorrent_currentServer_summary">Servidor µTorrent </string>
     <string name="settings_qbittorrent_hostname_title">Conexão com o host</string>
     <string name="settings_qbittorrent_hostname_summary">Nome do host ou IP</string>
     <string name="settings_qbittorrent_hostname_dialog_title">Nome do host ou IP?</string>
@@ -107,7 +107,7 @@
     <string name="settings_qbittorrent_password_summary">Fornecer senha</string>
     <string name="settings_qbittorrent_password_dialog_title">Senha?</string>
     <string name="settings_qbittorrent_pro_title">Recurso não disponível</string>
-    <string name="settings_qbittorrent_pro_message">Esta funcionalidade só está disponível na versão PRO do qBittorrent!</string>
+    <string name="settings_qbittorrent_pro_message">Esta funcionalidade só está disponível na versão youTorrent Controller Pro!</string>
     <string name="settings_qbittorrent_autorefresh_category">Atualização Automática</string>
     <string name="settings_qbittorrent_autorefresh_title">Atualizar automaticamente?</string>
     <string name="settings_qbittorrent_autorefresh_summary">Atualizar lista de torrent</string>

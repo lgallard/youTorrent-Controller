@@ -53,9 +53,9 @@
     <string name="navigation_drawer_inactive">Inativo</string>
     <string name="navigation_drawer_options">Opções</string>
     <string name="navigation_drawer_settins">Configurações</string>
-    <string name="about_help1">Para começar a usar o cliente, defina as configurações do seu servidor qBittorrent</string>
+    <string name="about_help1">Para começar a usar o cliente, defina as configurações do seu servidor µTorrent</string>
     <string name="about_help2">Pressione o botão de atualização no menu para obter novos resultados, ou escolha uma opção no menu de gaveta para obter a lista de torrents do servidor.</string>
-    <string name="about_motto">Gerenciar todos os seus torrents de Android usando qBittorrent Controller Pro</string>
+    <string name="about_motto">Gerenciar todos os seus torrents de Android usando youTorrent Controller Pro</string>
     <string name="icon">icones</string>
     <string name="no_results">Torrents não encontrados</string>
     <string name="tablet_help">Utilize o menu de gaveta para escolher uma opção</string>
@@ -83,8 +83,8 @@
     <string name="torrent_details_share_ratio">Compartilhar Ratio:</string>
     <string name="torrent_details_cant_general_ino">Informação geral não pôde ser recuperada</string>
     <string name="settings_qbittorrent_account_category">Contas</string>
-    <string name="settings_qbittorrent_currentServer_title">Escolha um servidor qBittorrent</string>
-    <string name="settings_qbittorrent_currentServer_summary">Servidor qBitttorent </string>
+    <string name="settings_qbittorrent_currentServer_title">Escolha um servidor µTorrent</string>
+    <string name="settings_qbittorrent_currentServer_summary">Servidor µTorrent </string>
     <string name="settings_qbittorrent_hostname_title">Conexão com o host</string>
     <string name="settings_qbittorrent_hostname_summary">Nome do host ou IP</string>
     <string name="settings_qbittorrent_hostname_dialog_title">Nome do host ou IP?</string>
@@ -213,5 +213,5 @@
     <string name="options_qbittorrent_schedule_alternative_rate_limits">Agendar utilização das taxas limite alternativas</string>
     <string name="options_qbittorrent_scheduler_days_title">Quando:</string>
     <string name="settings_qbittorrent_pro_title">Recurso não disponível</string>
-    <string name="settings_qbittorrent_pro_message">Esta funcionalidade só está disponível na versão PRO do qBittorrent!</string>
+    <string name="settings_qbittorrent_pro_message">Esta funcionalidade só está disponível na versão PRO do youTorrent!</string>
 </resources>

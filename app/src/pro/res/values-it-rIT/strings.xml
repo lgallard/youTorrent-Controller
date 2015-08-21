@@ -53,9 +53,9 @@
     <string name="navigation_drawer_inactive">Inattivo</string>
     <string name="navigation_drawer_options">Opzioni</string>
     <string name="navigation_drawer_settins">Impostazioni</string>
-    <string name="about_help1">Per iniziare a utilizzare il client, configurare le impostazioni del server qBittorrent</string>
+    <string name="about_help1">Per iniziare a utilizzare il client, configurare le impostazioni del server µTorrent</string>
     <string name="about_help2">Premere il pulsante di aggiornamento nel menu per ottenere nuovi risultati, o scegliere un\'opzione dal menu a cassetto per ottenere l\'elenco torrent dal server.</string>
-    <string name="about_motto">Gestisci tutti i tuoi torrent da Android con qBittorrent Controller Pro</string>
+    <string name="about_motto">Gestisci tutti i tuoi torrent da Android con youTorrent Controller Pro</string>
     <string name="icon">icona</string>
     <string name="no_results">Nessun torrent trovato</string>
     <string name="tablet_help">Utilizzare il menu del cassetto per scegliere un\'opzione</string>
@@ -83,8 +83,8 @@
     <string name="torrent_details_share_ratio">Rapporto di condivisione:</string>
     <string name="torrent_details_cant_general_ino">Informazioni generali Impossibile recuperare</string>
     <string name="settings_qbittorrent_account_category">Accounts</string>
-    <string name="settings_qbittorrent_currentServer_title">Scegli un server qBittorrent</string>
-    <string name="settings_qbittorrent_currentServer_summary">qBitttorent Server</string>
+    <string name="settings_qbittorrent_currentServer_title">Scegli un server µTorrent</string>
+    <string name="settings_qbittorrent_currentServer_summary">youTorrent Server</string>
     <string name="settings_qbittorrent_hostname_title">Host di connessione</string>
     <string name="settings_qbittorrent_hostname_summary">Nome host o IP</string>
     <string name="settings_qbittorrent_hostname_dialog_title">Nome host o IP?</string>
@@ -213,5 +213,5 @@
     <string name="options_qbittorrent_schedule_alt_from">Da</string>
     <string name="options_qbittorrent_schedule_alt_to">A</string>
     <string name="settings_qbittorrent_pro_title">Funzione non disponibile</string>
-    <string name="settings_qbittorrent_pro_message">Questa funzione è disponibile solo su qBittorrent versione PRO!</string>
+    <string name="settings_qbittorrent_pro_message">Questa funzione è disponibile solo su youTorrent versione PRO!</string>
 </resources>

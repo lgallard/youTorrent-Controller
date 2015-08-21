@@ -78,9 +78,9 @@
     <string name="navigation_drawer_inactive">Inactive</string>
     <string name="navigation_drawer_options">Options</string>
     <string name="navigation_drawer_settins">Settings</string>
-    <string name="about_help1">To start using the client, set your qBittorrent server settings</string>
+    <string name="about_help1">To start using the client, set your µTorrent server settings</string>
     <string name="about_help2">Press the refresh button on the menu to get new results, or choose an option from the left menu to get the torrent list from the server.</string>
-    <string name="about_motto">Manage all your torrents from Android using qBittorrent Controller</string>
+    <string name="about_motto">Manage all your torrents from Android using youTorrent Controller Pro</string>
     <string name="icon">icon</string>
     <string name="no_results">No torrents found</string>
     <string name="tablet_help">Use the drawer menu to choose an option</string>
@@ -116,8 +116,8 @@
     <string name="torrent_details_cant_general_ino">General info couldn\'t be retrieved</string>
     <string name="settings_qbittorrent_advanced">Advanced...</string>
     <string name="settings_qbittorrent_account_category">Accounts</string>
-    <string name="settings_qbittorrent_currentServer_title">Choose a qBittorrent server</string>
-    <string name="settings_qbittorrent_currentServer_summary">qBittorrent Server</string>
+    <string name="settings_qbittorrent_currentServer_title">Choose a µTorrent server</string>
+    <string name="settings_qbittorrent_currentServer_summary">µTorrent Server</string>
     <string name="settings_qbittorrent_hostname_title">Connection Host</string>
     <string name="settings_qbittorrent_hostname_summary">Hostname or IP</string>
     <string name="settings_qbittorrent_hostname_dialog_title">Hostname or IP?</string>
@@ -225,5 +225,5 @@
     <string name="options_qbittorrent_schedule_alt_from">From</string>
     <string name="options_qbittorrent_schedule_alt_to">To</string>
     <string name="settings_qbittorrent_pro_title">Feature not available</string>
-    <string name="settings_qbittorrent_pro_message">This feature is only available on qBittorrent PRO version!</string>
+    <string name="settings_qbittorrent_pro_message">This feature is only available on youTorrent Pro version!</string>
 </resources>

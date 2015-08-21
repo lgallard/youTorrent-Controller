@@ -51,6 +51,9 @@ class TorrentListAdapter extends ArrayAdapter<String> {
 
             String state = torrentsData[position].getState();
 
+            int seedsConnected = torrentsData[position].getSeedsConnected();
+            int peersConnected = torrentsData[position].getPeersConnected();
+
             int donwloadSpeedWeigth = torrentsData[position].getDownloadSpeedWeight();
             int uploadSpeedWeigth = torrentsData[position].getUploadSpeedWeight();
 
@@ -71,7 +74,7 @@ class TorrentListAdapter extends ArrayAdapter<String> {
             if ("downloading".equals(state)) {
                 icon.setImageResource(R.drawable.stalleddl);
 
-                if (donwloadSpeedWeigth > 0) {
+                if (donwloadSpeedWeigth > 0 || seedsConnected > 0 || peersConnected > 0) {
                     icon.setImageResource(R.drawable.downloading);
                 }
             }
@@ -80,7 +83,7 @@ class TorrentListAdapter extends ArrayAdapter<String> {
 
                 icon.setImageResource(R.drawable.stalledup);
 
-                if (uploadSpeedWeigth > 0) {
+                if (uploadSpeedWeigth > 0 || seedsConnected > 0 || peersConnected > 0) {
                     icon.setImageResource(R.drawable.uploading);
                 }
             }

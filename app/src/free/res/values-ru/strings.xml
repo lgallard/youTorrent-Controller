@@ -60,9 +60,9 @@
   <string name="navigation_drawer_options">Настройки сервера</string>
   <string name="navigation_drawer_settins">Настройки</string>
   <string name="navigation_drawer_PRO">Получить PRO-версию</string>
-  <string name="about_help1">Для начала с помощью клиента набор настроек сервера qBittorrent</string>
+  <string name="about_help1">Для начала с помощью клиента набор настроек сервера µTorrent</string>
   <string name="about_help2">Нажмите кнопку \"обновление\" в меню, чтобы получить обновленные данные, или воспользуйтесь выезжающим меню слева для получения списка торрентов с сервера</string>
-  <string name="about_motto">Управляйте своими торрентами с Android-устройства, используя qBittorrent Controller</string>
+  <string name="about_motto">Управляйте своими торрентами с Android-устройства, используя youTorrent Controller</string>
   <string name="icon">Значок</string>
   <string name="no_results">Торренты не обнаружены</string>
   <string name="tablet_help">Используйте выезжающее меню слева</string>
@@ -99,9 +99,9 @@
   <string name="torrent_details_seq_download">Последовательная загрузка</string>
   <string name="torrent_details_cant_general_info">Не удалось получить данные</string>
   <string name="settings_qbittorrent_account_category">Учетные записи</string>
-  <string name="settings_qbittorrent_currentServer_title">Выберите сервер qBittorrent</string>
+  <string name="settings_qbittorrent_currentServer_title">Выберите сервер µTorrent</string>
   <string name="settings_qbittorrent_currentServer_dialog_title">Выберите сервер</string>
-  <string name="settings_qbittorrent_currentServer_summary">Сервер qBittorrent</string>
+  <string name="settings_qbittorrent_currentServer_summary">Сервер µTorrent</string>
   <string name="settings_qbittorrent_hostname_title">Имя сервера</string>
   <string name="settings_qbittorrent_hostname_summary">Адрес сервера или IP</string>
   <string name="settings_qbittorrent_hostname_dialog_title">Укажите адрес сервера или IP</string>

@@ -270,7 +270,7 @@ public class TorrentDetailsFragment extends Fragment {
             if ("downloading".equals(state)) {
                 nameTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.stalleddl, 0, 0, 0);
 
-                if (donwloadSpeedWeigth > 0) {
+                if (donwloadSpeedWeigth > 0 || seedsConnected > 0 || peersConnected > 0) {
                     nameTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.downloading, 0, 0, 0);
                 }
             }
@@ -279,7 +279,7 @@ public class TorrentDetailsFragment extends Fragment {
             if ("seeding".equals(state)) {
                 nameTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.stalledup, 0, 0, 0);
 
-                if (uploadSpeedWeigth > 0) {
+                if (uploadSpeedWeigth > 0 || seedsConnected > 0 || peersConnected > 0) {
                     nameTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.uploading, 0, 0, 0);
                 }
             }
@@ -433,7 +433,7 @@ public class TorrentDetailsFragment extends Fragment {
             if ("downloading".equals(state)) {
                 nameTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.stalleddl, 0, 0, 0);
 
-                if (donwloadSpeedWeigth > 0) {
+                if (donwloadSpeedWeigth > 0 || seedsConnected > 0 || peersConnected > 0) {
                     nameTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.downloading, 0, 0, 0);
                 }
             }
@@ -442,7 +442,7 @@ public class TorrentDetailsFragment extends Fragment {
             if ("seeding".equals(state)) {
                 nameTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.stalledup, 0, 0, 0);
 
-                if (uploadSpeedWeigth > 0) {
+                if (uploadSpeedWeigth > 0 || seedsConnected > 0 || peersConnected > 0) {
                     nameTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.uploading, 0, 0, 0);
                 }
             }
