@@ -1,19 +1,19 @@
-qBittorrent-Controller
+youTorrent-Controller
 ==================
 
-This is the repository for **_qBittorrent Controller_**, an Android app for manage for [qBittorrent](http://www.qbittorrent.org/) remotely.
+This is the repository for **_qBittorrent Controller_**, an Android app for manage for [µTorrent](http://www.utorrent.com/) remotely.
 
 <h2 id="features">Features</h2>
 * See a two panel view (fragments) for torrent list and details in the same window
 * Drawer menu for switching between All, Downloading, Completed, Paused, Active and Inactive torrent list
-* Pause or resume all torrents from the selected list
+
 * Auto refresh torrent list after performing an action on a torrent (pause, resume, or delete) 
 * Add URL directly or by clicking the torrent link on your device's browser
 * Pause, resume, or delete individual torrents with its downloaded data
 * Set and save a connection account
 
 <h2>Phone version</h2>
-<img src="https://farm9.staticflickr.com/8886/18331280546_7a4f39bb82.jpg">&nbsp;<img src="https://farm9.staticflickr.com/8773/18353677102_b254bb39fc.jpg"><img src="https://farm9.staticflickr.com/8802/18353676772_6679143ba1.jpg">&nbsp;<img src="https://farm1.staticflickr.com/557/17737072013_ea18530489.jpg">
+<img src="https://farm1.staticflickr.com/754/20755043532_fc23ebd264.jpg">&nbsp;<img src="https://farm6.staticflickr.com/5799/20143466743_b0edd78bd2.jpg"><img src="https://farm9.staticflickr.com/8802/18353676772_6679143ba1.jpg">&nbsp;<img src="https://farm1.staticflickr.com/557/17737072013_ea18530489.jpg">
 <img src="https://farm8.staticflickr.com/7798/17737457213_f7a29c30f2.jpg">&nbsp;<img src="https://farm1.staticflickr.com/257/18354102312_75b1245b66.jpg">
 <h2>Tablet version</h2>
 <img src="https://farm4.staticflickr.com/3673/19606436033_7f736a36c8_z.jpg"/>&nbsp;
