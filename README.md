@@ -6,7 +6,6 @@ This is the repository for **_qBittorrent Controller_**, an Android app for mana
 <h2 id="features">Features</h2>
 * See a two panel view (fragments) for torrent list and details in the same window
 * Drawer menu for switching between All, Downloading, Completed, Paused, Active and Inactive torrent list
-
 * Auto refresh torrent list after performing an action on a torrent (pause, resume, or delete) 
 * Add URL directly or by clicking the torrent link on your device's browser
 * Pause, resume, or delete individual torrents with its downloaded data
