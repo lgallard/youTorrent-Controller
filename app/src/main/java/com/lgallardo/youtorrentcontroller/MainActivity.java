@@ -2533,7 +2533,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
         @Override
         protected Torrent[] doInBackground(String... params) {
 
-            String name, size, info, progress, state, hash, ratio, priority, eta, uploadSpeed, downloadSpeed, status, label, availability;
+            String name, size, info, progress, state, hash, ratio, priority, eta, uploadSpeed, downloadSpeed, status, label, availability, downloaded;
             int  peersConnected, peersInSwarm, seedsConnected, seedInSwarm;
             boolean sequentialDownload = false;
             boolean firstLastPiecePrio = false;
@@ -2601,6 +2601,8 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
                         progress = String.format("%.2f", (float) torrentArray.getInt(4)/10) + "%";
                         progress = progress.replace(",", ".");
 
+                        downloaded = Common.calculateSize(""+torrentArray.getLong(5));
+
 //                        Log.d("Debug", "Progress:" + progress);
 
                         ratio =  String.format("%.2f", (float) torrentArray.getInt(7) / 1000);
@@ -2652,35 +2654,23 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
 //                        Log.d("Debug", "State:" + state);
 
-                        torrents[i] = new Torrent(name, size, state, hash, info, ratio, progress, peersConnected, peersInSwarm,
+                        torrents[i] = new Torrent(name, size, downloaded, state, hash, info, ratio, progress, peersConnected, peersInSwarm,
                                 seedsConnected, seedInSwarm, priority, eta, downloadSpeed, uploadSpeed, status, label, availability, completed);
 
 
                         MainActivity.names[i] = name;
 
-                        // Get torrent generic properties
-
-                        try {
-                            // Calculate total downloaded
-                            Double sizeScalar = Double.parseDouble(size.substring(0, size.indexOf(" ")));
-                            String sizeUnit = size.substring(size.indexOf(" "), size.length());
-
-                            torrents[i].setDownloaded(String.format("%.1f", sizeScalar * json.getDouble(TAG_PROGRESS)).replace(",", ".") + sizeUnit);
-
-                        } catch (Exception e) {
-                            torrents[i].setDownloaded(size);
-                        }
-
+                        // Set info row
                         if (packageName.equals("com.lgallardo.youtorrentcontroller")) {
                             // Info free
-                            torrents[i].setInfo(torrents[i].getDownloaded() + " " + Character.toString('\u2193') + " " + torrents[i].getDownloadSpeed() + " "
+                            torrents[i].setInfo(torrents[i].getDownloaded() + " / "  + torrents[i].getSize() + " " + Character.toString('\u2193') + " " + torrents[i].getDownloadSpeed() + " "
                                     + Character.toString('\u2191') + " " + torrents[i].getUploadSpeed() + " " + Character.toString('\u2022') + " "
                                     + torrents[i].getRatio() + " " + Character.toString('\u2022') + " " + progress + " " + Character.toString('\u2022') + " "
                                     + torrents[i].getEta());
 
                         } else {
                             // Info pro
-                            torrents[i].setInfo(torrents[i].getDownloaded() + " " + Character.toString('\u2193') + " " + torrents[i].getDownloadSpeed() + " "
+                            torrents[i].setInfo(torrents[i].getDownloaded() + " / "  + torrents[i].getSize() + " " + Character.toString('\u2193') + " " + torrents[i].getDownloadSpeed() + " "
                                     + Character.toString('\u2191') + " " + torrents[i].getUploadSpeed() + " " + Character.toString('\u2022') + " "
                                     + torrents[i].getRatio() + " " + Character.toString('\u2022') + " " + torrents[i].getEta());
                         }

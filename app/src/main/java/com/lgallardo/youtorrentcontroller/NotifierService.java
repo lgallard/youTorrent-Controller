@@ -255,7 +255,7 @@ public class NotifierService extends BroadcastReceiver {
         @Override
         protected Torrent[] doInBackground(String... params) {
 
-            String name, size, info, progress, state, hash, ratio, priority, eta, uploadSpeed, downloadSpeed, status, label, availability;
+            String name, size, info, progress, state, hash, ratio, priority, eta, uploadSpeed, downloadSpeed, status, label, availability, downloaded;
             int  peersConnected, peersInSwarm, seedsConnected, seedInSwarm;
             boolean completed = false;
 
@@ -324,6 +324,8 @@ public class NotifierService extends BroadcastReceiver {
                         progress = String.format("%.2f", (float) torrentArray.getInt(4)/10) + "%";
                         progress = progress.replace(",", ".");
 
+                        downloaded = Common.calculateSize("" + torrentArray.getLong(5));
+
 //                        Log.d("Debug", "Progress:" + progress);
 
                         ratio =  String.format("%.2f", (float) torrentArray.getInt(7) / 1000);
@@ -375,7 +377,7 @@ public class NotifierService extends BroadcastReceiver {
 
 //                        Log.d("Debug", "State:" + state);
 
-                        torrents[i] = new Torrent(name, size, state, hash, info, ratio, progress, peersConnected, peersInSwarm,
+                        torrents[i] = new Torrent(name, size, downloaded, state, hash, info, ratio, progress, peersConnected, peersInSwarm,
                                 seedsConnected, seedInSwarm, priority, eta, downloadSpeed, uploadSpeed, status, label, availability, completed);
 
 
