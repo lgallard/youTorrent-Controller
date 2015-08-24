@@ -37,5 +37,5 @@ l
         android:layout_alignParentBottom="true"
         android:gravity="bottom"
         ads:adSize="BANNER"
-        ads:adUnitId="ca-app-pub-1035265933040074/6449288097" />
+        ads:adUnitId="ca-app-pub-1035265933040074/9260093694" />
 </RelativeLayout>

@@ -505,7 +505,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
             // Check ad unit id            // Check ad unit id
             assertTrue("Ads not loaded",mAdviews.size() > 0);
             assertNotNull("Ads not loaded", mAdviews.get(0).getAdUnitId());
-            assertEquals("Ads not loaded", "ca-app-pub-1035265933040074/6449288097",mAdviews.get(0).getAdUnitId());
+            assertEquals("Ads not loaded", "ca-app-pub-1035265933040074/9260093694",mAdviews.get(0).getAdUnitId());
 
         }
 
@@ -527,7 +527,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
             assertTrue("Ads not loaded in RSS Feed",mAdviews.size() > 0);
             assertNotNull("Ads not loaded in RSS Feed", mAdviews.get(0).getAdUnitId());
             assertEquals("Ads not loaded in RSS Feed", R.id.adViewRssFeed, mAdviews.get(0).getId());
-            assertEquals("Ads not loaded in RSS Feed", "ca-app-pub-1035265933040074/6449288097",mAdviews.get(0).getAdUnitId());
+            assertEquals("Ads not loaded in RSS Feed", "ca-app-pub-1035265933040074/9260093694",mAdviews.get(0).getAdUnitId());
         }
     }
 
@@ -550,7 +550,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
             assertTrue("Ads not loaded in RSS Item list", mAdviews.size() > 0);
             assertNotNull("Ads not loaded in RSS Item list", mAdviews.get(0).getAdUnitId());
             assertEquals("Ads not loaded in RSS Item list", R.id.adViewRssItem, mAdviews.get(0).getId());
-            assertEquals("Ads not loaded in RSS Item list", "ca-app-pub-1035265933040074/6449288097",mAdviews.get(0).getAdUnitId());
+            assertEquals("Ads not loaded in RSS Item list", "ca-app-pub-1035265933040074/9260093694",mAdviews.get(0).getAdUnitId());
 
         }
     }
