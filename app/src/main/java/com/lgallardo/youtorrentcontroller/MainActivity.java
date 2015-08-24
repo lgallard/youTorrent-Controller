@@ -2134,7 +2134,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
         }
 
-        if (position < 6) {
+        if (position <= 6) {
             drawerList.setItemChecked(position, true);
             drawerList.setSelection(position);
             setTitle(navigationDrawerItemTitles[position]);
@@ -2601,7 +2601,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
                         progress = String.format("%.2f", (float) torrentArray.getInt(4)/10) + "%";
                         progress = progress.replace(",", ".");
 
-                        downloaded = Common.calculateSize(""+torrentArray.getLong(5));
+                        downloaded = Common.calculateSize("" + torrentArray.getLong(5));
 
 //                        Log.d("Debug", "Progress:" + progress);
 
@@ -2611,8 +2611,9 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 //                        Log.d("Debug", "Ratio:" + ratio);
 
 
-                        downloadSpeed = "" + torrentArray.getInt(8);
-                        uploadSpeed = "" + torrentArray.getInt(9);
+                        uploadSpeed = "" + torrentArray.getInt(8);
+                        downloadSpeed = "" + torrentArray.getInt(9);
+
                         eta = "" + torrentArray.getInt(10);
 
 //                        Log.d("Debug", "Eta:" + eta);

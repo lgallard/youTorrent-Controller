@@ -190,8 +190,30 @@ public class TorrentDetailsFragment extends Fragment {
                 eta = this.torrent.getEta();
                 uploadSpeed = this.torrent.getUploadSpeed();
                 downloadSpeed = this.torrent.getDownloadSpeed();
-                downloaded = this.torrent.getDownloaded();
                 hashToUpdate = hash;
+
+                // Calculate total downloaded (move to Common)
+                try {
+                    Double sizeScalar = Double.parseDouble(size.substring(0, size.indexOf(" ")));
+                    String sizeUnit = size.substring(size.indexOf(" "), size.length());
+
+                    Log.d("Debug", "TorrentDetailsFragment - sizeScalar: " + sizeScalar);
+                    Log.d("Debug", "TorrentDetailsFragment - sizeUnit: " + sizeUnit);
+                    Log.d("Debug", "TorrentDetailsFragment - Progress: " + torrent.getProgress());
+
+                    Log.d("Debug", "TorrentDetailsFragment - Progress: " + Float.parseFloat(torrent.getProgress().replace("%", "")));
+
+                    downloaded = String.format("%.1f", sizeScalar * Float.parseFloat(torrent.getProgress().replace("%", ""))/100).replace(",", ".") + sizeUnit;
+
+                    Log.d("Debug", "TorrentDetailsFragment - >> Downloaded: " +downloaded);
+
+
+                } catch (Exception e) {
+
+                    Log.d("Debug", "TorrentDetailsFragment - (Exception) Downloaded: " +downloaded);
+
+                }
+
 
                 // Only for Pro version
                 if(MainActivity.packageName.equals("com.lgallardo.youtorrentcontrollerpro")) {
@@ -344,7 +366,28 @@ public class TorrentDetailsFragment extends Fragment {
             eta = torrent.getEta();
             uploadSpeed = torrent.getUploadSpeed();
             downloadSpeed = torrent.getDownloadSpeed();
-            downloaded = torrent.getDownloaded();
+
+            // Calculate total downloaded (move to Common)
+            try {
+                Double sizeScalar = Double.parseDouble(size.substring(0, size.indexOf(" ")));
+                String sizeUnit = size.substring(size.indexOf(" "), size.length());
+
+                Log.d("Debug", "TorrentDetailsFragment - sizeScalar: " + sizeScalar);
+                Log.d("Debug", "TorrentDetailsFragment - sizeUnit: " + sizeUnit);
+                Log.d("Debug", "TorrentDetailsFragment - Progress: " + torrent.getProgress());
+
+                Log.d("Debug", "TorrentDetailsFragment - Progress: " + Float.parseFloat(torrent.getProgress().replace("%", "")));
+
+                downloaded = String.format("%.1f", sizeScalar * Float.parseFloat(torrent.getProgress().replace("%", ""))/100).replace(",", ".") + sizeUnit;
+
+                Log.d("Debug", "TorrentDetailsFragment - >> Downloaded: " +downloaded);
+
+
+            } catch (Exception e) {
+
+                Log.d("Debug", "TorrentDetailsFragment - (Exception) Downloaded: " +downloaded);
+
+            }
 
             int index = torrent.getProgress().indexOf(".");
 
@@ -408,6 +451,8 @@ public class TorrentDetailsFragment extends Fragment {
                 uploadSpeedTextView.setText(Character.toString('\u2191') + " " + uploadSpeed);
 
                 // Set Downloaded vs Total size
+                Log.d("Debug", "TorrentDetailsFragment - >>>> Downloaded: " +downloaded);
+
                 sizeTextView.setText(downloaded + " / " + size);
 
             }else {
@@ -511,7 +556,6 @@ public class TorrentDetailsFragment extends Fragment {
 
 //            menu.findItem(R.id.action_resume_all).setVisible(false);
 //            menu.findItem(R.id.action_pause_all).setVisible(false);
-            menu.findItem(R.id.action_add).setVisible(false);
 
             if (getActivity().findViewById(R.id.one_frame) != null) {
                 menu.findItem(R.id.action_refresh).setVisible(false);
@@ -541,6 +585,9 @@ public class TorrentDetailsFragment extends Fragment {
             } else {
                 menu.findItem(R.id.action_search).setVisible(true);
             }
+
+            menu.findItem(R.id.action_add).setVisible(true);
+
 
 
         }
