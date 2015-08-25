@@ -191,28 +191,7 @@ public class TorrentDetailsFragment extends Fragment {
                 uploadSpeed = this.torrent.getUploadSpeed();
                 downloadSpeed = this.torrent.getDownloadSpeed();
                 hashToUpdate = hash;
-
-                // Calculate total downloaded (move to Common)
-                try {
-                    Double sizeScalar = Double.parseDouble(size.substring(0, size.indexOf(" ")));
-                    String sizeUnit = size.substring(size.indexOf(" "), size.length());
-
-                    Log.d("Debug", "TorrentDetailsFragment - sizeScalar: " + sizeScalar);
-                    Log.d("Debug", "TorrentDetailsFragment - sizeUnit: " + sizeUnit);
-                    Log.d("Debug", "TorrentDetailsFragment - Progress: " + torrent.getProgress());
-
-                    Log.d("Debug", "TorrentDetailsFragment - Progress: " + Float.parseFloat(torrent.getProgress().replace("%", "")));
-
-                    downloaded = String.format("%.1f", sizeScalar * Float.parseFloat(torrent.getProgress().replace("%", ""))/100).replace(",", ".") + sizeUnit;
-
-                    Log.d("Debug", "TorrentDetailsFragment - >> Downloaded: " +downloaded);
-
-
-                } catch (Exception e) {
-
-                    Log.d("Debug", "TorrentDetailsFragment - (Exception) Downloaded: " +downloaded);
-
-                }
+                downloaded = this.torrent.getDownloaded();
 
 
                 // Only for Pro version
@@ -261,13 +240,13 @@ public class TorrentDetailsFragment extends Fragment {
             etaTextView.setText(eta);
             priorityTextView.setText(priority);
 
+            // Set Downloaded vs Total size
+            sizeTextView.setText(downloaded + " / " + size);
+
             // Only for Pro version
             if(MainActivity.packageName.equals("com.lgallardo.youtorrentcontrollerpro")) {
                 downloadSpeedTextView.setText(Character.toString('\u2193') + " " + downloadSpeed);
                 uploadSpeedTextView.setText(Character.toString('\u2191') + " " + uploadSpeed);
-
-                // Set Downloaded vs Total size
-                sizeTextView.setText(downloaded + " / " + size);
 
                 // Set progress bar
                 ProgressBar progressBar = (ProgressBar) rootView.findViewById(R.id.progressBar1);
@@ -276,7 +255,6 @@ public class TorrentDetailsFragment extends Fragment {
                 progressBar.setProgress(Integer.parseInt(percentage));
                 percentageTV.setText(percentage + "%");
             } else {
-                sizeTextView.setText(size);
                 downloadSpeedTextView.setText(downloadSpeed);
                 uploadSpeedTextView.setText(uploadSpeed);
             }
@@ -366,28 +344,8 @@ public class TorrentDetailsFragment extends Fragment {
             eta = torrent.getEta();
             uploadSpeed = torrent.getUploadSpeed();
             downloadSpeed = torrent.getDownloadSpeed();
+            downloaded = torrent.getDownloaded();
 
-            // Calculate total downloaded (move to Common)
-            try {
-                Double sizeScalar = Double.parseDouble(size.substring(0, size.indexOf(" ")));
-                String sizeUnit = size.substring(size.indexOf(" "), size.length());
-
-                Log.d("Debug", "TorrentDetailsFragment - sizeScalar: " + sizeScalar);
-                Log.d("Debug", "TorrentDetailsFragment - sizeUnit: " + sizeUnit);
-                Log.d("Debug", "TorrentDetailsFragment - Progress: " + torrent.getProgress());
-
-                Log.d("Debug", "TorrentDetailsFragment - Progress: " + Float.parseFloat(torrent.getProgress().replace("%", "")));
-
-                downloaded = String.format("%.1f", sizeScalar * Float.parseFloat(torrent.getProgress().replace("%", ""))/100).replace(",", ".") + sizeUnit;
-
-                Log.d("Debug", "TorrentDetailsFragment - >> Downloaded: " +downloaded);
-
-
-            } catch (Exception e) {
-
-                Log.d("Debug", "TorrentDetailsFragment - (Exception) Downloaded: " +downloaded);
-
-            }
 
             int index = torrent.getProgress().indexOf(".");
 
@@ -405,7 +363,6 @@ public class TorrentDetailsFragment extends Fragment {
             int uploadSpeedWeigth = torrent.getUploadSpeedWeight();
 
 
-
             FragmentManager fragmentManager = getFragmentManager();
 
             TorrentDetailsFragment detailsFragment = null;
@@ -419,7 +376,7 @@ public class TorrentDetailsFragment extends Fragment {
             View rootView = detailsFragment.getView();
 
             TextView nameTextView = (TextView) rootView.findViewById(R.id.torrentName);
-            TextView sizeTextView = (TextView) rootView.findViewById(R.id.downloadedVsTotal);
+            TextView sizeTextView = (TextView) rootView.findViewById(R.id.torrentSize);
             TextView ratioTextView = (TextView) rootView.findViewById(R.id.torrentRatio);
             TextView priorityTextView = (TextView) rootView.findViewById(R.id.torrentPriority);
             TextView stateTextView = (TextView) rootView.findViewById(R.id.torrentState);
@@ -445,27 +402,27 @@ public class TorrentDetailsFragment extends Fragment {
             priorityTextView.setText(priority);
             etaTextView.setText(eta);
 
+            // Set Downloaded vs Total size
+            sizeTextView.setText(downloaded + " / " + size);
+
             // Only for Pro version
             if(MainActivity.packageName.equals("com.lgallardo.youtorrentcontrollerpro")) {
                 downloadSpeedTextView.setText(Character.toString('\u2193') + " " + downloadSpeed);
                 uploadSpeedTextView.setText(Character.toString('\u2191') + " " + uploadSpeed);
 
-                // Set Downloaded vs Total size
-                Log.d("Debug", "TorrentDetailsFragment - >>>> Downloaded: " +downloaded);
+                // Set progress bar
+                ProgressBar progressBar = (ProgressBar) rootView.findViewById(R.id.progressBar1);
+                TextView percentageTV = (TextView) rootView.findViewById(R.id.percentage);
 
-                sizeTextView.setText(downloaded + " / " + size);
+                progressBar.setProgress(Integer.parseInt(percentage));
+                percentageTV.setText(percentage + "%");
 
             }else {
                 downloadSpeedTextView.setText(downloadSpeed);
                 uploadSpeedTextView.setText(uploadSpeed);
             }
 
-            // Set progress bar
-            ProgressBar progressBar = (ProgressBar) rootView.findViewById(R.id.progressBar1);
-            TextView percentageTV = (TextView) rootView.findViewById(R.id.percentage);
 
-            progressBar.setProgress(Integer.parseInt(percentage));
-            percentageTV.setText(percentage + "%");
 
             nameTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.error, 0, 0, 0);
 
