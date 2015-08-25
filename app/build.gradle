@@ -30,18 +30,18 @@ android {
     productFlavors {
         pro {
             applicationId 'com.lgallardo.youtorrentcontrollerpro'
-            versionName '1.0.1'
+            versionName '1.0.2'
             minSdkVersion 14
             targetSdkVersion 21
-            versionCode 101
+            versionCode 102
             archivesBaseName = "youTorrentController_v" + versionName
         }
         free {
             applicationId "com.lgallardo.youtorrentcontroller"
-            versionName '1.0.1.'
+            versionName '1.0.2.'
             minSdkVersion 14
             targetSdkVersion 21
-            versionCode 101
+            versionCode 102
             archivesBaseName = "youTorrentController_v" + versionName
         }
     }

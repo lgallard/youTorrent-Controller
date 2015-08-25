@@ -391,7 +391,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
         // Get token and cookie and then
         // get intent from the intent filter and Add URL torrent
 //        Log.d("Debug", "MainActivity - 1");
-        new torrentTokenSendFileTask().execute(getIntent());
+        new torrentTokenByIntent().execute(getIntent());
 
         // Fragments
 
@@ -828,7 +828,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
                // Get token and cookie and then
                // get intent from the intent filter and Add URL torrent
 //            Log.d("Debug", "MainActivity - 2");
-               new torrentTokenSendFileTask().execute(getIntent());
+               new torrentTokenByIntent().execute(getIntent());
 
            }else {
 
@@ -1350,6 +1350,8 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
 
         if (resultCode == RESULT_OK) {
+
+            new torrentTokenByIntent().execute(new Intent[]{data});
 
         }
 
@@ -2288,8 +2290,8 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
         }
     }
 
-    // This request the token and the launch the provide intent (send url or file to utorrent server)
-    private class torrentTokenSendFileTask extends AsyncTask<Intent, Integer, UtorrentSession> {
+    // This request the token and the launch the provide intent (send url, file, etc to utorrent server, or an intent with the current state)
+    private class torrentTokenByIntent extends AsyncTask<Intent, Integer, UtorrentSession> {
 
         @Override
         protected UtorrentSession doInBackground(Intent... intents) {
@@ -2357,8 +2359,30 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
             JSONParser.setToken(MainActivity.token);
             JSONParser.setCookie(MainActivity.cookie);
 
-            // Now send file
-            addTorrentByIntent(result.getIntent());
+
+            if (result.getIntent() != null) {
+
+                // Refresh
+                String stateBefore = result.getIntent().getStringExtra("currentState");
+
+                if (stateBefore != null) {
+
+                    // Set selection according to last state
+                    setSelectionAndTitle(stateBefore);
+
+                    // Refresh state
+                    refresh(stateBefore);
+
+                } else {
+                    // The intent is used for sending a file, so
+                    // send the file
+                    addTorrentByIntent(result.getIntent());
+                }
+
+            } else {
+                // Refresh
+                refresh();
+            }
 
         }
     }
