@@ -89,7 +89,7 @@
         <item>Paused</item>
         <item>Active</item>
         <item>Inactive</item>
-        <item>Options</item>
+        <!--<item>Options</item>-->
         <item>Settings</item>
         <item>Help</item>
     </string-array>

@@ -89,7 +89,7 @@
     <item>Приостановленные</item>
     <item>Активные</item>
     <item>Неактивные</item>
-    <item>Настройки сервера</item>
+    <!--<item>Настройки сервера</item>-->
     <item>Настройки приложения</item>
     <item>Помощь</item>
   </string-array>

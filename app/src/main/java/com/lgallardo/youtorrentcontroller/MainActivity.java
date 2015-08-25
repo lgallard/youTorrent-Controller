@@ -329,14 +329,14 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
         drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_active, navigationDrawerItemTitles[4]));
         drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_inactive, navigationDrawerItemTitles[5]));
 //        drawerItems.add(new ObjectDrawerItem(R.drawable.ic_action_options, navigationDrawerItemTitles[6],6));
-        drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_settings, navigationDrawerItemTitles[7]));
+        drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_settings, navigationDrawerItemTitles[6]));
 
 
         if (packageName.equals("com.lgallardo.youtorrentcontroller")) {
-            drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_pro, navigationDrawerItemTitles[8]));
-            drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_help, navigationDrawerItemTitles[9]));
-        }else{
+            drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_pro, navigationDrawerItemTitles[7]));
             drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_help, navigationDrawerItemTitles[8]));
+        }else{
+            drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_help, navigationDrawerItemTitles[7]));
         }
 
         // Create object for drawer item OnbjectDrawerItem
@@ -624,7 +624,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
     // Load Banner
     public void loadBanner() {
 
-        if (packageName.equals("com.lgallardo.youtorrentcontroller")) {
+        if (packageName.equals("com.lgallardo.youtorrentcontrollerx")) {
 
             // Look up the AdView as a resource and load a request.
             adView = (AdView) this.findViewById(R.id.adView);
@@ -1262,8 +1262,8 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
 
             // Refresh
-            token = null;
-            cookie = null;
+//            token = null;
+//            cookie = null;
             canrefresh = true;
             swipeRefresh();
 
@@ -1346,6 +1346,8 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
         if (requestCode == HELP_CODE) {
             // Now it can be refreshed
             canrefresh = true;
+                swipeRefresh();
+
         }
 
 
@@ -2136,10 +2138,21 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
         }
 
-        if (position <= 6) {
+        if (position <= 5) {
             drawerList.setItemChecked(position, true);
             drawerList.setSelection(position);
             setTitle(navigationDrawerItemTitles[position]);
+
+            Log.d("Debug", "MainActivity - position: " + position);
+            Log.d("Debug", "MainActivity - title: "+ navigationDrawerItemTitles[position]);
+        }else{
+
+            drawerList.setItemChecked(drawerList.getCheckedItemPosition(), true);
+            drawerList.setSelection(drawerList.getCheckedItemPosition());
+            setTitle(navigationDrawerItemTitles[drawerList.getCheckedItemPosition()]);
+
+            Log.d("Debug", "MainActivity - > position: " + drawerList.getCheckedItemPosition());
+
         }
 
         drawerLayout.closeDrawer(drawerList);
@@ -2365,6 +2378,8 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
                 // Refresh
                 String stateBefore = result.getIntent().getStringExtra("currentState");
 
+                Log.d("Debug", "MainActivity - currrentState: " + stateBefore);
+
                 if (stateBefore != null) {
 
                     // Set selection according to last state
@@ -2380,8 +2395,16 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
                 }
 
             } else {
-                // Refresh
-                refresh();
+
+                if(token == null | cookie == null){
+                    Log.d("Debug", "MainActivity - getting new token");
+                    new torrentTokenTask().execute(params);
+
+                }else {
+                    Log.d("Debug", "MainActivity - refreshing");
+                    // Refresh
+                    refresh();
+                }
             }
 
         }

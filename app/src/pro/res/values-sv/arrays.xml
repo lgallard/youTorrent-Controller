@@ -89,7 +89,7 @@
         <item>Pausad</item>
         <item>Aktiva</item>
         <item>Inaktiva</item>
-        <item>Alternativ</item>
+        <!--<item>Alternativ</item>-->
         <item>Inställningar</item>
         <item>Hjälp</item>
     </string-array>

@@ -312,7 +312,7 @@ public class TorrentDetailsFragment extends Fragment {
             Log.e("Debug", "TorrentDetailsFragment - onCreateView: " + e.toString());
         }
 
-        if(MainActivity.packageName.equals("com.lgallardo.youtorrentcontroller")) {
+        if(MainActivity.packageName.equals("com.lgallardo.youtorrentcontrollerx")) {
             // Load banner
             loadBanner();
         }
