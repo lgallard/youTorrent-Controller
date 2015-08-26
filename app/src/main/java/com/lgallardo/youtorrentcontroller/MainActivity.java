@@ -2138,21 +2138,15 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
         }
 
-        if (position <= 5) {
+        if (position < 6) {
+            // Set checked item
             drawerList.setItemChecked(position, true);
             drawerList.setSelection(position);
             setTitle(navigationDrawerItemTitles[position]);
-
-//            Log.d("Debug", "MainActivity - position: " + position);
-//            Log.d("Debug", "MainActivity - title: "+ navigationDrawerItemTitles[position]);
         }else{
-
-            drawerList.setItemChecked(drawerList.getCheckedItemPosition(), true);
-            drawerList.setSelection(drawerList.getCheckedItemPosition());
-            setTitle(navigationDrawerItemTitles[drawerList.getCheckedItemPosition()]);
-
-//            Log.d("Debug", "MainActivity - > position: " + drawerList.getCheckedItemPosition());
-
+            // Set current selection
+            saveLastState(currentState);
+            setSelectionAndTitle(currentState);
         }
 
         drawerLayout.closeDrawer(drawerList);
