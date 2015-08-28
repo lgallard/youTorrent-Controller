@@ -108,7 +108,7 @@ class TorrentListAdapter extends ArrayAdapter<String> {
 
                 String percentage = torrentsData[position].getPercentage();
 
-                Log.d("Debug", "TorrentListAdapter - percentage: " + percentage);
+//                Log.d("Debug", "TorrentListAdapter - percentage: " + percentage);
 
                 progressBar.setProgress(Integer.parseInt(percentage));
 

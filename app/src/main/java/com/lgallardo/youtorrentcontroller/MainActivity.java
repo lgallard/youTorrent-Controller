@@ -43,6 +43,8 @@ import android.provider.MediaStore;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -191,7 +193,9 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
     private CharSequence drawerTitle;
     private CharSequence title;
     private String[] navigationDrawerItemTitles;
-    private ListView drawerList;
+//    private ListView drawerList;
+    protected RecyclerView mRecyclerView;
+    private RecyclerView.LayoutManager mLayoutManager;            // Declaring Layout Manager as a linear layout manager
     public static DrawerLayout drawerLayout;
     public static ActionBarDrawerToggle drawerToggle;
 
@@ -304,7 +308,10 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
-        drawerList = (ListView) findViewById(R.id.left_drawer);
+//        drawerList = (ListView) findViewById(R.id.left_drawer);
+
+        mRecyclerView = (RecyclerView) findViewById(R.id.RecyclerView); // Assigning the RecyclerView Object to the xml View
+        mRecyclerView.setHasFixedSize(true);                            // Letting the system know that the list objects are
 
         // TODO: Edit code for Free and Pro versions
 
@@ -340,14 +347,21 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
         }
 
         // Create object for drawer item OnbjectDrawerItem
-        DrawerItemCustomAdapter adapter = new DrawerItemCustomAdapter(this, R.layout.drawer_row, drawerItems);
-        drawerList.setAdapter(adapter);
+//        DrawerItemCustomAdapter adapter = new DrawerItemCustomAdapter(this, R.layout.drawer_row, drawerItems);
+
+        DrawerItemRecyclerViewAdapter rAdapter = new DrawerItemRecyclerViewAdapter(this, drawerItems);
+
+//        drawerList.setAdapter(adapter);
+        mRecyclerView.setAdapter(rAdapter);
+
+        mLayoutManager = new LinearLayoutManager(this);                 // Creating a layout Manager
+        mRecyclerView.setLayoutManager(mLayoutManager);                 // Setting the layout Manager
 
         // Set selection according to last state
         setSelectionAndTitle(lastState);
 
         // Set the item click listener
-        drawerList.setOnItemClickListener(new DrawerItemClickListener());
+//        drawerList.setOnItemClickListener(new DrawerItemClickListener());
 
         // Get drawer title
         title = drawerTitle = getTitle();
@@ -378,6 +392,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
         };
 
         drawerLayout.setDrawerListener(drawerToggle);
+//        drawerToggle.syncState();               // Finally we set the drawer toggle sync State
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setHomeButtonEnabled(false);
@@ -508,38 +523,38 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
             currentState = state;
 
             if (state.equals("all")) {
-                drawerList.setItemChecked(0, true);
+//                drawerList.setItemChecked(0, true);
                 setTitle(navigationDrawerItemTitles[0]);
             }
 
             if (state.equals("downloading")) {
-                drawerList.setItemChecked(1, true);
+//                drawerList.setItemChecked(1, true);
                 setTitle(navigationDrawerItemTitles[1]);
             }
 
             if (state.equals("completed")) {
-                drawerList.setItemChecked(2, true);
+//                drawerList.setItemChecked(2, true);
                 setTitle(navigationDrawerItemTitles[2]);
             }
 
             if (state.equals("pause")) {
-                drawerList.setItemChecked(3, true);
+//                drawerList.setItemChecked(3, true);
                 setTitle(navigationDrawerItemTitles[3]);
             }
 
             if (state.equals("active")) {
-                drawerList.setItemChecked(4, true);
+//                drawerList.setItemChecked(4, true);
                 setTitle(navigationDrawerItemTitles[4]);
             }
 
             if (state.equals("inactive")) {
-                drawerList.setItemChecked(5, true);
+//                drawerList.setItemChecked(5, true);
                 setTitle(navigationDrawerItemTitles[5]);
             }
 
         } else {
             // Set "All" checked
-            drawerList.setItemChecked(0, true);
+//            drawerList.setItemChecked(0, true);
 
             // Set title to All
             setTitle(navigationDrawerItemTitles[0]);
@@ -576,7 +591,8 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
                     fragmentTransaction.commit();
 
                     // Se titile
-                    setTitle(navigationDrawerItemTitles[drawerList.getCheckedItemPosition()]);
+//                    setTitle(navigationDrawerItemTitles[drawerList.getCheckedItemPosition()]);
+                    setTitle(navigationDrawerItemTitles[DrawerItemRecyclerViewAdapter.actionPosition]);
 
                     // Close Contextual Action Bar
                     if (firstFragment != null && firstFragment.mActionMode != null) {
@@ -598,7 +614,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
                 fragmentTransaction.commit();
 
                 // Se titile
-                setTitle(navigationDrawerItemTitles[drawerList.getCheckedItemPosition()]);
+                setTitle(navigationDrawerItemTitles[DrawerItemRecyclerViewAdapter.actionPosition]);
 
                 // Close Contextual Action Bar
                 if (firstFragment != null && firstFragment.mActionMode != null) {
@@ -661,7 +677,8 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
     public void refreshCurrent() {
         if (!hostname.equals("")) {
 
-            switch (drawerList.getCheckedItemPosition()) {
+//            switch (drawerList.getCheckedItemPosition()) {
+            switch (DrawerItemRecyclerViewAdapter.actionPosition-1) {
                 case 0:
                     refresh("all");
                     break;
@@ -703,8 +720,10 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
     public void onBackPressed() {
 
         // If drawer is opened, close it
-        if(drawerLayout.isDrawerOpen(drawerList)){
-            drawerLayout.closeDrawer(drawerList);
+//        if(drawerLayout.isDrawerOpen(drawerList)){
+//            drawerLayout.closeDrawer(drawerList);
+        if (drawerLayout.isDrawerOpen(mRecyclerView)) {
+            drawerLayout.closeDrawer(mRecyclerView);
             return;
         }
 
@@ -752,6 +771,15 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
                 }
             }
         }
+
+    }
+
+
+    protected  void refreshFromDrawerAction(String state, int position){
+        setTitle(navigationDrawerItemTitles[position-1]);
+        refreshSwipeLayout();
+        refresh(state);
+        saveLastState(state);
 
     }
 
@@ -846,7 +874,8 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
         try {
             if (intent.getStringExtra("from").equals("NotifierService")) {
 
-                drawerList.setItemChecked(2, true);
+//                drawerList.setItemChecked(2, true);
+                mRecyclerView.findViewHolderForAdapterPosition(3).itemView.performClick();
                 setTitle(navigationDrawerItemTitles[2]);
                 refresh("completed");
 
@@ -922,8 +951,9 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
         try {
             if (intent.getStringExtra("from").equals("NotifierService")) {
-                drawerList.setItemChecked(2, true);
-                setTitle(navigationDrawerItemTitles[2]);
+//                drawerList.setItemChecked(2, true);
+//                setTitle(navigationDrawerItemTitles[2]);
+                mRecyclerView.findViewHolderForAdapterPosition(3).itemView.performClick();
                 refresh("completed");
             }
         } catch (NullPointerException npe) {
@@ -1399,7 +1429,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
     }
 
-    private void openSettings() {
+    protected void openSettings() {
         canrefresh = false;
 
         Intent intent = new Intent(getBaseContext(), com.lgallardo.youtorrentcontroller.SettingsActivity.class);
@@ -1750,7 +1780,8 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
     public void refreshAfterCommand(int delay) {
 
-        switch (drawerList.getCheckedItemPosition()) {
+//        switch (drawerList.getCheckedItemPosition()) {
+        switch (DrawerItemRecyclerViewAdapter.actionPosition-1) {
             case 0:
                 refreshWithDelay("all", delay);
                 break;
@@ -2028,7 +2059,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
     }
 
-    private void saveLastState(String state) {
+    protected void saveLastState(String state) {
 
         currentState = state;
 
@@ -2074,7 +2105,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
         }
 
-        switch (position) {
+        switch (position-1) {
             case 0:
                 // Set the refresh layout (refresh icon, etc)
                 refreshSwipeLayout();
@@ -2140,8 +2171,9 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
         if (position < 6) {
             // Set checked item
-            drawerList.setItemChecked(position, true);
-            drawerList.setSelection(position);
+//            drawerList.setItemChecked(position, true);
+//            drawerList.setSelection(position);
+            mRecyclerView.findViewHolderForAdapterPosition(position+1).itemView.performClick();
             setTitle(navigationDrawerItemTitles[position]);
         }else{
             // Set current selection
@@ -2149,7 +2181,8 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
             setSelectionAndTitle(currentState);
         }
 
-        drawerLayout.closeDrawer(drawerList);
+//        drawerLayout.closeDrawer(drawerList);
+        drawerLayout.closeDrawer(mRecyclerView);
 
         // Load banner
         loadBanner();
@@ -2372,7 +2405,11 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
                 // Refresh
                 String stateBefore = result.getIntent().getStringExtra("currentState");
 
-                Log.d("Debug", "MainActivity - currrentState: " + stateBefore);
+                if(stateBefore == null){
+                    stateBefore = lastState;
+                }
+
+                Log.d("Debug", "MainActivity - currentState: " + stateBefore);
 
                 if (stateBefore != null) {
 
