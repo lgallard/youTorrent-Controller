@@ -69,6 +69,7 @@ import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 
@@ -82,13 +83,6 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
     protected static final String TAG_NAME = "name";
     protected static final String TAG_SIZE = "size";
     protected static final String TAG_PROGRESS = "progress";
-    protected static final String TAG_STATE = "state";
-    protected static final String TAG_HASH = "hash";
-    protected static final String TAG_DLSPEED = "dlspeed";
-    protected static final String TAG_UPSPEED = "upspeed";
-    protected static final String TAG_NUMLEECHS = "num_leechs";
-    protected static final String TAG_NUMSEEDS = "num_seeds";
-    protected static final String TAG_RATIO = "ratio";
     protected static final String TAG_PRIORITY = "priority";
     protected static final String TAG_ETA = "eta";
     protected static final String TAG_SEQDL = "seq_dl";
@@ -199,6 +193,11 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
     public static DrawerLayout drawerLayout;
     public static ActionBarDrawerToggle drawerToggle;
 
+    public static final int DRAWER_ITEM_SERVERS = 0;
+    public static final int DRAWER_ITEM_ACTIONS = 1;
+    public static final int DRAWER_ITEM_TAGS = 2;
+
+
     // Fragments
     private AboutFragment secondFragment;
     private HelpFragment helpTabletFragment;
@@ -238,6 +237,9 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
     // Packge info
     public static String packageName;
+
+    // Action (states)
+    public static final String[] actionStates = new String[]{"all", "downloading", "completed", "pause", "active", "inactive"};
 
 
     @Override
@@ -313,43 +315,43 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
         mRecyclerView = (RecyclerView) findViewById(R.id.RecyclerView); // Assigning the RecyclerView Object to the xml View
         mRecyclerView.setHasFixedSize(true);                            // Letting the system know that the list objects are
 
-        // TODO: Edit code for Free and Pro versions
-
-        int drawerItemSize;
-
-        // Drawer item list objects
-        if (packageName.equals("com.lgallardo.youtorrentcontroller")) {
-            drawerItemSize = 10;
-        } else {
-            drawerItemSize = 9;
-
-        }
-
 
         ArrayList<ObjectDrawerItem> drawerItems = new ArrayList<ObjectDrawerItem>();
 
-        drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_all, navigationDrawerItemTitles[0]));
-        drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_downloading, navigationDrawerItemTitles[1]));
+        drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_all, navigationDrawerItemTitles[0], DRAWER_ITEM_ACTIONS, false));
+        drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_downloading, navigationDrawerItemTitles[1], DRAWER_ITEM_ACTIONS, false));
 
-        drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_completed, navigationDrawerItemTitles[2]));
-        drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_paused, navigationDrawerItemTitles[3]));
-        drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_active, navigationDrawerItemTitles[4]));
-        drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_inactive, navigationDrawerItemTitles[5]));
-//        drawerItems.add(new ObjectDrawerItem(R.drawable.ic_action_options, navigationDrawerItemTitles[6],6));
-        drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_settings, navigationDrawerItemTitles[6]));
+        drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_completed, navigationDrawerItemTitles[2], DRAWER_ITEM_ACTIONS, false));
+        drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_paused, navigationDrawerItemTitles[3], DRAWER_ITEM_ACTIONS, false));
+        drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_active, navigationDrawerItemTitles[4], DRAWER_ITEM_ACTIONS, false));
+        drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_inactive, navigationDrawerItemTitles[5], DRAWER_ITEM_ACTIONS, false));
+//        drawerItems.add(new ObjectDrawerItem(R.drawable.ic_action_options, navigationDrawerItemTitles[6], DRAWER_ITEM_ACTIONS, false));
+        drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_settings, navigationDrawerItemTitles[6], DRAWER_ITEM_ACTIONS, false));
 
 
         if (packageName.equals("com.lgallardo.youtorrentcontroller")) {
-            drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_pro, navigationDrawerItemTitles[7]));
-            drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_help, navigationDrawerItemTitles[8]));
+            drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_pro, navigationDrawerItemTitles[7], DRAWER_ITEM_ACTIONS, false));
+            drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_help, navigationDrawerItemTitles[8], DRAWER_ITEM_ACTIONS, false));
         }else{
-            drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_help, navigationDrawerItemTitles[7]));
+            drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_help, navigationDrawerItemTitles[7], DRAWER_ITEM_ACTIONS, false));
         }
 
         // Create object for drawer item OnbjectDrawerItem
 //        DrawerItemCustomAdapter adapter = new DrawerItemCustomAdapter(this, R.layout.drawer_row, drawerItems);
 
+
+        // Set oldposition in adapter
+        DrawerItemRecyclerViewAdapter.oldActionPosition = Arrays.asList(actionStates).indexOf(lastState)+1;
+        ObjectDrawerItem item = drawerItems.get(DrawerItemRecyclerViewAdapter.oldActionPosition-1);
+        item.setActive(true);
+        drawerItems.set(DrawerItemRecyclerViewAdapter.oldActionPosition-1, item);
+
+
         DrawerItemRecyclerViewAdapter rAdapter = new DrawerItemRecyclerViewAdapter(this, drawerItems);
+        rAdapter.notifyDataSetChanged();
+
+
+        Log.d("Debug", "MainActivity - oldActionPosition: "+ (Arrays.asList(actionStates).indexOf(lastState)));
 
 //        drawerList.setAdapter(adapter);
         mRecyclerView.setAdapter(rAdapter);
@@ -780,6 +782,14 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
         refreshSwipeLayout();
         refresh(state);
         saveLastState(state);
+
+//        // Mark item as active
+//        ObjectDrawerItem drawerItem = DrawerItemRecyclerViewAdapter.items.get(position);
+//        drawerItem.setActive(true);
+//        DrawerItemRecyclerViewAdapter.items.set(position+1,drawerItem);
+////        mRecyclerView.getAdapter().notifyItemChanged(position-1);
+//        mRecyclerView.getAdapter().notifyItemChanged(DrawerItemRecyclerViewAdapter.oldActionPosition);
+
 
     }
 

@@ -14,11 +14,32 @@ public class ObjectDrawerItem {
 	 
     public int icon;
     public String name;
+    public int type;
+    public boolean active;
+
  
     // Constructor
-    public ObjectDrawerItem(int icon, String name) {
+    public ObjectDrawerItem(int icon, String name, int type, boolean active) {
  
         this.icon = icon;
         this.name = name;
+        this.type = type;
+        this.active = active;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }
