@@ -8,10 +8,6 @@
 # Java class files
 *.class
 
-# Generated files
-qBittorrentClient/bin/
-qBittorrentClient/gen/
-
 # Gradle files
 .gradle/
 build/
@@ -27,6 +23,7 @@ proguard/
 *.log
 
 .idea
+.idea/libraries
 .idea/workspace.xml
 app/app.iml
 #app/build.gradle
