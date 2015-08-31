@@ -52,12 +52,15 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
         public ViewHolder(final View itemView, int ViewType) {                 // Creating ViewHolder Constructor with View and viewType As a parameter
             super(itemView);
 
-            itemView.setClickable(true);
-            itemView.setOnClickListener(this);
+            if (ViewType != TYPE_HEADER) {
+
+                itemView.setClickable(true);
+                itemView.setOnClickListener(this);
+            }
 
             // Here we set the appropriate view in accordance with the the view type as passed when the holder object is created
 
-            if (ViewType == TYPE_ITEM || ViewType == TYPE_ITEM_ACTIVE ) {
+            if (ViewType == TYPE_ITEM || ViewType == TYPE_ITEM_ACTIVE) {
 
                 imageViewIcon = (ImageView) itemView.findViewById(R.id.imageViewIcon);
                 textViewName = (TextView) itemView.findViewById(R.id.textViewName);
@@ -81,25 +84,33 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
         @Override
         public void onClick(View view) {
 
-            // Redraw the old selection and the new
 
-            // Mark old item as inactive
-            ObjectDrawerItem drawerItem = DrawerItemRecyclerViewAdapter.items.get(oldActionPosition-1);
-            drawerItem.setActive(false);
-            DrawerItemRecyclerViewAdapter.items.set(oldActionPosition-1,drawerItem);
-//            notifyItemChanged(oldActionPosition);
-            notifyDataSetChanged();
+            ObjectDrawerItem drawerItem;
 
-            // Mark old item as in active
             actionPosition = getLayoutPosition();
-            oldActionPosition = actionPosition;
-            drawerItem = DrawerItemRecyclerViewAdapter.items.get(actionPosition-1);
-            drawerItem.setActive(true);
-            DrawerItemRecyclerViewAdapter.items.set(actionPosition-1,drawerItem);
-
-            notifyItemChanged(actionPosition);
 
 
+            // If the header is not selected and an action is selected
+            if (actionPosition > 0 && actionPosition < 7) {
+
+                // Mark old item as inactive
+                drawerItem = DrawerItemRecyclerViewAdapter.items.get(oldActionPosition - 1);
+                drawerItem.setActive(false);
+                DrawerItemRecyclerViewAdapter.items.set(oldActionPosition - 1, drawerItem);
+//                notifyItemChanged(oldActionPosition);
+                notifyDataSetChanged();
+
+
+                oldActionPosition = actionPosition;
+
+                // Mark new item as active
+                drawerItem = DrawerItemRecyclerViewAdapter.items.get(actionPosition - 1);
+                drawerItem.setActive(true);
+                DrawerItemRecyclerViewAdapter.items.set(actionPosition - 1, drawerItem);
+
+                notifyItemChanged(actionPosition);
+
+            }
             Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - id: " + getLayoutPosition());
 
             Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - actionPosition: " + actionPosition);
@@ -139,7 +150,7 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
                     if (MainActivity.packageName.equals("com.lgallardo.youtorrentcontroller")) {
                         // Get Pro version
                         mainActivity.getPRO();
-                    }else {
+                    } else {
                         mainActivity.openHelp();
                     }
                     break;
@@ -151,7 +162,6 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
                     Log.d("Debug", "DrawerItemRecyclerViewAdapter - action: Default");
                     break;
             }
-
             // Close drawer
             mainActivity.drawerLayout.closeDrawer(mainActivity.mRecyclerView);
 
@@ -160,6 +170,7 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
 
 
         }
+
     }
 
 
@@ -251,6 +262,7 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
 
         } else {
 
+            return;
 //            holder.profile.setImageResource(profile);           // Similarly we set the resources for header view
 //            holder.Name.setText(name);
 //            holder.email.setText(email);
@@ -269,17 +281,17 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
     @Override
     public int getItemViewType(int position) {
         if (isPositionHeader(position)) {
-            Log.d("Debug","DrawerItemRecyclerViewAdapter - TYPE_HEADER");
+            Log.d("Debug", "DrawerItemRecyclerViewAdapter - TYPE_HEADER");
             return TYPE_HEADER;
         }
 
 
-        if (items.get(position-1).isActive()) {
-            Log.d("Debug","DrawerItemRecyclerViewAdapter - TYPE_ITEM_ACTIVE");
+        if (items.get(position - 1).isActive()) {
+            Log.d("Debug", "DrawerItemRecyclerViewAdapter - TYPE_ITEM_ACTIVE");
             return TYPE_ITEM_ACTIVE;
         }
 
-        Log.d("Debug","DrawerItemRecyclerViewAdapter - TYPE_ITEM");
+        Log.d("Debug", "DrawerItemRecyclerViewAdapter - TYPE_ITEM");
         return TYPE_ITEM;
 
     }
