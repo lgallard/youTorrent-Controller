@@ -132,11 +132,20 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
                     Log.d("Debug", "DrawerItemRecyclerViewAdapter - action: Inactive");
                     break;
                 case 7:
-
                     mainActivity.openSettings();
                     Log.d("Debug", "DrawerItemRecyclerViewAdapter - action: Settings");
                     break;
-
+                case 8:
+                    if (MainActivity.packageName.equals("com.lgallardo.youtorrentcontroller")) {
+                        // Get Pro version
+                        mainActivity.getPRO();
+                    }else {
+                        mainActivity.openHelp();
+                    }
+                    break;
+                case 9:
+                    mainActivity.openHelp();
+                    break;
                 default:
                     mainActivity.saveLastState(MainActivity.currentState);
                     Log.d("Debug", "DrawerItemRecyclerViewAdapter - action: Default");
@@ -145,6 +154,9 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
 
             // Close drawer
             mainActivity.drawerLayout.closeDrawer(mainActivity.mRecyclerView);
+
+            // Load banner
+            mainActivity.loadBanner();
 
 
         }

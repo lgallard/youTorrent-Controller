@@ -1447,7 +1447,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
     }
 
-    private void openHelp() {
+    protected void openHelp() {
         canrefresh = false;
 
         Intent intent = new Intent(getBaseContext(), HelpActivity.class);
@@ -1464,7 +1464,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
     }
 
-    private void getPRO() {
+    protected void getPRO() {
         Intent intent = new Intent(
                 new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.lgallardo.youtorrentcontrollerpro")));
         startActivityForResult(intent, GETPRO_CODE);
@@ -2115,87 +2115,87 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
         }
 
-        switch (position-1) {
-            case 0:
-                // Set the refresh layout (refresh icon, etc)
-                refreshSwipeLayout();
-                refresh("all");
-                saveLastState("all");
-                break;
-            case 1:
-                // Set the refresh layout (refresh icon, etc)
-                refreshSwipeLayout();
-                refresh("downloading");
-                saveLastState("downloading");
-                break;
-            case 2:
-                // Set the refresh layout (refresh icon, etc)
-                refreshSwipeLayout();
-                refresh("completed");
-                saveLastState("completed");
-                break;
-            case 3:
-                // Set the refresh layout (refresh icon, etc)
-                refreshSwipeLayout();
-                refresh("pause");
-                saveLastState("pause");
-                break;
-            case 4:
-                // Set the refresh layout (refresh icon, etc)
-                refreshSwipeLayout();
-                refresh("active");
-                saveLastState("active");
-                break;
-            case 5:
-                // Set the refresh layout (refresh icon, etc)
-                refreshSwipeLayout();
-                refresh("inactive");
-                saveLastState("inactive");
-                break;
-            case 6:
-//TODO: Uncomment to add options, and +1 to each case
-//                // Options - Execute the task in background
-//                Toast.makeText(getApplicationContext(), R.string.getQBittorrentPrefefrences, Toast.LENGTH_SHORT).show();
-//                qBittorrentOptions qso = new qBittorrentOptions();
-//                qso.execute(new String[]{qbQueryString + "/preferences", "setOptions"});
+//        switch (position-1) {
+//            case 0:
+//                // Set the refresh layout (refresh icon, etc)
+//                refreshSwipeLayout();
+//                refresh("all");
+//                saveLastState("all");
+//                break;
+//            case 1:
+//                // Set the refresh layout (refresh icon, etc)
+//                refreshSwipeLayout();
+//                refresh("downloading");
+//                saveLastState("downloading");
+//                break;
+//            case 2:
+//                // Set the refresh layout (refresh icon, etc)
+//                refreshSwipeLayout();
+//                refresh("completed");
+//                saveLastState("completed");
+//                break;
+//            case 3:
+//                // Set the refresh layout (refresh icon, etc)
+//                refreshSwipeLayout();
+//                refresh("pause");
+//                saveLastState("pause");
+//                break;
+//            case 4:
+//                // Set the refresh layout (refresh icon, etc)
+//                refreshSwipeLayout();
+//                refresh("active");
+//                saveLastState("active");
+//                break;
+//            case 5:
+//                // Set the refresh layout (refresh icon, etc)
+//                refreshSwipeLayout();
+//                refresh("inactive");
+//                saveLastState("inactive");
+//                break;
+//            case 6:
+////TODO: Uncomment to add options, and +1 to each case
+////                // Options - Execute the task in background
+////                Toast.makeText(getApplicationContext(), R.string.getQBittorrentPrefefrences, Toast.LENGTH_SHORT).show();
+////                qBittorrentOptions qso = new qBittorrentOptions();
+////                qso.execute(new String[]{qbQueryString + "/preferences", "setOptions"});
+////                break;
+////            case 7:
+//                // Settings
+//                openSettings();
 //                break;
 //            case 7:
-                // Settings
-                openSettings();
-                break;
-            case 7:
-                if (packageName.equals("com.lgallardo.youtorrentcontroller")) {
-                    // Get Pro version
-                    getPRO();
-                }else {
-                    openHelp();
-                }
-                break;
-            case 8:
-                openHelp();
-                break;
-            default:
-                break;
-
-        }
-
-        if (position < 6) {
-            // Set checked item
-//            drawerList.setItemChecked(position, true);
-//            drawerList.setSelection(position);
-            mRecyclerView.findViewHolderForAdapterPosition(position+1).itemView.performClick();
-            setTitle(navigationDrawerItemTitles[position]);
-        }else{
-            // Set current selection
-            saveLastState(currentState);
-            setSelectionAndTitle(currentState);
-        }
-
-//        drawerLayout.closeDrawer(drawerList);
-        drawerLayout.closeDrawer(mRecyclerView);
-
-        // Load banner
-        loadBanner();
+//                if (packageName.equals("com.lgallardo.youtorrentcontroller")) {
+//                    // Get Pro version
+//                    getPRO();
+//                }else {
+//                    openHelp();
+//                }
+//                break;
+//            case 8:
+//                openHelp();
+//                break;
+//            default:
+//                break;
+//
+//        }
+//
+//        if (position < 6) {
+//            // Set checked item
+////            drawerList.setItemChecked(position, true);
+////            drawerList.setSelection(position);
+//            mRecyclerView.findViewHolderForAdapterPosition(position+1).itemView.performClick();
+//            setTitle(navigationDrawerItemTitles[position]);
+//        }else{
+//            // Set current selection
+//            saveLastState(currentState);
+//            setSelectionAndTitle(currentState);
+//        }x
+//
+////        drawerLayout.closeDrawer(drawerList);
+//        drawerLayout.closeDrawer(mRecyclerView);
+//
+//        // Load banner
+//        loadBanner();
 
 
     }
