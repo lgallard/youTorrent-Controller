@@ -193,9 +193,10 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
     public static DrawerLayout drawerLayout;
     public static ActionBarDrawerToggle drawerToggle;
 
-    public static final int DRAWER_ITEM_SERVERS = 0;
     public static final int DRAWER_ITEM_ACTIONS = 1;
-    public static final int DRAWER_ITEM_TAGS = 2;
+    public static final int DRAWER_ITEM_SERVERS = 3;
+    public static final int DRAWER_CATEGORY = 5;
+    public static final int DRAWER_ITEM_TAGS = 6;
 
 
     // Fragments
@@ -317,6 +318,11 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
 
         ArrayList<ObjectDrawerItem> drawerItems = new ArrayList<ObjectDrawerItem>();
+
+
+        // Add server category
+        drawerItems.add(new ObjectDrawerItem(-1, "Servers", DRAWER_CATEGORY, false));
+        drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_all, "Server 1", DRAWER_ITEM_SERVERS, false));
 
         drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_all, navigationDrawerItemTitles[0], DRAWER_ITEM_ACTIONS, false));
         drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_downloading, navigationDrawerItemTitles[1], DRAWER_ITEM_ACTIONS, false));
