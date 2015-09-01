@@ -324,13 +324,13 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
         drawerItems.add(new ObjectDrawerItem(-1, "Servers", DRAWER_CATEGORY, false));
         drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_all, "Server 1", DRAWER_ITEM_SERVERS, false));
 
-        drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_all, navigationDrawerItemTitles[0], DRAWER_ITEM_ACTIONS, false));
-        drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_downloading, navigationDrawerItemTitles[1], DRAWER_ITEM_ACTIONS, false));
+        drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_all, navigationDrawerItemTitles[0], DRAWER_ITEM_ACTIONS, lastState.equals("all")));
+        drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_downloading, navigationDrawerItemTitles[1], DRAWER_ITEM_ACTIONS, lastState.equals("downloading")));
 
-        drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_completed, navigationDrawerItemTitles[2], DRAWER_ITEM_ACTIONS, false));
-        drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_paused, navigationDrawerItemTitles[3], DRAWER_ITEM_ACTIONS, false));
-        drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_active, navigationDrawerItemTitles[4], DRAWER_ITEM_ACTIONS, false));
-        drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_inactive, navigationDrawerItemTitles[5], DRAWER_ITEM_ACTIONS, false));
+        drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_completed, navigationDrawerItemTitles[2], DRAWER_ITEM_ACTIONS, lastState.equals("completed")));
+        drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_paused, navigationDrawerItemTitles[3], DRAWER_ITEM_ACTIONS, lastState.equals("pause")));
+        drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_active, navigationDrawerItemTitles[4], DRAWER_ITEM_ACTIONS, lastState.equals("active")));
+        drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_inactive, navigationDrawerItemTitles[5], DRAWER_ITEM_ACTIONS, lastState.equals("inactive")));
 //        drawerItems.add(new ObjectDrawerItem(R.drawable.ic_action_options, navigationDrawerItemTitles[6], DRAWER_ITEM_ACTIONS, false));
         drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_settings, navigationDrawerItemTitles[6], DRAWER_ITEM_ACTIONS, false));
 
@@ -346,11 +346,11 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 //        DrawerItemCustomAdapter adapter = new DrawerItemCustomAdapter(this, R.layout.drawer_row, drawerItems);
 
 
-        // Set oldposition in adapter
-        DrawerItemRecyclerViewAdapter.oldActionPosition = Arrays.asList(actionStates).indexOf(lastState)+1;
-        ObjectDrawerItem item = drawerItems.get(DrawerItemRecyclerViewAdapter.oldActionPosition-1);
-        item.setActive(true);
-        drawerItems.set(DrawerItemRecyclerViewAdapter.oldActionPosition-1, item);
+//        // Set oldposition in adapter
+//        DrawerItemRecyclerViewAdapter.oldActionPosition = Arrays.asList(actionStates).indexOf(lastState)+1;
+//        ObjectDrawerItem item = drawerItems.get(DrawerItemRecyclerViewAdapter.oldActionPosition-1);
+//        item.setActive(true);
+//        drawerItems.set(DrawerItemRecyclerViewAdapter.oldActionPosition-1, item);
 
 
         DrawerItemRecyclerViewAdapter rAdapter = new DrawerItemRecyclerViewAdapter(this, drawerItems);

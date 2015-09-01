@@ -30,7 +30,9 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
     public static int actionPosition = 0;
 
     private static MainActivity mainActivity;
-    private static int drawerOffset = 0;
+    private static int drawerOffset = 2;
+
+    private static int drawerOffset2 = 0;
 
 
     // Creating a ViewHolder which extends the RecyclerView View Holder
@@ -66,8 +68,8 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
             }
 
 
-            if(ViewType == TYPE_CATEGORY || ViewType == TYPE_SERVER || ViewType == TYPE_HEADER){
-                drawerOffset = drawerOffset +1;
+            if (ViewType == TYPE_CATEGORY || ViewType == TYPE_SERVER || ViewType == TYPE_HEADER) {
+                drawerOffset2 = drawerOffset2 + 1;
             }
 
             // Here we set the appropriate view in accordance with the the view type as passed when the holder object is created
@@ -85,35 +87,48 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
 
             ObjectDrawerItem drawerItem;
 
-            actionPosition = getLayoutPosition() -   drawerOffset;
+            actionPosition = getLayoutPosition() - drawerOffset;
+
+
 
 
             // If the header is not selected and an action is selected
             if (actionPosition > 0 && actionPosition < 7) {
 
-                // Mark old item as inactive
-                drawerItem = DrawerItemRecyclerViewAdapter.items.get(oldActionPosition);
-                drawerItem.setActive(false);
-                DrawerItemRecyclerViewAdapter.items.set(oldActionPosition, drawerItem);
-//                notifyItemChanged(oldActionPosition);
-                notifyDataSetChanged();
+//                // Mark old item as inactive
+//                drawerItem = DrawerItemRecyclerViewAdapter.items.get(oldActionPosition);
+//                drawerItem.setActive(false);
+//                DrawerItemRecyclerViewAdapter.items.set(oldActionPosition, drawerItem);
 
+//                oldActionPosition = actionPosition;
 
-                oldActionPosition = actionPosition;
+                // Disable all items
+                for (int i = 0; i < items.size(); i++) {
+                    drawerItem = items.get(i);
+
+                    if(drawerItem.getType() == TYPE_ITEM || drawerItem.getType() == TYPE_ITEM_ACTIVE) {
+                        drawerItem.setActive(false);
+                    }
+
+                    items.set(i, drawerItem);
+                }
 
                 // Mark new item as active
-                drawerItem = DrawerItemRecyclerViewAdapter.items.get(actionPosition+1);
+                drawerItem = items.get(actionPosition + drawerOffset-1);
                 drawerItem.setActive(true);
-                DrawerItemRecyclerViewAdapter.items.set(actionPosition+1, drawerItem);
+                items.set(actionPosition + drawerOffset-1, drawerItem);
 
-                notifyItemChanged(actionPosition+1);
+//                notifyItemChanged(actionPosition + 1);
+
+                notifyDataSetChanged();
 
             }
             Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - id: " + getLayoutPosition());
 
-            Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - actionPosition: " + (actionPosition ));
-            Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - oldActionPosition: " + (oldActionPosition));
-            Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - offSetPosition: " + (drawerOffset ));
+            Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - actionPosition: " + (actionPosition));
+//            Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - oldActionPosition: " + (oldActionPosition));
+            Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - offSetPosition: " + (drawerOffset));
+            Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - offSetPosition2: " + (drawerOffset2));
 
             switch (actionPosition) {
                 case 1:
@@ -253,7 +268,7 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
 //            oldActionPosition = actionPosition;
 //            actionPosition = position;
 
-            Log.d("Debug", "DrawerItemRecyclerViewAdapter - position: " + position);
+//            Log.d("Debug", "DrawerItemRecyclerViewAdapter - position: " + position);
 
 
         } else {
@@ -285,13 +300,13 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
         }
 
 
-        if (items.get(position - 1).getType() == TYPE_ITEM && items.get(position - 1).isActive() ) {
+        if (items.get(position - 1).getType() == TYPE_ITEM && items.get(position - 1).isActive()) {
             Log.d("Debug", "DrawerItemRecyclerViewAdapter - TYPE_ITEM_ACTIVE");
             return TYPE_ITEM_ACTIVE;
         }
 
 
-        if (items.get(position - 1).getType() == TYPE_CATEGORY ) {
+        if (items.get(position - 1).getType() == TYPE_CATEGORY) {
             Log.d("Debug", "DrawerItemRecyclerViewAdapter - TYPE_CATEGORY");
             return TYPE_CATEGORY;
         }
