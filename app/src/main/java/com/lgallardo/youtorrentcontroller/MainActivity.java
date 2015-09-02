@@ -240,7 +240,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
     public static String packageName;
 
     // Action (states)
-    public static final String[] actionStates = new String[]{"all", "downloading", "completed", "pause", "active", "inactive"};
+//    public static final String[] actionStates = new String[]{"all", "downloading", "completed", "pause", "active", "inactive"};
 
 
     @Override
@@ -357,7 +357,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
         rAdapter.notifyDataSetChanged();
 
 
-        Log.d("Debug", "MainActivity - oldActionPosition: "+ (Arrays.asList(actionStates).indexOf(lastState)));
+//        Log.d("Debug", "MainActivity - oldActionPosition: "+ (Arrays.asList(actionStates).indexOf(lastState)));
 
 //        drawerList.setAdapter(adapter);
         mRecyclerView.setAdapter(rAdapter);

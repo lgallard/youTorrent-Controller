@@ -30,9 +30,10 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
     public static int actionPosition = 0;
 
     private static MainActivity mainActivity;
-    private static int drawerOffset = 2;
+    private static int drawerOffset = 1;
 
-    private static int drawerOffset2 = 0;
+    // Hard offset (heder + first category type)
+    private int hardOffset = 2;
 
 
     // Creating a ViewHolder which extends the RecyclerView View Holder
@@ -58,6 +59,8 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
         public ViewHolder(final View itemView, int ViewType) {                 // Creating ViewHolder Constructor with View and viewType As a parameter
             super(itemView);
 
+            Log.d("Debug", "DrawerItemRecyclerViewAdapter - >> ViewHolder");
+
             Holderid = 0;
             if (ViewType != TYPE_HEADER) {
 
@@ -68,9 +71,10 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
             }
 
 
-            if (ViewType == TYPE_CATEGORY || ViewType == TYPE_SERVER || ViewType == TYPE_HEADER) {
-                drawerOffset2 = drawerOffset2 + 1;
-            }
+//            Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - ViewType: " + ViewType);
+//            if (ViewType == TYPE_SERVER || ViewType == TYPE_SERVER_ACTIVE) {
+//                drawerOffset = drawerOffset + 1;
+//            }
 
             // Here we set the appropriate view in accordance with the the view type as passed when the holder object is created
             imageViewIcon = (ImageView) itemView.findViewById(R.id.imageViewIcon);
@@ -128,7 +132,7 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
             Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - actionPosition: " + (actionPosition));
 //            Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - oldActionPosition: " + (oldActionPosition));
             Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - offSetPosition: " + (drawerOffset));
-            Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - offSetPosition2: " + (drawerOffset2));
+            Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - hardOffSet " + (hardOffset));
 
             switch (actionPosition) {
                 case 1:
@@ -204,6 +208,13 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
     @Override
     public DrawerItemRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
+//        Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - ViewType: " + viewType);
+//        if (viewType == TYPE_SERVER || viewType == TYPE_SERVER_ACTIVE) {
+//            drawerOffset = drawerOffset + 1;
+//        }
+
+        // Here w
+
         if (viewType == TYPE_CATEGORY) {
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.drawer_row, parent, false); //Inflating the layout
 
@@ -224,9 +235,33 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
             //inflate your layout and pass it to view holder
 
         } else if (viewType == TYPE_ITEM_ACTIVE) {
+
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.drawer_row_active, parent, false); //Inflating the layout
 
             ViewHolder vhItem = new ViewHolder(v, viewType); //Creating ViewHolder and passing the object of type view
+
+            return vhItem; // Returning the created object
+
+            //inflate your layout and pass it to view holder
+
+        } else if (viewType == TYPE_SERVER) {
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.drawer_row, parent, false); //Inflating the layout
+
+            ViewHolder vhItem = new ViewHolder(v, viewType); //Creating ViewHolder and passing the object of type view
+
+            drawerOffset = drawerOffset + 1;
+
+            return vhItem; // Returning the created object
+
+            //inflate your layout and pass it to view holder
+
+        } else if (viewType == TYPE_SERVER_ACTIVE) {
+
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.drawer_row_active, parent, false); //Inflating the layout
+
+            ViewHolder vhItem = new ViewHolder(v, viewType); //Creating ViewHolder and passing the object of type view
+
+            drawerOffset = drawerOffset + 1;
 
             return vhItem; // Returning the created object
 
@@ -238,6 +273,8 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.drawer_header, parent, false); //Inflating the layout
 
             ViewHolder vhHeader = new ViewHolder(v, viewType); //Creating ViewHolder and passing the object of type view
+
+            drawerOffset = drawerOffset + 1;
 
             return vhHeader; //returning the object created
 
@@ -294,21 +331,33 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
     // Witht the following method we check what type of view is being passed
     @Override
     public int getItemViewType(int position) {
+
+//        Log.d("Debug", "DrawerItemRecyclerViewAdapter - items.size(): " + items.size());
+//        Log.d("Debug", "DrawerItemRecyclerViewAdapter - position: " + position);
+
         if (isPositionHeader(position)) {
             Log.d("Debug", "DrawerItemRecyclerViewAdapter - TYPE_HEADER");
             return TYPE_HEADER;
         }
-
 
         if (items.get(position - 1).getType() == TYPE_ITEM && items.get(position - 1).isActive()) {
             Log.d("Debug", "DrawerItemRecyclerViewAdapter - TYPE_ITEM_ACTIVE");
             return TYPE_ITEM_ACTIVE;
         }
 
-
         if (items.get(position - 1).getType() == TYPE_CATEGORY) {
             Log.d("Debug", "DrawerItemRecyclerViewAdapter - TYPE_CATEGORY");
             return TYPE_CATEGORY;
+        }
+
+        if (items.get(position - 1).getType() == TYPE_SERVER && !(items.get(position - 1).isActive())) {
+            Log.d("Debug", "DrawerItemRecyclerViewAdapter - TYPE_SERVER");
+            return TYPE_ITEM;
+        }
+
+        if (items.get(position - 1).getType() == TYPE_SERVER && items.get(position - 1).isActive()) {
+            Log.d("Debug", "DrawerItemRecyclerViewAdapter - TYPE_SERVER_ACTIVE");
+            return TYPE_SERVER_ACTIVE;
         }
 
         // Default
