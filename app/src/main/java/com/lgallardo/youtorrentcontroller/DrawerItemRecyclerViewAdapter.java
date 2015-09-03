@@ -26,6 +26,8 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
 
 
     public static ArrayList<ObjectDrawerItem> items;
+	public static ArrayList<ObjectDrawerItem> serverItems;
+	
     public static int oldActionPosition = 1;
     public static int actionPosition = 0;
 
@@ -90,6 +92,31 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
 
 
             ObjectDrawerItem drawerItem;
+			
+			drawerItem = items.get(1);
+			
+			
+			// Check and toggle server category
+			if(drawerItem.getType() == TYPE_CATEGORY){
+				
+				if(drawerItem.isActive() ){
+					// Remove all server items
+					for (int i = 0; i < serverItems.size(); i++) {
+						
+						items.remove(i);
+					}
+				
+				}else{
+					// Insert all server items
+					for (int i = 0; i < serverItems.size(); i++) {
+
+						items.add(i, serverItems.get(i));
+					}
+					
+				}
+				drawerItem.setActive(!drawerItem.isActive());
+				items.set(1,drawerItem);
+			}
 
             actionPosition = getLayoutPosition() - drawerOffset;
 
@@ -298,6 +325,10 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
 
             if (item.getType() != TYPE_CATEGORY) {
                 holder.imageViewIcon.setImageResource(item.icon);
+            }
+			
+			if (item.getType() == TYPE_SERVER || item.getType() == TYPE_SERVER_ACTIVE) {
+                serverItems.add(item);
             }
 
             holder.textViewName.setText(item.name);
