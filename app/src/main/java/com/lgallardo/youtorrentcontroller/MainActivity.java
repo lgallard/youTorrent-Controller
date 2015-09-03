@@ -323,6 +323,8 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
         // Add server category
         drawerItems.add(new ObjectDrawerItem(-1, "Servers", DRAWER_CATEGORY, false));
         drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_all, "Server 1", DRAWER_ITEM_SERVERS, false));
+        drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_all, "Server 2", DRAWER_ITEM_SERVERS, false));
+        drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_all, "Server 3", DRAWER_ITEM_SERVERS, false));
 
         drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_all, navigationDrawerItemTitles[0], DRAWER_ITEM_ACTIONS, lastState.equals("all")));
         drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_downloading, navigationDrawerItemTitles[1], DRAWER_ITEM_ACTIONS, lastState.equals("downloading")));

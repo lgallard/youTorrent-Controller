@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerItemRecyclerViewAdapter.ViewHolder> {
 
@@ -26,16 +27,13 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
 
 
     public static ArrayList<ObjectDrawerItem> items;
-	public static ArrayList<ObjectDrawerItem> serverItems;
-	
+    public static ArrayList<ObjectDrawerItem> serverItems;
+
     public static int oldActionPosition = 1;
     public static int actionPosition = 0;
 
     private static MainActivity mainActivity;
     private static int drawerOffset = 1;
-
-    // Hard offset (heder + first category type)
-    private int hardOffset = 2;
 
 
     // Creating a ViewHolder which extends the RecyclerView View Holder
@@ -90,41 +88,77 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
         @Override
         public void onClick(View view) {
 
+            Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - offSetPosition: " + (drawerOffset));
 
             ObjectDrawerItem drawerItem;
-			
-			drawerItem = items.get(1);
-			
-			
-			// Check and toggle server category
-			if(drawerItem.getType() == TYPE_CATEGORY){
-				
-				if(drawerItem.isActive() ){
-					// Remove all server items
-					for (int i = 0; i < serverItems.size(); i++) {
-						
-						items.remove(i);
-					}
-				
-				}else{
-					// Insert all server items
-					for (int i = 0; i < serverItems.size(); i++) {
 
-						items.add(i, serverItems.get(i));
-					}
-					
-				}
-				drawerItem.setActive(!drawerItem.isActive());
-				items.set(1,drawerItem);
-			}
 
+            // Check and toggle server category
+            if (getLayoutPosition() == 1) {
+
+
+                drawerItem = items.get(0);
+
+
+                Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - serverItems.size:  " + serverItems.size());
+
+                Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - items.size:  " + items.size());
+
+                Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - drawerItem.name:  " + drawerItem.name);
+
+                Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - drawerItem.getType():  " + drawerItem.getType());
+
+                Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - toggled Servers ");
+
+                if (drawerItem.isActive()) {
+
+                    Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - Servers Category active");
+
+                    // Remove all server items
+                    Iterator iterator = items.iterator();
+
+                    while (iterator.hasNext()) {
+
+                        ObjectDrawerItem item = (ObjectDrawerItem) iterator.next();
+
+                        Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - Analysing: " + item.name);
+
+                        if (item.getType() == TYPE_SERVER || item.getType() == TYPE_SERVER_ACTIVE) {
+
+                            Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - Removing: " + item.name);
+                            iterator.remove();
+                        }
+                    }
+
+                    drawerOffset = 1;
+                } else {
+
+                    Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - Servers Category inactive");
+
+                    // Insert all server items
+                    for (int i = 0; i < serverItems.size(); i++) {
+
+                        items.add(i + 1, serverItems.get(i));
+                    }
+
+                    drawerOffset = serverItems.size() + 1;
+
+
+                }
+
+                drawerItem.setActive(!drawerItem.isActive());
+                items.set(0, drawerItem);
+
+                notifyDataSetChanged();
+            }
+
+
+            // Get action position
             actionPosition = getLayoutPosition() - drawerOffset;
 
 
-
-
             // If the header is not selected and an action is selected
-            if (actionPosition > 0 && actionPosition < 7) {
+            if (actionPosition > 0 && actionPosition < 9) {
 
 //                // Mark old item as inactive
 //                drawerItem = DrawerItemRecyclerViewAdapter.items.get(oldActionPosition);
@@ -137,7 +171,7 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
                 for (int i = 0; i < items.size(); i++) {
                     drawerItem = items.get(i);
 
-                    if(drawerItem.getType() == TYPE_ITEM || drawerItem.getType() == TYPE_ITEM_ACTIVE) {
+                    if (drawerItem.getType() == TYPE_ITEM || drawerItem.getType() == TYPE_ITEM_ACTIVE) {
                         drawerItem.setActive(false);
                     }
 
@@ -145,70 +179,70 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
                 }
 
                 // Mark new item as active
-                drawerItem = items.get(actionPosition + drawerOffset-1);
+                drawerItem = items.get(actionPosition + drawerOffset - 1);
                 drawerItem.setActive(true);
-                items.set(actionPosition + drawerOffset-1, drawerItem);
+                items.set(actionPosition + drawerOffset - 1, drawerItem);
 
 //                notifyItemChanged(actionPosition + 1);
 
                 notifyDataSetChanged();
 
-            }
-            Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - id: " + getLayoutPosition());
 
-            Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - actionPosition: " + (actionPosition));
-//            Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - oldActionPosition: " + (oldActionPosition));
-            Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - offSetPosition: " + (drawerOffset));
-            Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - hardOffSet " + (hardOffset));
+                Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - id: " + getLayoutPosition());
 
-            switch (actionPosition) {
-                case 1:
-                    mainActivity.refreshFromDrawerAction("all", actionPosition);
-                    Log.d("Debug", "DrawerItemRecyclerViewAdapter - action: All");
-                    break;
-                case 2:
-                    mainActivity.refreshFromDrawerAction("downloading", actionPosition);
-                    mainActivity.saveLastState("downloading");
-                    Log.d("Debug", "DrawerItemRecyclerViewAdapter - action: Downloading");
-                    break;
-                case 3:
-                    mainActivity.refreshFromDrawerAction("completed", actionPosition);
-                    Log.d("Debug", "DrawerItemRecyclerViewAdapter - action: Completed");
-                    break;
-                case 4:
-                    mainActivity.refreshFromDrawerAction("pause", actionPosition);
-                    Log.d("Debug", "DrawerItemRecyclerViewAdapter - action: Pause");
-                    break;
-                case 5:
-                    mainActivity.refreshFromDrawerAction("active", actionPosition);
-                    Log.d("Debug", "DrawerItemRecyclerViewAdapter - action: Active");
-                    break;
-                case 6:
-                    mainActivity.refreshFromDrawerAction("inactive", actionPosition);
-                    Log.d("Debug", "DrawerItemRecyclerViewAdapter - action: Inactive");
-                    break;
-                case 7:
-                    mainActivity.openSettings();
-                    Log.d("Debug", "DrawerItemRecyclerViewAdapter - action: Settings");
-                    break;
-                case 8:
-                    if (MainActivity.packageName.equals("com.lgallardo.youtorrentcontroller")) {
-                        // Get Pro version
-                        mainActivity.getPRO();
-                    } else {
+                Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - actionPosition: " + (actionPosition));
+
+
+
+                switch (actionPosition) {
+                    case 1:
+                        mainActivity.refreshFromDrawerAction("all", actionPosition);
+                        Log.d("Debug", "DrawerItemRecyclerViewAdapter - action: All");
+                        break;
+                    case 2:
+                        mainActivity.refreshFromDrawerAction("downloading", actionPosition);
+                        mainActivity.saveLastState("downloading");
+                        Log.d("Debug", "DrawerItemRecyclerViewAdapter - action: Downloading");
+                        break;
+                    case 3:
+                        mainActivity.refreshFromDrawerAction("completed", actionPosition);
+                        Log.d("Debug", "DrawerItemRecyclerViewAdapter - action: Completed");
+                        break;
+                    case 4:
+                        mainActivity.refreshFromDrawerAction("pause", actionPosition);
+                        Log.d("Debug", "DrawerItemRecyclerViewAdapter - action: Pause");
+                        break;
+                    case 5:
+                        mainActivity.refreshFromDrawerAction("active", actionPosition);
+                        Log.d("Debug", "DrawerItemRecyclerViewAdapter - action: Active");
+                        break;
+                    case 6:
+                        mainActivity.refreshFromDrawerAction("inactive", actionPosition);
+                        Log.d("Debug", "DrawerItemRecyclerViewAdapter - action: Inactive");
+                        break;
+                    case 7:
+                        mainActivity.openSettings();
+                        Log.d("Debug", "DrawerItemRecyclerViewAdapter - action: Settings");
+                        break;
+                    case 8:
+                        if (MainActivity.packageName.equals("com.lgallardo.youtorrentcontroller")) {
+                            // Get Pro version
+                            mainActivity.getPRO();
+                        } else {
+                            mainActivity.openHelp();
+                        }
+                        break;
+                    case 9:
                         mainActivity.openHelp();
-                    }
-                    break;
-                case 9:
-                    mainActivity.openHelp();
-                    break;
-                default:
-                    mainActivity.saveLastState(MainActivity.currentState);
-                    Log.d("Debug", "DrawerItemRecyclerViewAdapter - action: Default");
-                    break;
+                        break;
+                    default:
+                        mainActivity.saveLastState(MainActivity.currentState);
+                        Log.d("Debug", "DrawerItemRecyclerViewAdapter - action: Default");
+                        break;
+                }
+                // Close drawer
+                mainActivity.drawerLayout.closeDrawer(mainActivity.mRecyclerView);
             }
-            // Close drawer
-            mainActivity.drawerLayout.closeDrawer(mainActivity.mRecyclerView);
 
             // Load banner
             mainActivity.loadBanner();
@@ -223,6 +257,42 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
 
         this.mainActivity = mainActivity;
         DrawerItemRecyclerViewAdapter.items = items;
+        serverItems = new ArrayList<ObjectDrawerItem>();
+
+        drawerOffset = 1;
+
+        ObjectDrawerItem drawerItem;
+
+        // Add server items to array
+        for (int i = 0; i < items.size(); i++) {
+            ObjectDrawerItem item = items.get(i);
+
+            Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - Adding to items: " + items.get(i).name);
+
+            if (item.getType() == TYPE_SERVER || item.getType() == TYPE_SERVER_ACTIVE) {
+                serverItems.add(item);
+            }
+        }
+
+
+        // Remove all server items
+        Iterator iterator = items.iterator();
+
+        while (iterator.hasNext()) {
+
+            ObjectDrawerItem item = (ObjectDrawerItem) iterator.next();
+
+            Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - Analysing: " + item.name);
+
+            if (item.getType() == TYPE_SERVER || item.getType() == TYPE_SERVER_ACTIVE) {
+
+                Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - Removing: " + item.name);
+                iterator.remove();
+            }
+
+
+        }
+
 
     }
 
@@ -276,7 +346,7 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
 
             ViewHolder vhItem = new ViewHolder(v, viewType); //Creating ViewHolder and passing the object of type view
 
-            drawerOffset = drawerOffset + 1;
+//            drawerOffset = drawerOffset + 1;
 
             return vhItem; // Returning the created object
 
@@ -288,7 +358,7 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
 
             ViewHolder vhItem = new ViewHolder(v, viewType); //Creating ViewHolder and passing the object of type view
 
-            drawerOffset = drawerOffset + 1;
+//            drawerOffset = drawerOffset + 1;
 
             return vhItem; // Returning the created object
 
@@ -301,7 +371,7 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
 
             ViewHolder vhHeader = new ViewHolder(v, viewType); //Creating ViewHolder and passing the object of type view
 
-            drawerOffset = drawerOffset + 1;
+//            drawerOffset = drawerOffset + 1;
 
             return vhHeader; //returning the object created
 
@@ -326,10 +396,7 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
             if (item.getType() != TYPE_CATEGORY) {
                 holder.imageViewIcon.setImageResource(item.icon);
             }
-			
-			if (item.getType() == TYPE_SERVER || item.getType() == TYPE_SERVER_ACTIVE) {
-                serverItems.add(item);
-            }
+
 
             holder.textViewName.setText(item.name);
 
