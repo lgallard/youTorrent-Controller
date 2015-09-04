@@ -5,7 +5,7 @@
  * are made available under the terms of the GNU Public License v3.0
  * which accompanies this distribution, and is available at
  * http://www.gnu.org/licenses/gpl.html
- * <p/>
+ * <p>
  * Contributors:
  * Luis M. Gallardo D.
  * ****************************************************************************
@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
     //TODO: Delete unused cookie var
     public static String cookie = null;
     public static String token = null;
-//    public static String qb_version = "3.1.x";
+    //    public static String qb_version = "3.1.x";
     public static LinearLayout headerInfo;
 
     // Current state
@@ -187,7 +187,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
     private CharSequence drawerTitle;
     private CharSequence title;
     private String[] navigationDrawerItemTitles;
-//    private ListView drawerList;
+    //    private ListView drawerList;
     protected RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;            // Declaring Layout Manager as a linear layout manager
     public static DrawerLayout drawerLayout;
@@ -317,31 +317,34 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
         mRecyclerView.setHasFixedSize(true);                            // Letting the system know that the list objects are
 
 
-        ArrayList<ObjectDrawerItem> drawerItems = new ArrayList<ObjectDrawerItem>();
+        ArrayList<ObjectDrawerItem> serverItems = new ArrayList<ObjectDrawerItem>();
+        ArrayList<ObjectDrawerItem> actionItems = new ArrayList<ObjectDrawerItem>();
+        ArrayList<ObjectDrawerItem> settingsItems = new ArrayList<ObjectDrawerItem>();
 
 
         // Add server category
-        drawerItems.add(new ObjectDrawerItem(-1, "Servers", DRAWER_CATEGORY, false));
-        drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_all, "Server 1", DRAWER_ITEM_SERVERS, false));
-        drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_all, "Server 2", DRAWER_ITEM_SERVERS, false));
-        drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_all, "Server 3", DRAWER_ITEM_SERVERS, false));
+        serverItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_servers, "Servers", DRAWER_CATEGORY, false, null));
+        serverItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_subitem, "Server 1", DRAWER_ITEM_SERVERS, false, "changeCurrentServer"));
+        serverItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_subitem, "Server 2", DRAWER_ITEM_SERVERS, false, "changeCurrentServer"));
+        serverItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_subitem, "Server 3", DRAWER_ITEM_SERVERS, false, "changeCurrentServer"));
 
-        drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_all, navigationDrawerItemTitles[0], DRAWER_ITEM_ACTIONS, lastState.equals("all")));
-        drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_downloading, navigationDrawerItemTitles[1], DRAWER_ITEM_ACTIONS, lastState.equals("downloading")));
-
-        drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_completed, navigationDrawerItemTitles[2], DRAWER_ITEM_ACTIONS, lastState.equals("completed")));
-        drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_paused, navigationDrawerItemTitles[3], DRAWER_ITEM_ACTIONS, lastState.equals("pause")));
-        drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_active, navigationDrawerItemTitles[4], DRAWER_ITEM_ACTIONS, lastState.equals("active")));
-        drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_inactive, navigationDrawerItemTitles[5], DRAWER_ITEM_ACTIONS, lastState.equals("inactive")));
-//        drawerItems.add(new ObjectDrawerItem(R.drawable.ic_action_options, navigationDrawerItemTitles[6], DRAWER_ITEM_ACTIONS, false));
-        drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_settings, navigationDrawerItemTitles[6], DRAWER_ITEM_ACTIONS, false));
+        // Add actions
+        actionItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_all, navigationDrawerItemTitles[0], DRAWER_ITEM_ACTIONS, lastState.equals("all"), "refreshAll"));
+        actionItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_downloading, navigationDrawerItemTitles[1], DRAWER_ITEM_ACTIONS, lastState.equals("downloading"), "refreshDownloading"));
+        actionItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_completed, navigationDrawerItemTitles[2], DRAWER_ITEM_ACTIONS, lastState.equals("completed"), "refreshCompleted"));
+        actionItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_paused, navigationDrawerItemTitles[3], DRAWER_ITEM_ACTIONS, lastState.equals("pause"), "refreshPaused"));
+        actionItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_active, navigationDrawerItemTitles[4], DRAWER_ITEM_ACTIONS, lastState.equals("active"), "refreshActive"));
+        actionItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_inactive, navigationDrawerItemTitles[5], DRAWER_ITEM_ACTIONS, lastState.equals("inactive"), "refreshInactive"));
 
 
+        // Add settings actions
+//        drawerItems.add(new ObjectDrawerItem(R.drawable.ic_action_options, navigationDrawerItemTitles[6], DRAWER_ITEM_ACTIONS, false, "openOption"));
+        settingsItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_settings, navigationDrawerItemTitles[6], DRAWER_ITEM_ACTIONS, false, "openSettings"));
         if (packageName.equals("com.lgallardo.youtorrentcontroller")) {
-            drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_pro, navigationDrawerItemTitles[7], DRAWER_ITEM_ACTIONS, false));
-            drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_help, navigationDrawerItemTitles[8], DRAWER_ITEM_ACTIONS, false));
-        }else{
-            drawerItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_help, navigationDrawerItemTitles[7], DRAWER_ITEM_ACTIONS, false));
+            settingsItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_pro, navigationDrawerItemTitles[7], DRAWER_ITEM_ACTIONS, false, "getPro"));
+            settingsItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_help, navigationDrawerItemTitles[8], DRAWER_ITEM_ACTIONS, false, "help"));
+        } else {
+            settingsItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_help, navigationDrawerItemTitles[7], DRAWER_ITEM_ACTIONS, false, "help"));
         }
 
         // Create object for drawer item OnbjectDrawerItem
@@ -355,7 +358,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 //        drawerItems.set(DrawerItemRecyclerViewAdapter.oldActionPosition-1, item);
 
 
-        DrawerItemRecyclerViewAdapter rAdapter = new DrawerItemRecyclerViewAdapter(this, drawerItems);
+        DrawerItemRecyclerViewAdapter rAdapter = new DrawerItemRecyclerViewAdapter(this, serverItems, actionItems, settingsItems, null);
         rAdapter.notifyDataSetChanged();
 
 
@@ -488,8 +491,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
                         refreshCurrent();
 
                     }
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                 }
 
                 return;
@@ -635,8 +637,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
                 refreshCurrent();
 
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
 
         }
     }
@@ -688,7 +689,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
         if (!hostname.equals("")) {
 
 //            switch (drawerList.getCheckedItemPosition()) {
-            switch (DrawerItemRecyclerViewAdapter.actionPosition-1) {
+            switch (DrawerItemRecyclerViewAdapter.actionPosition - 1) {
                 case 0:
                     refresh("all");
                     break;
@@ -785,8 +786,8 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
     }
 
 
-    protected  void refreshFromDrawerAction(String state, int position){
-        setTitle(navigationDrawerItemTitles[position-1]);
+    protected void refreshFromDrawerAction(String state, String title) {
+        setTitle(title);
         refreshSwipeLayout();
         refresh(state);
         saveLastState(state);
@@ -837,9 +838,9 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 //                    new torrentTokenTask().execute();
 //
 //                }else{
-                    // Execute the  in background
+                // Execute the  in background
 //                    params[2] = token;
-                    new torrentTask().execute(params);
+                new torrentTask().execute(params);
 //                }
             }
 
@@ -870,17 +871,17 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
         if (Intent.ACTION_VIEW.equals(intent.getAction())) {
 
-           if(token == null || cookie == null){
-               // Get token and cookie and then
-               // get intent from the intent filter and Add URL torrent
+            if (token == null || cookie == null) {
+                // Get token and cookie and then
+                // get intent from the intent filter and Add URL torrent
 //            Log.d("Debug", "MainActivity - 2");
-               new torrentTokenByIntent().execute(getIntent());
+                new torrentTokenByIntent().execute(getIntent());
 
-           }else {
+            } else {
 
-               // Add torrent (file, url or magnet)
-               addTorrentByIntent(intent);
-           }
+                // Add torrent (file, url or magnet)
+                addTorrentByIntent(intent);
+            }
             // // Activity is visble
             activityIsVisible = true;
 
@@ -945,12 +946,12 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
         if (urlTorrent != null && urlTorrent.length() != 0) {
 
-            if(urlTorrent.substring(0, 7).equals("content")){
+            if (urlTorrent.substring(0, 7).equals("content")) {
 
                 urlTorrent = "file://" + getFilePathFromUri(this, Uri.parse(urlTorrent));
             }
 
-            if (urlTorrent.substring(0, 4).equals("file") ) {
+            if (urlTorrent.substring(0, 4).equals("file")) {
 
                 // File
                 addTorrentFile(Uri.parse(urlTorrent).getPath());
@@ -1021,8 +1022,8 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
                 }
             }
 
-        }else{
-                   headerInfo.setVisibility(View.VISIBLE);
+        } else {
+            headerInfo.setVisibility(View.VISIBLE);
         }
 
 
@@ -1394,7 +1395,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
         if (requestCode == HELP_CODE) {
             // Now it can be refreshed
             canrefresh = true;
-                swipeRefresh();
+            swipeRefresh();
 
         }
 
@@ -1573,14 +1574,14 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
         // Execute the task in background
         qBittorrentCommand qtc = new qBittorrentCommand();
 
-            qtc.execute(new String[]{"pauseAll", null});
+        qtc.execute(new String[]{"pauseAll", null});
     }
 
     public void resumeAllTorrents() {
         // Execute the task in background
         qBittorrentCommand qtc = new qBittorrentCommand();
 
-            qtc.execute(new String[]{"resumeAll", null});
+        qtc.execute(new String[]{"resumeAll", null});
     }
 
     public void increasePrioTorrent(String hash) {
@@ -1789,8 +1790,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
                 // Delay of 1 second
                 refreshAfterCommand(1);
 
-            }
-            else {
+            } else {
                 genericOkDialog(R.string.error, R.string.global_value_error);
             }
         }
@@ -1799,7 +1799,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
     public void refreshAfterCommand(int delay) {
 
 //        switch (drawerList.getCheckedItemPosition()) {
-        switch (DrawerItemRecyclerViewAdapter.actionPosition-1) {
+        switch (DrawerItemRecyclerViewAdapter.actionPosition - 1) {
             case 0:
                 refreshWithDelay("all", delay);
                 break;
@@ -1882,7 +1882,6 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
                     openSettings();
                 }
             });
-
 
 
             // Create dialog
@@ -2044,7 +2043,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
         alt_to_hour = "" + TimePreference.getHour(sharedPrefs.getString("alt_to", "20:00"));
         alt_to_min = "" + TimePreference.getMinute(sharedPrefs.getString("alt_to", "20:00"));
 
-       scheduler_days = sharedPrefs.getString("scheduler_days", "NULL");
+        scheduler_days = sharedPrefs.getString("scheduler_days", "NULL");
 
 
     }
@@ -2231,7 +2230,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
     }
 
-    public void disableRefreshSwipeLayout(){
+    public void disableRefreshSwipeLayout() {
 
         if (com.lgallardo.youtorrentcontroller.AboutFragment.mSwipeRefreshLayout != null) {
             com.lgallardo.youtorrentcontroller.AboutFragment.mSwipeRefreshLayout.setRefreshing(false);
@@ -2248,7 +2247,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
         if (com.lgallardo.youtorrentcontroller.TorrentDetailsFragment.mSwipeRefreshLayout != null) {
             com.lgallardo.youtorrentcontroller.TorrentDetailsFragment.mSwipeRefreshLayout.setRefreshing(false);
             com.lgallardo.youtorrentcontroller.TorrentDetailsFragment.mSwipeRefreshLayout.clearAnimation();
-            com.lgallardo.youtorrentcontroller.TorrentDetailsFragment  .mSwipeRefreshLayout.setEnabled(true);
+            com.lgallardo.youtorrentcontroller.TorrentDetailsFragment.mSwipeRefreshLayout.setEnabled(true);
         }
 
         listViewRefreshing = false;
@@ -2276,7 +2275,6 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
         }
 
     }
-
 
 
     // Here is where the action happens
@@ -2320,7 +2318,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
         @Override
         protected void onPostExecute(String result[]) {
 
-            if(MainActivity.token == null || !MainActivity.token.equals(result[0]) || MainActivity.cookie == null || !MainActivity.cookie.equals(result[1])) {
+            if (MainActivity.token == null || !MainActivity.token.equals(result[0]) || MainActivity.cookie == null || !MainActivity.cookie.equals(result[1])) {
 
                 MainActivity.token = result[0];
                 MainActivity.cookie = result[1];
@@ -2389,7 +2387,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
         @Override
         protected void onPostExecute(UtorrentSession result) {
 
-            if(MainActivity.token == null || !MainActivity.token.equals(result.getToken()) || MainActivity.cookie == null || !MainActivity.cookie.equals(result.getCookie())) {
+            if (MainActivity.token == null || !MainActivity.token.equals(result.getToken()) || MainActivity.cookie == null || !MainActivity.cookie.equals(result.getCookie())) {
 
                 MainActivity.token = result.getToken();
                 MainActivity.cookie = result.getCookie();
@@ -2423,7 +2421,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
                 // Refresh
                 String stateBefore = result.getIntent().getStringExtra("currentState");
 
-                if(stateBefore == null){
+                if (stateBefore == null) {
                     stateBefore = lastState;
                 }
 
@@ -2445,11 +2443,11 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
             } else {
 
-                if(token == null | cookie == null){
+                if (token == null | cookie == null) {
                     Log.d("Debug", "MainActivity - getting new token");
                     new torrentTokenTask().execute(params);
 
-                }else {
+                } else {
                     Log.d("Debug", "MainActivity - refreshing");
                     // Refresh
                     refresh();
@@ -2630,7 +2628,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
         protected Torrent[] doInBackground(String... params) {
 
             String name, size, info, progress, state, hash, ratio, priority, eta, uploadSpeed, downloadSpeed, status, label, availability, downloaded;
-            int  peersConnected, peersInSwarm, seedsConnected, seedInSwarm;
+            int peersConnected, peersInSwarm, seedsConnected, seedInSwarm;
             boolean sequentialDownload = false;
             boolean firstLastPiecePrio = false;
             boolean completed = false;
@@ -2694,14 +2692,14 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 //                        Log.d("Debug", "Size:" + size);
 
                         // Move progress and ratio calculation to Common
-                        progress = String.format("%.2f", (float) torrentArray.getInt(4)/10) + "%";
+                        progress = String.format("%.2f", (float) torrentArray.getInt(4) / 10) + "%";
                         progress = progress.replace(",", ".");
 
                         downloaded = Common.calculateSize("" + torrentArray.getLong(5));
 
 //                        Log.d("Debug", "Progress:" + progress);
 
-                        ratio =  String.format("%.2f", (float) torrentArray.getInt(7) / 1000);
+                        ratio = String.format("%.2f", (float) torrentArray.getInt(7) / 1000);
                         ratio = ratio.replace(",", ".");
 
 //                        Log.d("Debug", "Ratio:" + ratio);
@@ -2736,9 +2734,9 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
                         downloadSpeed = Common.calculateSize(downloadSpeed) + "/s";
                         uploadSpeed = Common.calculateSize(uploadSpeed) + "/s";
 
-                        if(torrentArray.getInt(4) >= 1000){
+                        if (torrentArray.getInt(4) >= 1000) {
                             completed = true;
-                        }else{
+                        } else {
                             // Let's assume it's not completed
                             completed = false;
                         }
@@ -2747,7 +2745,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
 
                         // Use status and progress to calculate torrent state
-                        state = Common.getStateFromStatus(torrentArray.getInt(1),torrentArray.getInt(4));
+                        state = Common.getStateFromStatus(torrentArray.getInt(1), torrentArray.getInt(4));
 
 //                        Log.d("Debug", "State:" + state);
 
@@ -2760,14 +2758,14 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
                         // Set info row
                         if (packageName.equals("com.lgallardo.youtorrentcontroller")) {
                             // Info free
-                            torrents[i].setInfo(torrents[i].getDownloaded() + " / "  + torrents[i].getSize() + " " + Character.toString('\u2193') + " " + torrents[i].getDownloadSpeed() + " "
+                            torrents[i].setInfo(torrents[i].getDownloaded() + " / " + torrents[i].getSize() + " " + Character.toString('\u2193') + " " + torrents[i].getDownloadSpeed() + " "
                                     + Character.toString('\u2191') + " " + torrents[i].getUploadSpeed() + " " + Character.toString('\u2022') + " "
                                     + torrents[i].getRatio() + " " + Character.toString('\u2022') + " " + progress + " " + Character.toString('\u2022') + " "
                                     + torrents[i].getEta());
 
                         } else {
                             // Info pro
-                            torrents[i].setInfo(torrents[i].getDownloaded() + " / "  + torrents[i].getSize() + " " + Character.toString('\u2193') + " " + torrents[i].getDownloadSpeed() + " "
+                            torrents[i].setInfo(torrents[i].getDownloaded() + " / " + torrents[i].getSize() + " " + Character.toString('\u2193') + " " + torrents[i].getDownloadSpeed() + " "
                                     + Character.toString('\u2191') + " " + torrents[i].getUploadSpeed() + " " + Character.toString('\u2022') + " "
                                     + torrents[i].getRatio() + " " + Character.toString('\u2022') + " " + torrents[i].getEta());
                         }
@@ -2777,7 +2775,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
             } catch (JSONParserStatusCodeException e) {
                 httpStatusCode = e.getCode();
 
-                if(httpStatusCode == 400){
+                if (httpStatusCode == 400) {
                     cookie = null;
                     token = null;
                 }
@@ -2848,7 +2846,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
                     }
 
                     if (params[1].equals("completed") && (searchField == "" || result[i].getFile().toUpperCase().contains(searchField.toUpperCase()))) {
-                        if (result[i].isCompleted() ) {
+                        if (result[i].isCompleted()) {
                             torrentsFiltered.add(result[i]);
                         }
                     }
@@ -2860,13 +2858,13 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
                     }
 
                     if (params[1].equals("active") && (searchField == "" || result[i].getFile().toUpperCase().contains(searchField.toUpperCase()))) {
-                        if (result[i].getPeersConnected() > 0  || result[i].getSeedsConnected() > 0) {
+                        if (result[i].getPeersConnected() > 0 || result[i].getSeedsConnected() > 0) {
                             torrentsFiltered.add(result[i]);
                         }
                     }
 
                     if (params[1].equals("inactive") && (searchField == "" || result[i].getFile().toUpperCase().contains(searchField.toUpperCase()))) {
-                        if (result[i].getUploadSpeedWeight() == 0  || result[i].getDownloadSpeedWeight() == 0) {
+                        if (result[i].getUploadSpeedWeight() == 0 || result[i].getDownloadSpeedWeight() == 0) {
                             torrentsFiltered.add(result[i]);
                         }
                     }
@@ -3060,8 +3058,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
                                 }
                             }
                         }
-                    }
-                    else {
+                    } else {
 
                         // No results
 
@@ -3156,7 +3153,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
                 httpStatusCode = e.getCode();
 
-                if(httpStatusCode == 400){
+                if (httpStatusCode == 400) {
                     cookie = null;
                     token = null;
                 }
@@ -3204,7 +3201,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
                     editor.putString("max_act_uploads", max_act_uploads);
                     editor.putString("max_act_torrents", max_act_torrents);
 
-                    editor.putBoolean("schedule_alternative_rate_limits",schedule_alternative_rate_limits);
+                    editor.putBoolean("schedule_alternative_rate_limits", schedule_alternative_rate_limits);
                     editor.putString("alt_from", alt_from_hour + ":" + alt_from_min);
                     editor.putString("alt_to", alt_to_hour + ":" + alt_to_min);
                     editor.putString("scheduler_days", scheduler_days);
@@ -3249,7 +3246,8 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
                     httpStatusCode = 0;
 
                     // Get new Cookie
-                    cookie = null;token=null;
+                    cookie = null;
+                    token = null;
                 }
 
             } else {
