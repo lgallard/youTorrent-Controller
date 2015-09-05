@@ -10,10 +10,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.ListIterator;
 
 public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerItemRecyclerViewAdapter.ViewHolder> {
 
@@ -42,6 +44,9 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
     private static MainActivity mainActivity;
     private static int drawerOffset = 1;
 
+    RelativeLayout container;
+    private int lastPosition = -1;
+
 
     // Creating a ViewHolder which extends the RecyclerView View Holder
     // ViewHolder are used to to store the inflated views in order to recycle them
@@ -66,6 +71,8 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
 
         public ViewHolder(final View itemView, int ViewType) {                 // Creating ViewHolder Constructor with View and viewType As a parameter
             super(itemView);
+
+            container = (RelativeLayout) itemView.findViewById(R.id.drawer_server_row);
 
             Log.d("Debug", "DrawerItemRecyclerViewAdapter - >> ViewHolder");
 
@@ -137,7 +144,18 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
                     Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - Servers Category active");
 
                     // Remove all server items
-                    Iterator iterator = items.iterator();
+//
+//                    for (int i = 0; i < serverItems.size(); i++) {
+//
+//                        ObjectDrawerItem item = items.get(i);
+//
+//                        if (item.getType() == TYPE_SERVER || item.getType() == TYPE_SERVER_ACTIVE) {
+//                            items.remove(i);
+//                            notifyItemRemoved(i);
+//                        }
+//                    }
+//
+                    ListIterator iterator = items.listIterator();
 
                     while (iterator.hasNext()) {
 
@@ -149,8 +167,13 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
 
                             Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - Removing: " + item.name);
                             iterator.remove();
+                            notifyItemRemoved(iterator.nextIndex() + 1);
+
                         }
                     }
+
+                    lastPosition = -1;
+
 
                     drawerItem.setActive(false);
 
@@ -162,17 +185,18 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
                     // Insert all server items
                     for (int i = 0; i < serverItems.size(); i++) {
 
-                        ObjectDrawerItem item = (ObjectDrawerItem) serverItems.get(i);
+                        ObjectDrawerItem item = serverItems.get(i);
 
                         if (item.getType() == TYPE_SERVER || item.getType() == TYPE_SERVER_ACTIVE) {
                             items.add(i, serverItems.get(i));
+                            notifyItemInserted(i + 1);
                         }
                     }
 
 
                     drawerItem.setActive(true);
 
-                    drawerOffset = serverItems.size() + 1;
+                    drawerOffset = serverItems.size();
 
 
                 }
@@ -180,7 +204,7 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
 
                 items.set(0, drawerItem);
 
-            }else {
+            } else {
 
 
                 // Get action position
@@ -199,9 +223,16 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
                 for (int i = 0; i < items.size(); i++) {
                     ObjectDrawerItem item = items.get(i);
 
-                if (item.getType() == TYPE_ITEM || item.getType() == TYPE_ITEM_ACTIVE) {
-                    item.setActive(false);
-                }
+                    if ((drawerItem.getType() == TYPE_ITEM || drawerItem.getType() == TYPE_ITEM_ACTIVE) &&
+                            (item.getType() == TYPE_ITEM || item.getType() == TYPE_ITEM_ACTIVE)) {
+                        item.setActive(false);
+                    }
+
+                    if ((drawerItem.getType() == TYPE_SERVER || drawerItem.getType() == TYPE_SERVER_ACTIVE) &&
+                            (item.getType() == TYPE_SERVER || item.getType() == TYPE_SERVER_ACTIVE)) {
+                        item.setActive(false);
+                    }
+
 
                     items.set(i, item);
                 }
@@ -219,6 +250,7 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
 
                     drawerItem.setActive(true);
                     items.set(layoutPosition - 1, drawerItem);
+                    notifyItemChanged(layoutPosition);
                     mainActivity.refreshFromDrawerAction("all", drawerItem.name);
 
                     // Close drawer
@@ -230,6 +262,7 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
 
                     drawerItem.setActive(true);
                     items.set(layoutPosition - 1, drawerItem);
+                    notifyItemChanged(layoutPosition);
                     mainActivity.refreshFromDrawerAction("downloading", drawerItem.name);
 
                     // Close drawer
@@ -241,6 +274,7 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
 
                     drawerItem.setActive(true);
                     items.set(layoutPosition - 1, drawerItem);
+                    notifyItemChanged(layoutPosition);
                     mainActivity.refreshFromDrawerAction("completed", drawerItem.name);
 
                     // Close drawer
@@ -252,6 +286,7 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
 
                     drawerItem.setActive(true);
                     items.set(layoutPosition - 1, drawerItem);
+                    notifyItemChanged(layoutPosition);
                     mainActivity.refreshFromDrawerAction("pause", drawerItem.name);
 
                     // Close drawer
@@ -264,6 +299,7 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
 
                     drawerItem.setActive(true);
                     items.set(layoutPosition - 1, drawerItem);
+                    notifyItemChanged(layoutPosition);
                     mainActivity.refreshFromDrawerAction("active", drawerItem.name);
 
                     // Close drawer
@@ -271,16 +307,55 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
                 }
 
 
-                // Refresh Active
+                // Refresh Inactive
                 if (drawerItem.getAction().equals("refreshInactive")) {
 
                     drawerItem.setActive(true);
                     items.set(layoutPosition - 1, drawerItem);
+                    notifyItemChanged(layoutPosition);
                     mainActivity.refreshFromDrawerAction("inactive", drawerItem.name);
 
                     // Close drawer
                     mainActivity.drawerLayout.closeDrawer(mainActivity.mRecyclerView);
                 }
+
+                // Open Settings
+                if (drawerItem.getAction().equals("openSettings")) {
+
+                    mainActivity.openSettings();
+
+                    // Close drawer
+                    mainActivity.drawerLayout.closeDrawer(mainActivity.mRecyclerView);
+                }
+
+
+                // Open Options
+                if (drawerItem.getAction().equals("openOptions")) {
+
+                    mainActivity.openOptions();
+
+                    // Close drawer
+                    mainActivity.drawerLayout.closeDrawer(mainActivity.mRecyclerView);
+                }
+
+                // Get Pro
+                if (drawerItem.getAction().equals("getPro")) {
+
+                    mainActivity.getPRO();
+
+                    // Close drawer
+                    mainActivity.drawerLayout.closeDrawer(mainActivity.mRecyclerView);
+                }
+
+                // Open Help
+                if (drawerItem.getAction().equals("openHelp")) {
+
+                    mainActivity.openHelp();
+
+                    // Close drawer
+                    mainActivity.drawerLayout.closeDrawer(mainActivity.mRecyclerView);
+                }
+
 
                 // Load banner
                 mainActivity.loadBanner();
@@ -289,9 +364,7 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
             }
 
             // Update drawer
-            notifyDataSetChanged();
-
-
+//            notifyDataSetChanged();
 
 
 //            // If the header is not selected and an action is selected
@@ -503,7 +576,7 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
         // Here w
 
         if (viewType == TYPE_CATEGORY) {
-            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.drawer_row, parent, false); //Inflating the layout
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.drawer_category_row, parent, false); //Inflating the layout
 
             ViewHolder vhItem = new ViewHolder(v, viewType); //Creating ViewHolder and passing the object of type view
 
@@ -532,11 +605,9 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
             //inflate your layout and pass it to view holder
 
         } else if (viewType == TYPE_SERVER) {
-            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.drawer_row, parent, false); //Inflating the layout
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.drawer_server_row, parent, false); //Inflating the layout
 
             ViewHolder vhItem = new ViewHolder(v, viewType); //Creating ViewHolder and passing the object of type view
-
-//            drawerOffset = drawerOffset + 1;
 
             return vhItem; // Returning the created object
 
@@ -544,11 +615,9 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
 
         } else if (viewType == TYPE_SERVER_ACTIVE) {
 
-            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.drawer_row_active, parent, false); //Inflating the layout
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.drawer_server_active_row, parent, false); //Inflating the layout
 
             ViewHolder vhItem = new ViewHolder(v, viewType); //Creating ViewHolder and passing the object of type view
-
-//            drawerOffset = drawerOffset + 1;
 
             return vhItem; // Returning the created object
 
@@ -583,20 +652,20 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
             ObjectDrawerItem item = items.get(position - 1);
 
 
-//            if (item.getType() != TYPE_CATEGORY) {
-                holder.imageViewIcon.setImageResource(item.icon);
-//            }
+            holder.imageViewIcon.setImageResource(item.icon);
 
 
             holder.textViewName.setText(item.name);
 
             holder.positionInItems = (position - 1);
 
-//            oldActionPosition = actionPosition;
-//            actionPosition = position;
 
-//            Log.d("Debug", "DrawerItemRecyclerViewAdapter - position: " + position);
-
+//            // If the bound view wasn't previously displayed on screen, it's animated
+//            if (container != null && position > lastPosition) {
+//                Animation animation = AnimationUtils.loadAnimation(container.getContext(), android.R.anim.slide_in_left);
+//                container.startAnimation(animation);
+//                lastPosition = position;
+//            }
 
         } else {
 
@@ -642,7 +711,7 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
 
         if (items.get(position - 1).getType() == TYPE_SERVER && !(items.get(position - 1).isActive())) {
             Log.d("Debug", "DrawerItemRecyclerViewAdapter - TYPE_SERVER");
-            return TYPE_ITEM;
+            return TYPE_SERVER;
         }
 
         if (items.get(position - 1).getType() == TYPE_SERVER && items.get(position - 1).isActive()) {

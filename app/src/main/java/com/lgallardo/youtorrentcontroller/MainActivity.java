@@ -240,7 +240,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
     public static String packageName;
 
     // Action (states)
-//    public static final String[] actionStates = new String[]{"all", "downloading", "completed", "pause", "active", "inactive"};
+    public static final ArrayList<String> actionStates = new ArrayList<>(Arrays.asList("all", "downloading", "completed", "pause", "active", "inactive"));
 
 
     @Override
@@ -324,7 +324,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
         // Add server category
         serverItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_servers, "Servers", DRAWER_CATEGORY, false, null));
-        serverItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_subitem, "Server 1", DRAWER_ITEM_SERVERS, false, "changeCurrentServer"));
+        serverItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_subitem, "Server 1", DRAWER_ITEM_SERVERS, true, "changeCurrentServer"));
         serverItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_subitem, "Server 2", DRAWER_ITEM_SERVERS, false, "changeCurrentServer"));
         serverItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_subitem, "Server 3", DRAWER_ITEM_SERVERS, false, "changeCurrentServer"));
 
@@ -338,13 +338,13 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
 
         // Add settings actions
-//        drawerItems.add(new ObjectDrawerItem(R.drawable.ic_action_options, navigationDrawerItemTitles[6], DRAWER_ITEM_ACTIONS, false, "openOption"));
+//        drawerItems.add(new ObjectDrawerItem(R.drawable.ic_action_options, navigationDrawerItemTitles[6], DRAWER_ITEM_ACTIONS, false, "openOptions"));
         settingsItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_settings, navigationDrawerItemTitles[6], DRAWER_ITEM_ACTIONS, false, "openSettings"));
         if (packageName.equals("com.lgallardo.youtorrentcontroller")) {
             settingsItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_pro, navigationDrawerItemTitles[7], DRAWER_ITEM_ACTIONS, false, "getPro"));
-            settingsItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_help, navigationDrawerItemTitles[8], DRAWER_ITEM_ACTIONS, false, "help"));
+            settingsItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_help, navigationDrawerItemTitles[8], DRAWER_ITEM_ACTIONS, false, "openHelp"));
         } else {
-            settingsItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_help, navigationDrawerItemTitles[7], DRAWER_ITEM_ACTIONS, false, "help"));
+            settingsItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_help, navigationDrawerItemTitles[7], DRAWER_ITEM_ACTIONS, false, "openHelp"));
         }
 
         // Create object for drawer item OnbjectDrawerItem
@@ -689,7 +689,8 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
         if (!hostname.equals("")) {
 
 //            switch (drawerList.getCheckedItemPosition()) {
-            switch (DrawerItemRecyclerViewAdapter.actionPosition - 1) {
+//            switch (DrawerItemRecyclerViewAdapter.actionPosition - 1) {
+            switch (actionStates.indexOf(currentState)) {
                 case 0:
                     refresh("all");
                     break;
@@ -1465,7 +1466,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
     }
 
-    private void openOptions() {
+    protected void openOptions() {
         canrefresh = false;
         // Retrieve preferences for options
         Intent intent = new Intent(getBaseContext(), OptionsActivity.class);
@@ -2079,6 +2080,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
     protected void saveLastState(String state) {
 
         currentState = state;
+        lastState = state;
 
         // Save options locally
         sharedPrefs = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
