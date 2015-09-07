@@ -358,7 +358,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 //        drawerItems.set(DrawerItemRecyclerViewAdapter.oldActionPosition-1, item);
 
 
-        DrawerItemRecyclerViewAdapter rAdapter = new DrawerItemRecyclerViewAdapter(this, serverItems, actionItems, settingsItems, null);
+        DrawerItemRecyclerViewAdapter rAdapter = new DrawerItemRecyclerViewAdapter(getApplicationContext(), this, serverItems, actionItems, settingsItems, null);
         rAdapter.notifyDataSetChanged();
 
 
@@ -1269,38 +1269,47 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
         }
     }
 
+    //Change current server
+    protected void changeCurrentServer() {
+
+        // Get values from preferences
+        getSettings();
+
+        // Get new token and cookie
+        new torrentTokenTask().execute();
+
+        // redraw menu
+        invalidateOptionsMenu();
+
+        // Get options from server and save them as shared preferences
+        // locally
+//            qBittorrentOptions qso = new qBittorrentOptions();
+//            qso.execute(new String[]{qbQueryString + "/preferences", "getSettings"});
+
+        // Save completedHashes
+        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        Editor editor = sharedPrefs.edit();
+
+        // Save hashes
+        editor.putString("completed_hashes", "");
+
+        // Commit changes
+        editor.apply();
+
+        canrefresh = true;
+        swipeRefresh();
+
+
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if (requestCode == SETTINGS_CODE) {
 
-            // Get values from preferences
-            getSettings();
 
-            // Get new token and cookie
-            new torrentTokenTask().execute();
-
-            // redraw menu
-            invalidateOptionsMenu();
-
-            // Get options from server and save them as shared preferences
-            // locally
-//            qBittorrentOptions qso = new qBittorrentOptions();
-//            qso.execute(new String[]{qbQueryString + "/preferences", "getSettings"});
-
-            // Now it can be refreshed
-            canrefresh = true;
-
-            // Save completedHashes
-            sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-            Editor editor = sharedPrefs.edit();
-
-            // Save hashes
-            editor.putString("completed_hashes", "");
-
-
-            // Commit changes
-            editor.apply();
+            // Change current server (from settings or drawer menu)
+            changeCurrentServer();
 
             alarmMgr = (AlarmManager) getApplication().getSystemService(Context.ALARM_SERVICE);
             Intent intent = new Intent(getApplication(), NotifierService.class);
@@ -1310,12 +1319,6 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
                     SystemClock.elapsedRealtime() + 5000,
                     notification_period, alarmIntent);
 
-
-            // Refresh
-//            token = null;
-//            cookie = null;
-            canrefresh = true;
-            swipeRefresh();
 
         }
 
@@ -1984,7 +1987,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
         MainActivity.cookie = sharedPrefs.getString("cookie", null);
 
         // Get last state
-        lastState = sharedPrefs.getString("lastState", null);
+        lastState = sharedPrefs.getString("lastState", "all");
 
         // Notification check
         try {
@@ -2005,6 +2008,14 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
         // Get package name
         packageName = pInfo.packageName;
+
+        // Debug
+        Log.d("Debug", "MainActivity - hostname: " + hostname);
+        Log.d("Debug", "MainActivity - subfolder: " + subfolder);
+        Log.d("Debug", "MainActivity - protocol: " + protocol);
+        Log.d("Debug", "MainActivity - https: " + https);
+        Log.d("Debug", "MainActivity - username: " + username);
+        Log.d("Debug", "MainActivity - password: " + password);
 
     }
 

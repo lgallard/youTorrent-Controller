@@ -4,13 +4,15 @@ package com.lgallardo.youtorrentcontroller;
  * Created by lgallard on 28/08/15.
  */
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -37,15 +39,12 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
     public static ArrayList<ObjectDrawerItem> settingsItems;
     public static ArrayList<ObjectDrawerItem> labelItems;
 
-
-    public static int oldActionPosition = 1;
     public static int actionPosition = 0;
 
     private static MainActivity mainActivity;
     private static int drawerOffset = 1;
 
-    RelativeLayout container;
-    private int lastPosition = -1;
+    private Context context;
 
 
     // Creating a ViewHolder which extends the RecyclerView View Holder
@@ -71,8 +70,6 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
 
         public ViewHolder(final View itemView, int ViewType) {                 // Creating ViewHolder Constructor with View and viewType As a parameter
             super(itemView);
-
-            container = (RelativeLayout) itemView.findViewById(R.id.drawer_server_row);
 
             Log.d("Debug", "DrawerItemRecyclerViewAdapter - >> ViewHolder");
 
@@ -144,40 +141,13 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
                     Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - Servers Category active");
 
                     // Remove all server items
-//
-//                    for (int i = 0; i < serverItems.size(); i++) {
-//
-//                        ObjectDrawerItem item = items.get(i);
-//
-//                        if (item.getType() == TYPE_SERVER || item.getType() == TYPE_SERVER_ACTIVE) {
-//                            items.remove(i);
-//                            notifyItemRemoved(i);
-//                        }
-//                    }
-//
-                    ListIterator iterator = items.listIterator();
-
-                    while (iterator.hasNext()) {
-
-                        ObjectDrawerItem item = (ObjectDrawerItem) iterator.next();
-
-                        Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - Analysing: " + item.name);
-
-                        if (item.getType() == TYPE_SERVER || item.getType() == TYPE_SERVER_ACTIVE) {
-
-                            Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - Removing: " + item.name);
-                            iterator.remove();
-                            notifyItemRemoved(iterator.nextIndex() + 1);
-
-                        }
-                    }
-
-                    lastPosition = -1;
-
+                    removeServerItems();
 
                     drawerItem.setActive(false);
 
                     drawerOffset = 1;
+
+
                 } else {
 
                     Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - Servers Category inactive");
@@ -244,7 +214,32 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
 
                 // Perform Action
 
-                // //    public static final String[] actionStates = new String[]{"all", "downloading", "completed", "pause", "active", "inactive"};
+                // Change current server
+
+
+
+                if (drawerItem.getAction().equals("changeCurrentServer")) {
+
+                    drawerItem.setActive(true);
+                    items.set(layoutPosition - 1, drawerItem);
+                    notifyItemChanged(layoutPosition);
+
+
+                    int currentServerValue = serverItems.indexOf(drawerItem);
+
+                    if(currentServerValue < 0) {
+                        currentServerValue = 0;
+                    }
+
+                    changeCurrentServer(currentServerValue);
+
+                    mainActivity.refreshCurrent();
+
+                    // Close drawer
+                    mainActivity.drawerLayout.closeDrawer(mainActivity.mRecyclerView);
+                }
+
+
                 // Refresh All
                 if (drawerItem.getAction().equals("refreshAll")) {
 
@@ -462,15 +457,13 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
     }
 
 
-    DrawerItemRecyclerViewAdapter(MainActivity mainActivity, ArrayList<ObjectDrawerItem> serverItems, ArrayList<ObjectDrawerItem> actionItems, ArrayList<ObjectDrawerItem> settingsItems, ArrayList<ObjectDrawerItem> labelItems) {
+    DrawerItemRecyclerViewAdapter(Context context, MainActivity mainActivity, ArrayList<ObjectDrawerItem> serverItems, ArrayList<ObjectDrawerItem> actionItems, ArrayList<ObjectDrawerItem> settingsItems, ArrayList<ObjectDrawerItem> labelItems) {
 
         this.mainActivity = mainActivity;
+        this.context = context;
 
 
         // All items
-
-        DrawerItemRecyclerViewAdapter.items = items;
-
 
         DrawerItemRecyclerViewAdapter.serverItems = serverItems;
         DrawerItemRecyclerViewAdapter.actionItems = actionItems;
@@ -533,6 +526,86 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
         }
 
 
+    }
+
+
+    private void removeServerItems() {
+        // Remove all server items
+        ListIterator iterator = items.listIterator();
+
+        while (iterator.hasNext()) {
+
+            ObjectDrawerItem item = (ObjectDrawerItem) iterator.next();
+
+            Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - Analysing: " + item.name);
+
+            if (item.getType() == TYPE_SERVER || item.getType() == TYPE_SERVER_ACTIVE) {
+
+                Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - Removing: " + item.name);
+                iterator.remove();
+                notifyItemRemoved(iterator.nextIndex() + 1);
+
+            }
+        }
+
+    }
+
+
+    private void changeCurrentServer( int currentServerValue){
+
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+
+
+        // Get values from selected server
+        String hostname = sharedPrefs.getString("hostname" + currentServerValue, "");
+        String subfolder = sharedPrefs.getString("subfolder" + currentServerValue, "");
+        String protocol;
+
+        String port = sharedPrefs.getString("port" + currentServerValue, "8080");
+
+        String username = sharedPrefs.getString("username" + currentServerValue, "NULL");
+        String password = sharedPrefs.getString("password" + currentServerValue, "NULL");
+
+        boolean https = sharedPrefs.getBoolean("https" + currentServerValue, false);
+
+        // Check https
+        if (https) {
+            protocol = "https";
+        } else {
+            protocol = "http";
+        }
+
+
+        // Debug
+        Log.d("Debug", "DrawerItemRecyclerViewAdapter - changeCurrentServer - changeCurrentServer: " + currentServerValue);
+        Log.d("Debug", "DrawerItemRecyclerViewAdapter - changeCurrentServer - hostname: " + hostname);
+        Log.d("Debug", "DrawerItemRecyclerViewAdapter - changeCurrentServer - subfolder: " + subfolder);
+        Log.d("Debug", "DrawerItemRecyclerViewAdapter - changeCurrentServer - protocol: " + protocol);
+        Log.d("Debug", "DrawerItemRecyclerViewAdapter - changeCurrentServer - port: " + port);
+        Log.d("Debug", "DrawerItemRecyclerViewAdapter - changeCurrentServer - https: " + https);
+        Log.d("Debug", "DrawerItemRecyclerViewAdapter - changeCurrentServer - username: " + username);
+        Log.d("Debug", "DrawerItemRecyclerViewAdapter - changeCurrentServer - password: " + password);
+
+
+        // Save values
+        SharedPreferences.Editor editor = sharedPrefs.edit();
+
+        // Save key-values
+        editor.putString("hostname", hostname);
+        editor.putString("subfolder", subfolder);
+        editor.putString("protocol", protocol);
+        editor.putString("port", port);
+        editor.putString("username", username);
+        editor.putString("password", password);
+        editor.putString("token","");
+        editor.putString("cookie","");
+
+
+        // Commit changes
+        editor.apply();
+
+
+        mainActivity.changeCurrentServer();
     }
 
     public void refreshDrawer(ArrayList<ObjectDrawerItem> serverItems, ArrayList<ObjectDrawerItem> actionItems, ArrayList<ObjectDrawerItem> settingsItems, ArrayList<ObjectDrawerItem> labelItems) {
@@ -659,13 +732,6 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
 
             holder.positionInItems = (position - 1);
 
-
-//            // If the bound view wasn't previously displayed on screen, it's animated
-//            if (container != null && position > lastPosition) {
-//                Animation animation = AnimationUtils.loadAnimation(container.getContext(), android.R.anim.slide_in_left);
-//                container.startAnimation(animation);
-//                lastPosition = position;
-//            }
 
         } else {
 
