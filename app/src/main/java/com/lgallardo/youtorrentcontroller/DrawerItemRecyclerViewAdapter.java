@@ -578,6 +578,8 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
 
         boolean https = sharedPrefs.getBoolean("https" + currentServerValue, false);
 
+        String  serverValue = sharedPrefs.getString("currentServer", "None");
+
         // Check https
         if (https) {
             protocol = "https";
@@ -587,6 +589,7 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
 
 
         // Debug
+        Log.d("Debug", "DrawerItemRecyclerViewAdapter - changeCurrentServer - serverValue: " + serverValue);
         Log.d("Debug", "DrawerItemRecyclerViewAdapter - changeCurrentServer - changeCurrentServer: " + currentServerValue);
         Log.d("Debug", "DrawerItemRecyclerViewAdapter - changeCurrentServer - hostname: " + hostname);
         Log.d("Debug", "DrawerItemRecyclerViewAdapter - changeCurrentServer - subfolder: " + subfolder);
@@ -601,6 +604,7 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
         SharedPreferences.Editor editor = sharedPrefs.edit();
 
         // Save key-values
+        editor.putString("currentServer", ""+currentServerValue);
         editor.putString("hostname", hostname);
         editor.putString("subfolder", subfolder);
         editor.putString("protocol", protocol);
