@@ -190,11 +190,21 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
 
 
                 // Disable all items
+
+                int lastActionPosition = 1;
+
                 for (int i = 0; i < items.size(); i++) {
                     ObjectDrawerItem item = items.get(i);
 
+
                     if ((drawerItem.getType() == TYPE_ITEM || drawerItem.getType() == TYPE_ITEM_ACTIVE) &&
                             (item.getType() == TYPE_ITEM || item.getType() == TYPE_ITEM_ACTIVE)) {
+
+                        // Get las action position selected
+
+                        if(item.isActive()){
+                            lastActionPosition = i;
+                        }
                         item.setActive(false);
                     }
 
@@ -208,8 +218,8 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
                 }
 
                 // Mark new item as active
-                drawerItem.setActive(true);
-                items.set(layoutPosition - 1, drawerItem);
+//                drawerItem.setActive(true);
+//                items.set(layoutPosition - 1, drawerItem);
 
 
                 // Perform Action
@@ -316,6 +326,9 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
                 // Open Settings
                 if (drawerItem.getAction().equals("openSettings")) {
 
+                    // Seth last actio position
+                    activeLastActionPosition(lastActionPosition);
+
                     mainActivity.openSettings();
 
                     // Close drawer
@@ -326,6 +339,10 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
                 // Open Options
                 if (drawerItem.getAction().equals("openOptions")) {
 
+                    // Seth last actio position
+                    activeLastActionPosition(lastActionPosition);
+
+
                     mainActivity.openOptions();
 
                     // Close drawer
@@ -335,6 +352,9 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
                 // Get Pro
                 if (drawerItem.getAction().equals("getPro")) {
 
+                    // Seth last actio position
+                    activeLastActionPosition(lastActionPosition);
+
                     mainActivity.getPRO();
 
                     // Close drawer
@@ -343,6 +363,11 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
 
                 // Open Help
                 if (drawerItem.getAction().equals("openHelp")) {
+
+                    ObjectDrawerItem item = items.get(lastActionPosition);
+                    item.setActive(true);
+                    items.set(lastActionPosition, item);
+
 
                     mainActivity.openHelp();
 
@@ -367,101 +392,6 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
 
 
             }
-
-            // Update drawer
-//            notifyDataSetChanged();
-
-
-//            // If the header is not selected and an action is selected
-//            if (actionPosition > 0 && actionPosition < 9) {
-//
-////                // Mark old item as inactive
-////                drawerItem = DrawerItemRecyclerViewAdapter.items.get(oldActionPosition);
-////                drawerItem.setActive(false);
-////                DrawerItemRecyclerViewAdapter.items.set(oldActionPosition, drawerItem);
-//
-////                oldActionPosition = actionPosition;
-//
-//                // Disable all items
-//                for (int i = 0; i < items.size(); i++) {
-//                    drawerItem = items.get(i);
-//
-//                    if (drawerItem.getType() == TYPE_ITEM || drawerItem.getType() == TYPE_ITEM_ACTIVE) {
-//                        drawerItem.setActive(false);
-//                    }
-//
-//                    items.set(i, drawerItem);
-//                }
-//
-//                // Mark new item as active
-//                drawerItem = items.get(actionPosition + drawerOffset - 1);
-//                drawerItem.setActive(true);
-//                items.set(actionPosition + drawerOffset - 1, drawerItem);
-//
-////                notifyItemChanged(actionPosition + 1);
-//
-//                notifyDataSetChanged();
-//
-//
-//                Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - getLayoutPosition: " + getLayoutPosition());
-//
-//                Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - actionPosition: " + (actionPosition));
-//
-//
-//                switch (actionPosition) {
-//                    case 1:
-//                        mainActivity.refreshFromDrawerAction("all", actionPosition);
-//                        Log.d("Debug", "DrawerItemRecyclerViewAdapter - action: All");
-//                        break;
-//                    case 2:
-//                        mainActivity.refreshFromDrawerAction("downloading", actionPosition);
-//                        mainActivity.saveLastState("downloading");
-//                        Log.d("Debug", "DrawerItemRecyclerViewAdapter - action: Downloading");
-//                        break;
-//                    case 3:
-//                        mainActivity.refreshFromDrawerAction("completed", actionPosition);
-//                        Log.d("Debug", "DrawerItemRecyclerViewAdapter - action: Completed");
-//                        break;
-//                    case 4:
-//                        mainActivity.refreshFromDrawerAction("pause", actionPosition);
-//                        Log.d("Debug", "DrawerItemRecyclerViewAdapter - action: Pause");
-//                        break;
-//                    case 5:
-//                        mainActivity.refreshFromDrawerAction("active", actionPosition);
-//                        Log.d("Debug", "DrawerItemRecyclerViewAdapter - action: Active");
-//                        break;
-//                    case 6:
-//                        mainActivity.refreshFromDrawerAction("inactive", actionPosition);
-//                        Log.d("Debug", "DrawerItemRecyclerViewAdapter - action: Inactive");
-//                        break;
-//                    case 7:
-//                        mainActivity.openSettings();
-//                        Log.d("Debug", "DrawerItemRecyclerViewAdapter - action: Settings");
-//                        break;
-//                    case 8:
-//                        if (MainActivity.packageName.equals("com.lgallardo.youtorrentcontroller")) {
-//                            // Get Pro version
-//                            mainActivity.getPRO();
-//                        } else {
-//                            mainActivity.openHelp();
-//                        }
-//                        break;
-//                    case 9:
-//                        mainActivity.openHelp();
-//                        break;
-//                    default:
-//                        mainActivity.saveLastState(MainActivity.currentState);
-//                        Log.d("Debug", "DrawerItemRecyclerViewAdapter - action: Default");
-//                        break;
-//                }
-//                // Close drawer
-//                mainActivity.drawerLayout.closeDrawer(mainActivity.mRecyclerView);
-//            }
-//
-//            // Load banner
-//            mainActivity.loadBanner();
-
-
         }
 
     }
@@ -560,6 +490,13 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
 
     }
 
+    private void activeLastActionPosition(int lastActionPosition){
+
+        ObjectDrawerItem item = items.get(lastActionPosition);
+        item.setActive(true);
+        items.set(lastActionPosition, item);
+
+    }
 
     private void changeCurrentServer(int currentServerValue) {
 
