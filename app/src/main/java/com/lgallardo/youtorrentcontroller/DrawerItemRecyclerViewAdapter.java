@@ -217,7 +217,6 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
                 // Change current server
 
 
-
                 if (drawerItem.getAction().equals("changeCurrentServer")) {
 
                     drawerItem.setActive(true);
@@ -227,7 +226,7 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
 
                     int currentServerValue = serverItems.indexOf(drawerItem);
 
-                    if(currentServerValue < 0) {
+                    if (currentServerValue < 0) {
                         currentServerValue = 0;
                     }
 
@@ -350,6 +349,17 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
                     // Close drawer
                     mainActivity.drawerLayout.closeDrawer(mainActivity.mRecyclerView);
                 }
+
+
+                // Remove all server items
+                removeServerItems();
+
+                // Toggle server category
+                drawerItem = items.get(0);
+                drawerItem.setActive(false);
+                items.set(0, drawerItem);
+
+                drawerOffset = 1;
 
 
                 // Load banner
@@ -551,7 +561,7 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
     }
 
 
-    private void changeCurrentServer( int currentServerValue){
+    private void changeCurrentServer(int currentServerValue) {
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
@@ -597,8 +607,8 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
         editor.putString("port", port);
         editor.putString("username", username);
         editor.putString("password", password);
-        editor.putString("token","");
-        editor.putString("cookie","");
+        editor.putString("token", "");
+        editor.putString("cookie", "");
 
 
         // Commit changes
