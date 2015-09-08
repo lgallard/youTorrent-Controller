@@ -1305,6 +1305,8 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
         canrefresh = true;
         swipeRefresh();
 
+//        refreshCurrent();
+
 
     }
 
@@ -2360,7 +2362,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
             params[2] = token;
 
 //            // Execute the task in background
-//            new torrentTask().execute(params);
+            new torrentTask().execute(params);
 
         }
     }
