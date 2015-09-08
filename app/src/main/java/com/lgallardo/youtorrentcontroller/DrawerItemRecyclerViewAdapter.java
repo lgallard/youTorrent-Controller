@@ -28,6 +28,7 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
     private static final int TYPE_SERVER = 3;
     private static final int TYPE_SERVER_ACTIVE = 4;
     private static final int TYPE_CATEGORY = 5;
+    private static final int TYPE_CATEGORY_ACTIVE = 6;
 
 
     // All items
@@ -66,6 +67,7 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
         // New
         ImageView imageViewIcon;
         TextView textViewName;
+        TextView textViewDrawerArrow;
 
 
         public ViewHolder(final View itemView, int ViewType) {                 // Creating ViewHolder Constructor with View and viewType As a parameter
@@ -91,6 +93,7 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
             // Here we set the appropriate view in accordance with the the view type as passed when the holder object is created
             imageViewIcon = (ImageView) itemView.findViewById(R.id.imageViewIcon);
             textViewName = (TextView) itemView.findViewById(R.id.textViewName);
+            textViewDrawerArrow = (TextView) itemView.findViewById(R.id.textViewDrawerArrow);
 
         }
 
@@ -202,7 +205,7 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
 
                         // Get las action position selected
 
-                        if(item.isActive()){
+                        if (item.isActive()) {
                             lastActionPosition = i;
                         }
                         item.setActive(false);
@@ -490,7 +493,7 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
 
     }
 
-    private void activeLastActionPosition(int lastActionPosition){
+    private void activeLastActionPosition(int lastActionPosition) {
 
         ObjectDrawerItem item = items.get(lastActionPosition);
         item.setActive(true);
@@ -515,7 +518,7 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
 
         boolean https = sharedPrefs.getBoolean("https" + currentServerValue, false);
 
-        String  serverValue = sharedPrefs.getString("currentServer", "None");
+        String serverValue = sharedPrefs.getString("currentServer", "None");
 
         // Check https
         if (https) {
@@ -541,7 +544,7 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
         SharedPreferences.Editor editor = sharedPrefs.edit();
 
         // Save key-values
-        editor.putString("currentServer", ""+currentServerValue);
+        editor.putString("currentServer", "" + currentServerValue);
         editor.putString("hostname", hostname);
         editor.putString("subfolder", subfolder);
         editor.putString("protocol", protocol);
@@ -597,69 +600,51 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
 //            drawerOffset = drawerOffset + 1;
 //        }
 
-        // Here w
-
+        //inflate your layout and pass it to view holder
         if (viewType == TYPE_CATEGORY) {
+
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.drawer_category_row, parent, false); //Inflating the layout
-
             ViewHolder vhItem = new ViewHolder(v, viewType); //Creating ViewHolder and passing the object of type view
-
             return vhItem; // Returning the created object
-
-            //inflate your layout and pass it to view holder
 
         } else if (viewType == TYPE_ITEM) {
 
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.drawer_row, parent, false); //Inflating the layout
-
             ViewHolder vhItem = new ViewHolder(v, viewType); //Creating ViewHolder and passing the object of type view
 
             return vhItem; // Returning the created object
-
-            //inflate your layout and pass it to view holder
 
         } else if (viewType == TYPE_ITEM_ACTIVE) {
 
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.drawer_row_active, parent, false); //Inflating the layout
-
             ViewHolder vhItem = new ViewHolder(v, viewType); //Creating ViewHolder and passing the object of type view
 
             return vhItem; // Returning the created object
-
-            //inflate your layout and pass it to view holder
 
         } else if (viewType == TYPE_SERVER) {
-            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.drawer_server_row, parent, false); //Inflating the layout
 
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.drawer_server_row, parent, false); //Inflating the layout
             ViewHolder vhItem = new ViewHolder(v, viewType); //Creating ViewHolder and passing the object of type view
 
             return vhItem; // Returning the created object
-
-            //inflate your layout and pass it to view holder
 
         } else if (viewType == TYPE_SERVER_ACTIVE) {
 
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.drawer_server_active_row, parent, false); //Inflating the layout
-
             ViewHolder vhItem = new ViewHolder(v, viewType); //Creating ViewHolder and passing the object of type view
 
             return vhItem; // Returning the created object
-
-            //inflate your layout and pass it to view holder
 
         } else if (viewType == TYPE_HEADER) {
 
 
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.drawer_header, parent, false); //Inflating the layout
-
             ViewHolder vhHeader = new ViewHolder(v, viewType); //Creating ViewHolder and passing the object of type view
-
-//            drawerOffset = drawerOffset + 1;
 
             return vhHeader; //returning the object created
 
-
         }
+
         return null;
 
     }
@@ -680,6 +665,21 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
 
 
             holder.textViewName.setText(item.name);
+
+
+
+            if (item.getType() == TYPE_CATEGORY && !item.isActive()) {
+                holder.textViewDrawerArrow.setText("▼");
+                Log.d("Debug", "DrawerItemRecyclerViewAdapter - onBindViewHolder - item.getType: " + item.getType());
+                Log.d("Debug", "DrawerItemRecyclerViewAdapter - onBindViewHolder - setText: ▼" + item.getType());
+
+            }
+
+            if (item.getType() == TYPE_CATEGORY && item.isActive()) {
+                holder.textViewDrawerArrow.setText("▲");
+                Log.d("Debug", "DrawerItemRecyclerViewAdapter - item.getType: " + item.getType());
+                Log.d("Debug", "DrawerItemRecyclerViewAdapter - setText: ▼" + item.getType());
+            }
 
             holder.positionInItems = (position - 1);
 
@@ -721,7 +721,12 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
             return TYPE_ITEM_ACTIVE;
         }
 
-        if (items.get(position - 1).getType() == TYPE_CATEGORY) {
+        if (items.get(position - 1).getType() == TYPE_CATEGORY && !(items.get(position - 1).isActive())) {
+            Log.d("Debug", "DrawerItemRecyclerViewAdapter - TYPE_CATEGORY");
+            return TYPE_CATEGORY;
+        }
+
+        if (items.get(position - 1).getType() == TYPE_CATEGORY && items.get(position - 1).isActive()) {
             Log.d("Debug", "DrawerItemRecyclerViewAdapter - TYPE_CATEGORY");
             return TYPE_CATEGORY;
         }
