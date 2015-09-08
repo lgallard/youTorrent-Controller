@@ -233,7 +233,7 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
 
                     changeCurrentServer(currentServerValue);
 
-                    mainActivity.refreshCurrent();
+//                    mainActivity.refreshCurrent();
 
                     // Close drawer
                     mainActivity.drawerLayout.closeDrawer(mainActivity.mRecyclerView);

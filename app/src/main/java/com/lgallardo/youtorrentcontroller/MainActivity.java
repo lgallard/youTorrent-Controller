@@ -5,7 +5,7 @@
  * are made available under the terms of the GNU Public License v3.0
  * which accompanies this distribution, and is available at
  * http://www.gnu.org/licenses/gpl.html
- * <p>
+ * <p/>
  * Contributors:
  * Luis M. Gallardo D.
  * ****************************************************************************
@@ -242,6 +242,8 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
     // Action (states)
     public static final ArrayList<String> actionStates = new ArrayList<>(Arrays.asList("all", "downloading", "completed", "pause", "active", "inactive"));
 
+    // Connection error counter
+    private int connectionErrorCounter = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -848,7 +850,9 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
         } else {
 
             // Connection Error message
-            Toast.makeText(getApplicationContext(), R.string.connection_error, Toast.LENGTH_SHORT).show();
+            if (connectionErrorCounter > 1) {
+                Toast.makeText(getApplicationContext(), R.string.connection_error, Toast.LENGTH_SHORT).show();
+            }
 
         }
 
@@ -1271,6 +1275,8 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
     //Change current server
     protected void changeCurrentServer() {
+
+        connectionErrorCounter = 0;
 
         // Get values from preferences
         getSettings();
@@ -2535,6 +2541,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
             int messageId = R.string.connection_error;
 
             if (result == null) {
+                connectionErrorCounter = connectionErrorCounter + 1;
                 messageId = R.string.connection_error;
             }
 
@@ -2809,7 +2816,15 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
             if (result == null) {
 
-                Toast.makeText(getApplicationContext(), R.string.connection_error, Toast.LENGTH_SHORT).show();
+                connectionErrorCounter = connectionErrorCounter + 1;
+
+                Log.d("Debug", "MainActivity - connectionErrorCounter: " + connectionErrorCounter);
+
+                if (connectionErrorCounter > 1) {
+
+
+                    Toast.makeText(getApplicationContext(), R.string.connection_error, Toast.LENGTH_SHORT).show();
+                }
 
                 // Handle HTTP status code
 
@@ -2837,6 +2852,8 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
 
             } else {
+
+                connectionErrorCounter = 0;
 
                 ArrayList<Torrent> torrentsFiltered = new ArrayList<Torrent>();
 
@@ -3240,7 +3257,11 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
             if (result == null) {
 
-                Toast.makeText(getApplicationContext(), R.string.connection_error, Toast.LENGTH_SHORT).show();
+                Log.d("Debug", "MainActivity - connectionErrorCounter: " + connectionErrorCounter);
+
+                if (connectionErrorCounter > 1) {
+                    Toast.makeText(getApplicationContext(), R.string.connection_error, Toast.LENGTH_SHORT).show();
+                }
 
                 // Handle HTTP status code
 
@@ -3264,6 +3285,8 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
                 }
 
             } else {
+
+                connectionErrorCounter = 0;
 
                 // Set options with the preference UI
 
