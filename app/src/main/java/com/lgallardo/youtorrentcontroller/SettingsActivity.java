@@ -107,11 +107,16 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
                         }
                     });
 
+
                     // Create dialog
                     AlertDialog dialog = builder.create();
 
                     // Show dialog
                     dialog.show();
+
+                    // Set first server
+                    currentServer.setValueIndex(0);
+
 
                 } else {
 

@@ -230,21 +230,45 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
 
                 if (drawerItem.getAction().equals("changeCurrentServer")) {
 
-                    drawerItem.setActive(true);
-                    items.set(layoutPosition - 1, drawerItem);
-                    notifyItemChanged(layoutPosition);
+
+                    if(MainActivity.packageName.equals("com.lgallardo.youtorrentcontroller") && items.indexOf(drawerItem) > 1) {
+
+                        mainActivity.genericOkDialog(R.string.settings_qbittorrent_pro_title, R.string.settings_qbittorrent_pro_message);
+
+                        // Disable server selection
+                        drawerItem.setActive(false);
+                        items.set(layoutPosition - 1, drawerItem);
+                        notifyItemChanged(layoutPosition);
 
 
-                    int currentServerValue = serverItems.indexOf(drawerItem);
+                        // Force first server
+                        ObjectDrawerItem item = items.get(1);
+                        item.setActive(true);
+                        items.set(1, item);
+                        notifyItemChanged(1);
 
-                    if (currentServerValue < 0) {
-                        currentServerValue = 0;
+
                     }
+                    else {
 
-                    changeCurrentServer(currentServerValue);
+
+                        drawerItem.setActive(true);
+                        items.set(layoutPosition - 1, drawerItem);
+                        notifyItemChanged(layoutPosition);
+
+
+                        int currentServerValue = serverItems.indexOf(drawerItem);
+
+                        if (currentServerValue < 0) {
+                            currentServerValue = 0;
+                        }
+
+                        changeCurrentServer(currentServerValue);
 
 //                    mainActivity.refreshCurrent();
 
+
+                    }
                     // Close drawer
                     mainActivity.drawerLayout.closeDrawer(mainActivity.mRecyclerView);
                 }
