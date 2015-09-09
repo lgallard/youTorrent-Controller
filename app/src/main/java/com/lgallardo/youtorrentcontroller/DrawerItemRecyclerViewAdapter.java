@@ -67,7 +67,6 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
         // New
         ImageView imageViewIcon;
         TextView textViewName;
-        TextView textViewDrawerArrow;
 
 
         public ViewHolder(final View itemView, int ViewType) {                 // Creating ViewHolder Constructor with View and viewType As a parameter
@@ -93,7 +92,6 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
             // Here we set the appropriate view in accordance with the the view type as passed when the holder object is created
             imageViewIcon = (ImageView) itemView.findViewById(R.id.imageViewIcon);
             textViewName = (TextView) itemView.findViewById(R.id.textViewName);
-            textViewDrawerArrow = (TextView) itemView.findViewById(R.id.textViewDrawerArrow);
 
         }
 
@@ -518,7 +516,7 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
 
         boolean https = sharedPrefs.getBoolean("https" + currentServerValue, false);
 
-        String serverValue = sharedPrefs.getString("currentServer", "None");
+        String serverValue = sharedPrefs.getString("currentServer", "1");
 
         // Check https
         if (https) {
@@ -660,26 +658,9 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
 
             ObjectDrawerItem item = items.get(position - 1);
 
-
             holder.imageViewIcon.setImageResource(item.icon);
-
-
             holder.textViewName.setText(item.name);
 
-
-
-            if (item.getType() == TYPE_CATEGORY && !item.isActive()) {
-                holder.textViewDrawerArrow.setText("▼");
-                Log.d("Debug", "DrawerItemRecyclerViewAdapter - onBindViewHolder - item.getType: " + item.getType());
-                Log.d("Debug", "DrawerItemRecyclerViewAdapter - onBindViewHolder - setText: ▼" + item.getType());
-
-            }
-
-            if (item.getType() == TYPE_CATEGORY && item.isActive()) {
-                holder.textViewDrawerArrow.setText("▲");
-                Log.d("Debug", "DrawerItemRecyclerViewAdapter - item.getType: " + item.getType());
-                Log.d("Debug", "DrawerItemRecyclerViewAdapter - setText: ▼" + item.getType());
-            }
 
             holder.positionInItems = (position - 1);
 

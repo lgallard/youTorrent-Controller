@@ -125,6 +125,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
     protected static com.lgallardo.youtorrentcontroller.JSONParser jParser;
 
     // Preferences properties
+    protected static String currentServer;
     protected static String hostname;
     protected static String subfolder;
     protected static int port;
@@ -187,6 +188,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
     private CharSequence drawerTitle;
     private CharSequence title;
     private String[] navigationDrawerItemTitles;
+    private String[] navigationDrawerServerItems;
     //    private ListView drawerList;
     protected RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;            // Declaring Layout Manager as a linear layout manager
@@ -309,6 +311,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
         setTitle(R.string.app_shortname);
 
         // Drawer menu
+        navigationDrawerServerItems = getResources().getStringArray(R.array.qBittorrentServers);
         navigationDrawerItemTitles = getResources().getStringArray(R.array.navigation_drawer_items_array);
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -326,9 +329,29 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
         // Add server category
         serverItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_servers, "Servers", DRAWER_CATEGORY, false, null));
-        serverItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_subitem, "Server 1", DRAWER_ITEM_SERVERS, true, "changeCurrentServer"));
-        serverItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_subitem, "Server 2", DRAWER_ITEM_SERVERS, false, "changeCurrentServer"));
-        serverItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_subitem, "Server 3", DRAWER_ITEM_SERVERS, false, "changeCurrentServer"));
+
+        // Server items
+        int currentServerValue = 1;
+
+        try {
+            currentServerValue = Integer.parseInt(MainActivity.currentServer);
+        } catch (NumberFormatException e) {
+
+        }
+
+        for (int i = 0; i < navigationDrawerServerItems.length; i++) {
+            Log.d("Debug", "MainActivity - currentServerValue - currentServerValue: " + currentServerValue);
+            Log.d("Debug", "MainActivity - currentServerValue - (i + 1): " + (i + 1));
+            Log.d("Debug", "MainActivity - currentServerValue - (i + 1) == currentServerValue: " + ((i + 1) == currentServerValue));
+
+            serverItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_subitem, navigationDrawerServerItems[i], DRAWER_ITEM_SERVERS, ((i + 1) == currentServerValue), "changeCurrentServer"));
+
+        }
+
+//
+//        serverItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_subitem, "Server 1", DRAWER_ITEM_SERVERS, true, "changeCurrentServer"));
+//        serverItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_subitem, "Server 2", DRAWER_ITEM_SERVERS, false, "changeCurrentServer"));
+//        serverItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_subitem, "Server 3", DRAWER_ITEM_SERVERS, false, "changeCurrentServer"));
 
         // Add actions
         actionItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_all, navigationDrawerItemTitles[0], DRAWER_ITEM_ACTIONS, lastState.equals("all"), "refreshAll"));
@@ -1930,6 +1953,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
         builderPrefs.append("\n" + sharedPrefs.getString("language", "NULL"));
 
         // Get values from preferences
+        currentServer = sharedPrefs.getString("currentServer", "1");
         hostname = sharedPrefs.getString("hostname", "");
         subfolder = sharedPrefs.getString("subfolder", "");
 
