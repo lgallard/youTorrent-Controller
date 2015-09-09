@@ -1,5 +1,6 @@
 package com.lgallardo.youtorrentcontroller;
 
+import android.support.v7.widget.RecyclerView;
 import android.test.ActivityInstrumentationTestCase2;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -17,7 +18,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 
 
     private MainActivity mActivity;
-    private ListView mLeftDrawer;
+    private RecyclerView mLeftDrawer;
     private Solo mSolo;
     private ArrayList<ListView> mListViews;
     int mLeftDrawerIndex;
@@ -35,7 +36,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         setActivityInitialTouchMode(false);
 
         mActivity = getActivity();
-        mLeftDrawer = (ListView) mActivity.findViewById(R.id.left_drawer);
+        mLeftDrawer = (RecyclerView) mActivity.findViewById(R.id.RecyclerView);
 
 
         //	Initiate	the	instance	of	Solo
@@ -46,11 +47,11 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         mListViews = mSolo.getCurrentViews(ListView.class);
 
         // Define index for left_drawer list view
-        mLeftDrawerIndex = 1;
+        mLeftDrawerIndex = 0;
 
         // Get drawer list view index
         for (int i = 0; i < mListViews.size(); i++) {
-            if (mListViews.get(i).getId() == R.id.left_drawer) {
+            if (mListViews.get(i).getId() == R.id.RecyclerView) {
                 mLeftDrawerIndex = i;
                 break;
             }
@@ -64,7 +65,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 
         // Click All
         mSolo.clickOnActionBarHomeButton();
-        mSolo.clickInList(1, mLeftDrawerIndex);
+        mSolo.clickInRecyclerView(2, mLeftDrawerIndex);
         mSolo.sleep(1000);
 
         assertEquals("All torrent list not loaded",
@@ -78,7 +79,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 
         // Click Download
         mSolo.clickOnActionBarHomeButton();
-        mSolo.clickInList(2, mLeftDrawerIndex);
+        mSolo.clickInRecyclerView(3, mLeftDrawerIndex);
         mSolo.sleep(1000);
 
         assertEquals("Download torrent list not loaded",
@@ -92,7 +93,8 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 
         // Click Completed
         mSolo.clickOnActionBarHomeButton();
-        mSolo.clickInList(3, mLeftDrawerIndex);
+        mSolo.clickInRecyclerView(4, mLeftDrawerIndex);
+
         mSolo.sleep(1000);
 
         assertEquals("Completed torrent list not loaded",
@@ -107,7 +109,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 
         // Click Paused
         mSolo.clickOnActionBarHomeButton();
-        mSolo.clickInList(4, mLeftDrawerIndex);
+        mSolo.clickInRecyclerView(5, mLeftDrawerIndex);
         mSolo.sleep(1000);
 
         assertEquals("Completed torrent list not loaded",
@@ -123,7 +125,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 
         // Click Active
         mSolo.clickOnActionBarHomeButton();
-        mSolo.clickInList(5, mLeftDrawerIndex);
+        mSolo.clickInRecyclerView(6, mLeftDrawerIndex);
         mSolo.sleep(1000);
 
         assertEquals("Completed torrent list not loaded",
@@ -139,7 +141,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 
         // Click Inactive
         mSolo.clickOnActionBarHomeButton();
-        mSolo.clickInList(6, mLeftDrawerIndex);
+        mSolo.clickInRecyclerView(7, mLeftDrawerIndex);
         mSolo.sleep(1000);
 
         assertEquals("Completed torrent list not loaded",
@@ -155,9 +157,10 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 
         if (mActivity.packageName.equals("com.lgallardo.qbittorrentclient")) {
 
+
             assertEquals("Get PRO not in menu drawer",
                     mActivity.getResources().getStringArray(R.array.navigation_drawer_items_array)[8],
-                    ((TextView) mLeftDrawer.getAdapter().getView(8, null, null).findViewById(R.id.textViewName)).getText().toString());
+                    ((TextView) mLeftDrawer.getChildAt(9)).getText().toString());
 
         }
     }
@@ -174,7 +177,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
     public void testOptionsLaunched() {
 
         mSolo.clickOnActionBarHomeButton();
-        mSolo.clickInList(7, mLeftDrawerIndex);
+        mSolo.clickInRecyclerView(8, mLeftDrawerIndex);
         mSolo.assertCurrentActivity("Can't open Options activity", OptionsActivity.class);
 
     }
@@ -184,7 +187,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
     public void testSettingsLaunched() {
 
         mSolo.clickOnActionBarHomeButton();
-        mSolo.clickInList(8, mLeftDrawerIndex);
+        mSolo.clickInRecyclerView(9, mLeftDrawerIndex);
         mSolo.assertCurrentActivity("Can't open Settings activity", SettingsActivity.class);
 
     }
@@ -196,9 +199,9 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         mSolo.clickOnActionBarHomeButton();
 
         if (mActivity.packageName.equals("com.lgallardo.qbittorrentclientpro")) {
-            mSolo.clickInList(9, mLeftDrawerIndex);
+            mSolo.clickInRecyclerView(10, mLeftDrawerIndex);
         } else {
-            mSolo.clickInList(10, mLeftDrawerIndex);
+            mSolo.clickInRecyclerView(11, mLeftDrawerIndex);
         }
 
         mSolo.assertCurrentActivity("Can't open Help activity", HelpActivity.class);
@@ -216,8 +219,8 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 
         EditText url = (EditText) mSolo.getView(R.id.url);
 
-        // http://cdimage.debian.org/debian-cd/8.1.0/amd64/bt-cd/debian-8.1.0-amd64-CD-1.iso.torrent
-        mSolo.enterText(url, "http://cdimage.debian.org/debian-cd/8.1.0/amd64/bt-cd/debian-8.1.0-amd64-CD-1.iso.torrent");
+        // http://cdimage.debian.org/debian-cd/current/amd64/bt-cd/debian-8.2.0-amd64-CD-1.iso.torrent
+        mSolo.enterText(url, "http://cdimage.debian.org/debian-cd/current/amd64/bt-cd/debian-8.2.0-amd64-CD-1.iso.torrent");
         mSolo.clickOnButton(mSolo.getString(R.string.ok));
 
         assertTrue("Torrent not sent", mSolo.waitForText(mSolo.getString(R.string.torrentAdded)));
@@ -225,7 +228,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 
         // Check is on the Downloading list
         mSolo.clickOnActionBarHomeButton();
-        mSolo.clickInList(2, mLeftDrawerIndex);
+        mSolo.clickInRecyclerView(3, mLeftDrawerIndex);
         getInstrumentation().waitForIdleSync();
 
         mSolo.sleep(3000);
@@ -240,7 +243,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
     public void test1PauseTorrentFromCAB() {
 
         // Add torrent first
-        mActivity.addTorrent("http://cdimage.debian.org/debian-cd/8.1.0/amd64/bt-cd/debian-8.1.0-amd64-CD-1.iso.torrent");
+        mActivity.addTorrent("http://cdimage.debian.org/debian-cd/current/amd64/bt-cd/debian-8.2.0-amd64-CD-1.iso.torrent");
         getInstrumentation().waitForIdleSync();
 
         // Long click on pre-added torrent
@@ -252,7 +255,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 
         // Check is on the Paused list
         mSolo.clickOnActionBarHomeButton();
-        mSolo.clickInList(4, mLeftDrawerIndex);
+        mSolo.clickInRecyclerView(5, mLeftDrawerIndex);
         getInstrumentation().waitForIdleSync();
 
 
@@ -267,7 +270,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
     public void test1ResumeTorrentFromCAB() {
 
         // Add torrent first
-        mActivity.addTorrent("http://cdimage.debian.org/debian-cd/8.1.0/amd64/bt-cd/debian-8.1.0-amd64-CD-1.iso.torrent");
+        mActivity.addTorrent("http://cdimage.debian.org/debian-cd/current/amd64/bt-cd/debian-8.2.0-amd64-CD-1.iso.torrent");
         getInstrumentation().waitForIdleSync();
 
         // Long click on pre-added torrent
@@ -279,7 +282,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 
         // Check is on the All list
         mSolo.clickOnActionBarHomeButton();
-        mSolo.clickInList(1, mLeftDrawerIndex);
+        mSolo.clickInRecyclerView(3, mLeftDrawerIndex);
         getInstrumentation().waitForIdleSync();
 
         // Get item with text "debian"
@@ -293,7 +296,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
     public void test2DeleteTorrentFromCAB() {
 
         // Add torrent first
-        mActivity.addTorrent("http://cdimage.debian.org/debian-cd/8.1.0/amd64/bt-cd/debian-8.1.0-amd64-CD-1.iso.torrent");
+        mActivity.addTorrent("http://cdimage.debian.org/debian-cd/current/amd64/bt-cd/debian-8.2.0-amd64-CD-1.iso.torrent");
         getInstrumentation().waitForIdleSync();
 
         // Long click on pre-added torrent
@@ -312,7 +315,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 
         // Check is on the All list
         mSolo.clickOnActionBarHomeButton();
-        mSolo.clickInList(1, mLeftDrawerIndex);
+        mSolo.clickInRecyclerView(2, mLeftDrawerIndex);
         getInstrumentation().waitForIdleSync();
 
         // Get item with text "debian"
@@ -324,7 +327,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
     public void test2DeleteTorrentWithDataFromCAB() {
 
         // Add torrent first
-        mActivity.addTorrent("http://cdimage.debian.org/debian-cd/8.1.0/amd64/bt-cd/debian-8.1.0-amd64-CD-1.iso.torrent");
+        mActivity.addTorrent("http://cdimage.debian.org/debian-cd/current/amd64/bt-cd/debian-8.2.0-amd64-CD-1.iso.torrent");
         getInstrumentation().waitForIdleSync();
 
         // Long click on pre-added torrent
@@ -343,7 +346,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 
         // Check is on the All list
         mSolo.clickOnActionBarHomeButton();
-        mSolo.clickInList(1, mLeftDrawerIndex);
+        mSolo.clickInRecyclerView(2, mLeftDrawerIndex);
         getInstrumentation().waitForIdleSync();
 
         // Try to get item with text "debian"
@@ -355,12 +358,12 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
     public void test1PauseTorrentFromDetails() {
 
         // Add torrent first
-        mActivity.addTorrent("http://cdimage.debian.org/debian-cd/8.1.0/amd64/bt-cd/debian-8.1.0-amd64-CD-1.iso.torrent");
+        mActivity.addTorrent("http://cdimage.debian.org/debian-cd/current/amd64/bt-cd/debian-8.2.0-amd64-CD-1.iso.torrent");
         getInstrumentation().waitForIdleSync();
 
         // Open All list
         mSolo.clickOnActionBarHomeButton();
-        mSolo.clickInList(1, mLeftDrawerIndex);
+        mSolo.clickInRecyclerView(2, mLeftDrawerIndex);
         getInstrumentation().waitForIdleSync();
 
 
@@ -374,7 +377,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 
         // Check is on the Paused list
         mSolo.clickOnActionBarHomeButton();
-        mSolo.clickInList(4, mLeftDrawerIndex);
+        mSolo.clickInRecyclerView(5, mLeftDrawerIndex);
         getInstrumentation().waitForIdleSync();
 
         // Get item with text "debian"
@@ -387,13 +390,13 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
     public void test1ResumeTorrentFromDetails() {
 
         // Add torrent first
-        mActivity.addTorrent("http://cdimage.debian.org/debian-cd/8.1.0/amd64/bt-cd/debian-8.1.0-amd64-CD-1.iso.torrent");
+        mActivity.addTorrent("http://cdimage.debian.org/debian-cd/current/amd64/bt-cd/debian-8.2.0-amd64-CD-1.iso.torrent");
         getInstrumentation().waitForIdleSync();
 //        test1AddTorrent();
 
         // Open All list
         mSolo.clickOnActionBarHomeButton();
-        mSolo.clickInList(1, mLeftDrawerIndex);
+        mSolo.clickInRecyclerView(2, mLeftDrawerIndex);
         getInstrumentation().waitForIdleSync();
 
 
@@ -407,7 +410,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 
         // Check is on the Downloading list
         mSolo.clickOnActionBarHomeButton();
-        mSolo.clickInList(2, mLeftDrawerIndex);
+        mSolo.clickInRecyclerView(3, mLeftDrawerIndex);
         getInstrumentation().waitForIdleSync();
 
         // Get item with text "debian"
@@ -419,13 +422,13 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
     public void test2DeleteTorrentFromFromDetails() {
 
         // Add torrent first
-        mActivity.addTorrent("http://cdimage.debian.org/debian-cd/8.1.0/amd64/bt-cd/debian-8.1.0-amd64-CD-1.iso.torrent");
+        mActivity.addTorrent("http://cdimage.debian.org/debian-cd/current/amd64/bt-cd/debian-8.2.0-amd64-CD-1.iso.torrent");
         getInstrumentation().waitForIdleSync();
 
 
         // Open All list
         mSolo.clickOnActionBarHomeButton();
-        mSolo.clickInList(1, mLeftDrawerIndex);
+        mSolo.clickInRecyclerView(2, mLeftDrawerIndex);
         getInstrumentation().waitForIdleSync();
 
 
@@ -445,7 +448,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 
         // Check is on the All list
         mSolo.clickOnActionBarHomeButton();
-        mSolo.clickInList(1, mLeftDrawerIndex);
+        mSolo.clickInRecyclerView(2, mLeftDrawerIndex);
         getInstrumentation().waitForIdleSync();
 
         // Try to get item with text "debian"
@@ -457,13 +460,13 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
     public void test2DeleteTorrentWithDataFromFromDetails() {
 
         // Add torrent first
-        mActivity.addTorrent("http://cdimage.debian.org/debian-cd/8.1.0/amd64/bt-cd/debian-8.1.0-amd64-CD-1.iso.torrent");
+        mActivity.addTorrent("http://cdimage.debian.org/debian-cd/current/amd64/bt-cd/debian-8.2.0-amd64-CD-1.iso.torrent");
         getInstrumentation().waitForIdleSync();
 
 
         // Open All list
         mSolo.clickOnActionBarHomeButton();
-        mSolo.clickInList(1, mLeftDrawerIndex);
+        mSolo.clickInRecyclerView(2, mLeftDrawerIndex);
         getInstrumentation().waitForIdleSync();
 
 
@@ -483,7 +486,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 
         // Check is on the All list
         mSolo.clickOnActionBarHomeButton();
-        mSolo.clickInList(1, mLeftDrawerIndex);
+        mSolo.clickInRecyclerView(2, mLeftDrawerIndex);
         getInstrumentation().waitForIdleSync();
 
         // Try to get item with text "debian"
@@ -492,7 +495,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
     }
 
     // Check if Ads were loaded in MainActivity
-    public void test1AdsUnitId(){
+    public void test1AdsUnitId() {
 
         if (mActivity.packageName.equals("com.lgallardo.qbittorrentclient")) {
 
@@ -503,9 +506,9 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 
 
             // Check ad unit id            // Check ad unit id
-            assertTrue("Ads not loaded",mAdviews.size() > 0);
+            assertTrue("Ads not loaded", mAdviews.size() > 0);
             assertNotNull("Ads not loaded", mAdviews.get(0).getAdUnitId());
-            assertEquals("Ads not loaded", "ca-app-pub-1035265933040074/9260093694",mAdviews.get(0).getAdUnitId());
+            assertEquals("Ads not loaded", "ca-app-pub-1035265933040074/9260093694", mAdviews.get(0).getAdUnitId());
 
         }
 
@@ -524,10 +527,10 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
             ArrayList<AdView> mAdviews = mSolo.getCurrentViews(AdView.class);
 
             // Check ad unit id
-            assertTrue("Ads not loaded in RSS Feed",mAdviews.size() > 0);
+            assertTrue("Ads not loaded in RSS Feed", mAdviews.size() > 0);
             assertNotNull("Ads not loaded in RSS Feed", mAdviews.get(0).getAdUnitId());
             assertEquals("Ads not loaded in RSS Feed", R.id.adViewRssFeed, mAdviews.get(0).getId());
-            assertEquals("Ads not loaded in RSS Feed", "ca-app-pub-1035265933040074/9260093694",mAdviews.get(0).getAdUnitId());
+            assertEquals("Ads not loaded in RSS Feed", "ca-app-pub-1035265933040074/9260093694", mAdviews.get(0).getAdUnitId());
         }
     }
 
@@ -539,7 +542,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 
             getInstrumentation().waitForIdleSync();
 
-            mSolo.clickInList(1);
+            mSolo.clickInRecyclerView(2, mLeftDrawerIndex);
 
             mSolo.sleep(3000);
 
@@ -550,7 +553,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
             assertTrue("Ads not loaded in RSS Item list", mAdviews.size() > 0);
             assertNotNull("Ads not loaded in RSS Item list", mAdviews.get(0).getAdUnitId());
             assertEquals("Ads not loaded in RSS Item list", R.id.adViewRssItem, mAdviews.get(0).getId());
-            assertEquals("Ads not loaded in RSS Item list", "ca-app-pub-1035265933040074/9260093694",mAdviews.get(0).getAdUnitId());
+            assertEquals("Ads not loaded in RSS Item list", "ca-app-pub-1035265933040074/9260093694", mAdviews.get(0).getAdUnitId());
 
         }
     }
