@@ -578,6 +578,7 @@ public class ItemstFragment extends ListFragment {
 
 
             menu.findItem(R.id.action_sortby_name).setVisible(true);
+            menu.findItem(R.id.action_sortby_size).setVisible(true);
             menu.findItem(R.id.action_sortby_eta).setVisible(true);
             menu.findItem(R.id.action_sortby_priority).setVisible(true);
             menu.findItem(R.id.action_sortby_progress).setVisible(true);
@@ -587,6 +588,10 @@ public class ItemstFragment extends ListFragment {
 
             if (MainActivity.sortby.equals("Name")) {
                 menu.findItem(R.id.action_sortby_name).setIcon(R.drawable.ic_stat_completed);
+            }
+
+            if (MainActivity.sortby.equals("Size")) {
+                menu.findItem(R.id.action_sortby_size).setIcon(R.drawable.ic_stat_completed);
             }
 
             if (MainActivity.sortby.equals("ETA")) {
@@ -613,6 +618,9 @@ public class ItemstFragment extends ListFragment {
                 menu.findItem(R.id.action_sortby_uploadSpeed).setIcon(R.drawable.ic_stat_completed);
             }
 
+            if (MainActivity.reverse_order) {
+                menu.findItem(R.id.action_sortby_reverse_order).setIcon(R.drawable.ic_stat_completed);
+            }
         }
     }
 

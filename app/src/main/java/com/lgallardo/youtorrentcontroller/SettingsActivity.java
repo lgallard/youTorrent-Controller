@@ -206,7 +206,7 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
         }
 
         sortBy.setSummary(sortBy.getEntry());
-        reverse_order.setChecked(sharedPrefs.getBoolean("reverse_order" + value, false));
+        reverse_order.setChecked(sharedPrefs.getBoolean("reverse_order", false));
 
         dark_ui.setChecked(sharedPrefs.getBoolean("dark_ui", false));
 
@@ -275,7 +275,7 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
             editor.putString("data_timeout", data_timeout.getText().toString());
         }
 
-        editor.putBoolean("revserse_order" + currentServerValue, reverse_order.isChecked());
+        editor.putBoolean("reverse_order" + currentServerValue, reverse_order.isChecked());
 
         editor.putBoolean("dark_ui" + currentServerValue, dark_ui.isChecked());
 

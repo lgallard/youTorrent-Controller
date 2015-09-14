@@ -245,7 +245,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
     public static final ArrayList<String> actionStates = new ArrayList<>(Arrays.asList("all", "downloading", "completed", "pause", "active", "inactive"));
 
     // Connection error counter
-    private int connectionErrorCounter = 0;
+    private int connection400ErrorCounter = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -883,7 +883,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
         } else {
 
             // Connection Error message
-            if (connectionErrorCounter > 1) {
+            if (connection400ErrorCounter > 1) {
                 Toast.makeText(getApplicationContext(), R.string.connection_error, Toast.LENGTH_SHORT).show();
             }
 
@@ -1271,33 +1271,43 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
                 invalidateOptionsMenu();
                 refreshCurrent();
                 return true;
-            case R.id.action_sortby_eta:
+            case R.id.action_sortby_size:
                 saveSortBy(getResources().getStringArray(R.array.sortByValues)[1]);
                 invalidateOptionsMenu();
                 refreshCurrent();
                 return true;
-            case R.id.action_sortby_priority:
+            case R.id.action_sortby_eta:
                 saveSortBy(getResources().getStringArray(R.array.sortByValues)[2]);
                 invalidateOptionsMenu();
                 refreshCurrent();
                 return true;
-            case R.id.action_sortby_progress:
+            case R.id.action_sortby_priority:
                 saveSortBy(getResources().getStringArray(R.array.sortByValues)[3]);
                 invalidateOptionsMenu();
                 refreshCurrent();
                 return true;
-            case R.id.action_sortby_ratio:
+            case R.id.action_sortby_progress:
                 saveSortBy(getResources().getStringArray(R.array.sortByValues)[4]);
                 invalidateOptionsMenu();
                 refreshCurrent();
                 return true;
-            case R.id.action_sortby_downloadSpeed:
+            case R.id.action_sortby_ratio:
                 saveSortBy(getResources().getStringArray(R.array.sortByValues)[5]);
                 invalidateOptionsMenu();
                 refreshCurrent();
                 return true;
-            case R.id.action_sortby_uploadSpeed:
+            case R.id.action_sortby_downloadSpeed:
                 saveSortBy(getResources().getStringArray(R.array.sortByValues)[6]);
+                invalidateOptionsMenu();
+                refreshCurrent();
+                return true;
+            case R.id.action_sortby_uploadSpeed:
+                saveSortBy(getResources().getStringArray(R.array.sortByValues)[7]);
+                invalidateOptionsMenu();
+                refreshCurrent();
+                return true;
+            case R.id.action_sortby_reverse_order:
+                saveReverseOrder(!reverse_order);
                 invalidateOptionsMenu();
                 refreshCurrent();
                 return true;
@@ -1309,7 +1319,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
     //Change current server
     protected void changeCurrentServer() {
 
-        connectionErrorCounter = 0;
+        connection400ErrorCounter = 0;
 
         // Get values from preferences
         getSettings();
@@ -2162,6 +2172,20 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
     }
 
+    private void saveReverseOrder( boolean reverse_order) {
+        MainActivity.reverse_order = reverse_order;
+        // Save options locally
+        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+        Editor editor = sharedPrefs.edit();
+
+        // Save key-values
+        editor.putBoolean("reverse_order", reverse_order);
+
+        // Commit changes
+        editor.apply();
+
+    }
+
     private void selectItem(int position) {
 
 
@@ -2559,6 +2583,14 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
                 return;
             }
 
+            if (httpStatusCode == 400) {
+                connection400ErrorCounter = connection400ErrorCounter + 1;
+                httpStatusCode = 0;
+                return;
+            }
+
+
+
             if (httpStatusCode == 403 || httpStatusCode == 404) {
 
                 cookie = null;
@@ -2577,7 +2609,6 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
             int messageId = R.string.connection_error;
 
             if (result == null) {
-                connectionErrorCounter = connectionErrorCounter + 1;
                 messageId = R.string.connection_error;
             }
 
@@ -2852,11 +2883,9 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
             if (result == null) {
 
-                connectionErrorCounter = connectionErrorCounter + 1;
+                Log.d("Debug", "MainActivity - connection400ErrorCounter: " + connection400ErrorCounter);
 
-                Log.d("Debug", "MainActivity - connectionErrorCounter: " + connectionErrorCounter);
-
-                if (connectionErrorCounter > 1) {
+                if (connection400ErrorCounter > 1) {
 
 
                     Toast.makeText(getApplicationContext(), R.string.connection_error, Toast.LENGTH_SHORT).show();
@@ -2868,6 +2897,13 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
                     Toast.makeText(getApplicationContext(), R.string.error1, Toast.LENGTH_SHORT).show();
                     httpStatusCode = 0;
                 }
+
+                if (httpStatusCode == 400) {
+                    connection400ErrorCounter = connection400ErrorCounter + 1;
+                    httpStatusCode = 0;
+                    return;
+                }
+
 
                 if (httpStatusCode == 401) {
                     Toast.makeText(getApplicationContext(), R.string.error401, Toast.LENGTH_LONG).show();
@@ -2889,7 +2925,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
             } else {
 
-                connectionErrorCounter = 0;
+                connection400ErrorCounter = 0;
 
                 ArrayList<Torrent> torrentsFiltered = new ArrayList<Torrent>();
 
@@ -2941,6 +2977,10 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
                 // Sort by filename
                 if (sortby.equals("Name")) {
                     Collections.sort(torrentsFiltered, new TorrentNameComparator(reverse_order));
+                }
+                // Sort by size
+                if (sortby.equals("Size")) {
+                    Collections.sort(torrentsFiltered, new TorrentSizeComparator(reverse_order));
                 }
                 // Sort by priority
                 if (sortby.equals("Priority")) {
@@ -3293,9 +3333,9 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
             if (result == null) {
 
-                Log.d("Debug", "MainActivity - connectionErrorCounter: " + connectionErrorCounter);
+                Log.d("Debug", "MainActivity - connection400ErrorCounter: " + connection400ErrorCounter);
 
-                if (connectionErrorCounter > 1) {
+                if (connection400ErrorCounter > 1) {
                     Toast.makeText(getApplicationContext(), R.string.connection_error, Toast.LENGTH_SHORT).show();
                 }
 
@@ -3322,7 +3362,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
             } else {
 
-                connectionErrorCounter = 0;
+                connection400ErrorCounter = 0;
 
                 // Set options with the preference UI
 
