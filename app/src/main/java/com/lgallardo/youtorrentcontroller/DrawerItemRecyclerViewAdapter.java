@@ -72,7 +72,7 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
         public ViewHolder(final View itemView, int ViewType) {                 // Creating ViewHolder Constructor with View and viewType As a parameter
             super(itemView);
 
-            Log.d("Debug", "DrawerItemRecyclerViewAdapter - >> ViewHolder");
+//            Log.d("Debug", "DrawerItemRecyclerViewAdapter - >> ViewHolder");
 
             Holderid = 0;
             if (ViewType != TYPE_HEADER) {
@@ -102,19 +102,14 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
         public void onClick(View view) {
 
 
-            Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick - serverItems size: " + DrawerItemRecyclerViewAdapter.serverItems.size());
-            Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick - actionItems size: " + DrawerItemRecyclerViewAdapter.actionItems.size());
-            Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick - settingsItems size: " + DrawerItemRecyclerViewAdapter.settingsItems.size());
-            Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick - labelItems size: " + DrawerItemRecyclerViewAdapter.labelItems.size());
-            Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick - items size: " + DrawerItemRecyclerViewAdapter.items.size());
-
-
-            Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - offSetPosition: " + (drawerOffset));
-
-
-            Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - getLayoutPosition: " + getLayoutPosition());
-
-            Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - positionInItems: " + positionInItems);
+//            Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick - serverItems size: " + DrawerItemRecyclerViewAdapter.serverItems.size());
+//            Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick - actionItems size: " + DrawerItemRecyclerViewAdapter.actionItems.size());
+//            Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick - settingsItems size: " + DrawerItemRecyclerViewAdapter.settingsItems.size());
+//            Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick - labelItems size: " + DrawerItemRecyclerViewAdapter.labelItems.size());
+//            Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick - items size: " + DrawerItemRecyclerViewAdapter.items.size());
+//            Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - offSetPosition: " + (drawerOffset));
+//            Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - getLayoutPosition: " + getLayoutPosition());
+//            Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - positionInItems: " + positionInItems);
 
 
             ObjectDrawerItem drawerItem;
@@ -127,19 +122,15 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
                 drawerItem = items.get(0);
 
 
-                Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - serverItems.size:  " + serverItems.size());
-
-                Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - items.size:  " + items.size());
-
-                Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - drawerItem.name:  " + drawerItem.name);
-
-                Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - drawerItem.getType():  " + drawerItem.getType());
-
-                Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - toggled Servers ");
+//                Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - serverItems.size:  " + serverItems.size());
+//                Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - items.size:  " + items.size());
+//                Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - drawerItem.name:  " + drawerItem.name);
+//                Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - drawerItem.getType():  " + drawerItem.getType());
+//                Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - toggled Servers ");
 
                 if (drawerItem.isActive()) {
 
-                    Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - Servers Category active");
+//                    Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - Servers Category active");
 
                     // Remove all server items
                     removeServerItems();
@@ -151,7 +142,7 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
 
                 } else {
 
-                    Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - Servers Category inactive");
+//                    Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - Servers Category inactive");
 
                     // Insert all server items
                     for (int i = 0; i < serverItems.size(); i++) {
@@ -187,7 +178,7 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
                 drawerItem = items.get(getLayoutPosition() - 1);
 
                 // Get Action
-                Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - Action => " + drawerItem.getAction());
+//                Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - Action => " + drawerItem.getAction());
 
 
                 // Disable all items
@@ -448,11 +439,11 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
             DrawerItemRecyclerViewAdapter.labelItems = new ArrayList<ObjectDrawerItem>();
         }
 
-        Log.d("Debug", "DrawerItemRecyclerViewAdapter - Constructor - serverItems size: " + DrawerItemRecyclerViewAdapter.serverItems.size());
-        Log.d("Debug", "DrawerItemRecyclerViewAdapter - Constructor - actionItems size: " + DrawerItemRecyclerViewAdapter.actionItems.size());
-        Log.d("Debug", "DrawerItemRecyclerViewAdapter - Constructor - settingsItems size: " + DrawerItemRecyclerViewAdapter.settingsItems.size());
-        Log.d("Debug", "DrawerItemRecyclerViewAdapter - Constructor - labelItems size: " + DrawerItemRecyclerViewAdapter.labelItems.size());
-        Log.d("Debug", "DrawerItemRecyclerViewAdapter - Constructor - items size: " + DrawerItemRecyclerViewAdapter.items.size());
+//        Log.d("Debug", "DrawerItemRecyclerViewAdapter - Constructor - serverItems size: " + DrawerItemRecyclerViewAdapter.serverItems.size());
+//        Log.d("Debug", "DrawerItemRecyclerViewAdapter - Constructor - actionItems size: " + DrawerItemRecyclerViewAdapter.actionItems.size());
+//        Log.d("Debug", "DrawerItemRecyclerViewAdapter - Constructor - settingsItems size: " + DrawerItemRecyclerViewAdapter.settingsItems.size());
+//        Log.d("Debug", "DrawerItemRecyclerViewAdapter - Constructor - labelItems size: " + DrawerItemRecyclerViewAdapter.labelItems.size());
+//        Log.d("Debug", "DrawerItemRecyclerViewAdapter - Constructor - items size: " + DrawerItemRecyclerViewAdapter.items.size());
 
         drawerOffset = 1;
 
@@ -477,13 +468,13 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
 
             ObjectDrawerItem item = (ObjectDrawerItem) iterator.next();
 
-            Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - Analysing: " + item.name);
-            Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - Action is: " + item.getAction());
+//            Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - Analysing: " + item.name);
+//            Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - Action is: " + item.getAction());
 
 
             if (item.getType() == TYPE_SERVER || item.getType() == TYPE_SERVER_ACTIVE) {
 
-                Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - Removing: " + item.name);
+//                Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - Removing: " + item.name);
                 iterator.remove();
             }
 
@@ -502,11 +493,11 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
 
             ObjectDrawerItem item = (ObjectDrawerItem) iterator.next();
 
-            Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - Analysing: " + item.name);
+//            Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - Analysing: " + item.name);
 
             if (item.getType() == TYPE_SERVER || item.getType() == TYPE_SERVER_ACTIVE) {
 
-                Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - Removing: " + item.name);
+//                Log.d("Debug", "DrawerItemRecyclerViewAdapter - OnClick() - Removing: " + item.name);
                 iterator.remove();
                 notifyItemRemoved(iterator.nextIndex() + 1);
 
@@ -551,15 +542,15 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
 
 
         // Debug
-        Log.d("Debug", "DrawerItemRecyclerViewAdapter - changeCurrentServer - serverValue: " + serverValue);
-        Log.d("Debug", "DrawerItemRecyclerViewAdapter - changeCurrentServer - changeCurrentServer: " + currentServerValue);
-        Log.d("Debug", "DrawerItemRecyclerViewAdapter - changeCurrentServer - hostname: " + hostname);
-        Log.d("Debug", "DrawerItemRecyclerViewAdapter - changeCurrentServer - subfolder: " + subfolder);
-        Log.d("Debug", "DrawerItemRecyclerViewAdapter - changeCurrentServer - protocol: " + protocol);
-        Log.d("Debug", "DrawerItemRecyclerViewAdapter - changeCurrentServer - port: " + port);
-        Log.d("Debug", "DrawerItemRecyclerViewAdapter - changeCurrentServer - https: " + https);
-        Log.d("Debug", "DrawerItemRecyclerViewAdapter - changeCurrentServer - username: " + username);
-        Log.d("Debug", "DrawerItemRecyclerViewAdapter - changeCurrentServer - password: " + password);
+//        Log.d("Debug", "DrawerItemRecyclerViewAdapter - changeCurrentServer - serverValue: " + serverValue);
+//        Log.d("Debug", "DrawerItemRecyclerViewAdapter - changeCurrentServer - changeCurrentServer: " + currentServerValue);
+//        Log.d("Debug", "DrawerItemRecyclerViewAdapter - changeCurrentServer - hostname: " + hostname);
+//        Log.d("Debug", "DrawerItemRecyclerViewAdapter - changeCurrentServer - subfolder: " + subfolder);
+//        Log.d("Debug", "DrawerItemRecyclerViewAdapter - changeCurrentServer - protocol: " + protocol);
+//        Log.d("Debug", "DrawerItemRecyclerViewAdapter - changeCurrentServer - port: " + port);
+//        Log.d("Debug", "DrawerItemRecyclerViewAdapter - changeCurrentServer - https: " + https);
+//        Log.d("Debug", "DrawerItemRecyclerViewAdapter - changeCurrentServer - username: " + username);
+//        Log.d("Debug", "DrawerItemRecyclerViewAdapter - changeCurrentServer - password: " + password);
 
 
         // Save values
@@ -717,37 +708,37 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
 //        Log.d("Debug", "DrawerItemRecyclerViewAdapter - position: " + position);
 
         if (isPositionHeader(position)) {
-            Log.d("Debug", "DrawerItemRecyclerViewAdapter - TYPE_HEADER");
+//            Log.d("Debug", "DrawerItemRecyclerViewAdapter - TYPE_HEADER");
             return TYPE_HEADER;
         }
 
         if (items.get(position - 1).getType() == TYPE_ITEM && items.get(position - 1).isActive()) {
-            Log.d("Debug", "DrawerItemRecyclerViewAdapter - TYPE_ITEM_ACTIVE");
+//            Log.d("Debug", "DrawerItemRecyclerViewAdapter - TYPE_ITEM_ACTIVE");
             return TYPE_ITEM_ACTIVE;
         }
 
         if (items.get(position - 1).getType() == TYPE_CATEGORY && !(items.get(position - 1).isActive())) {
-            Log.d("Debug", "DrawerItemRecyclerViewAdapter - TYPE_CATEGORY");
+//            Log.d("Debug", "DrawerItemRecyclerViewAdapter - TYPE_CATEGORY");
             return TYPE_CATEGORY;
         }
 
         if (items.get(position - 1).getType() == TYPE_CATEGORY && items.get(position - 1).isActive()) {
-            Log.d("Debug", "DrawerItemRecyclerViewAdapter - TYPE_CATEGORY");
+//            Log.d("Debug", "DrawerItemRecyclerViewAdapter - TYPE_CATEGORY");
             return TYPE_CATEGORY;
         }
 
         if (items.get(position - 1).getType() == TYPE_SERVER && !(items.get(position - 1).isActive())) {
-            Log.d("Debug", "DrawerItemRecyclerViewAdapter - TYPE_SERVER");
+//            Log.d("Debug", "DrawerItemRecyclerViewAdapter - TYPE_SERVER");
             return TYPE_SERVER;
         }
 
         if (items.get(position - 1).getType() == TYPE_SERVER && items.get(position - 1).isActive()) {
-            Log.d("Debug", "DrawerItemRecyclerViewAdapter - TYPE_SERVER_ACTIVE");
+//            Log.d("Debug", "DrawerItemRecyclerViewAdapter - TYPE_SERVER_ACTIVE");
             return TYPE_SERVER_ACTIVE;
         }
 
         // Default
-        Log.d("Debug", "DrawerItemRecyclerViewAdapter - TYPE_ITEM");
+//        Log.d("Debug", "DrawerItemRecyclerViewAdapter - TYPE_ITEM");
         return TYPE_ITEM;
 
     }

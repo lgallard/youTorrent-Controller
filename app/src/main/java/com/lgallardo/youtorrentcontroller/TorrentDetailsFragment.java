@@ -263,7 +263,7 @@ public class TorrentDetailsFragment extends Fragment {
 
             nameTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.error, 0, 0, 0);
 
-            Log.d("Debug", "TorrentDetailsFragment - state: " + state);
+//            Log.d("Debug", "TorrentDetailsFragment - state: " + state);
 
             if ("paused".equals(state)){
                 nameTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.paused, 0, 0, 0);
@@ -428,7 +428,7 @@ public class TorrentDetailsFragment extends Fragment {
 
             nameTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.error, 0, 0, 0);
 
-            Log.d("Debug", "TorrentDetailsFragment - state: " + state);
+//            Log.d("Debug", "TorrentDetailsFragment - state: " + state);
 
             if ("paused".equals(state)){
                 nameTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.paused, 0, 0, 0);

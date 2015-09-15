@@ -340,9 +340,9 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
         }
 
         for (int i = 0; i < navigationDrawerServerItems.length; i++) {
-            Log.d("Debug", "MainActivity - currentServerValue - currentServerValue: " + currentServerValue);
-            Log.d("Debug", "MainActivity - currentServerValue - (i + 1): " + (i + 1));
-            Log.d("Debug", "MainActivity - currentServerValue - (i + 1) == currentServerValue: " + ((i + 1) == currentServerValue));
+//            Log.d("Debug", "MainActivity - currentServerValue - currentServerValue: " + currentServerValue);
+//            Log.d("Debug", "MainActivity - currentServerValue - (i + 1): " + (i + 1));
+//            Log.d("Debug", "MainActivity - currentServerValue - (i + 1) == currentServerValue: " + ((i + 1) == currentServerValue));
 
             serverItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_subitem, navigationDrawerServerItems[i], DRAWER_ITEM_SERVERS, ((i + 1) == currentServerValue), "changeCurrentServer"));
 
@@ -2061,14 +2061,6 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
         // Get package name
         packageName = pInfo.packageName;
 
-        // Debug
-        Log.d("Debug", "MainActivity - hostname: " + hostname);
-        Log.d("Debug", "MainActivity - subfolder: " + subfolder);
-        Log.d("Debug", "MainActivity - protocol: " + protocol);
-        Log.d("Debug", "MainActivity - https: " + https);
-        Log.d("Debug", "MainActivity - username: " + username);
-        Log.d("Debug", "MainActivity - password: " + password);
-
     }
 
     // Get Options
@@ -2504,7 +2496,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
                     stateBefore = lastState;
                 }
 
-                Log.d("Debug", "MainActivity - currentState: " + stateBefore);
+//                Log.d("Debug", "MainActivity - currentState: " + stateBefore);
 
                 if (stateBefore != null) {
 
@@ -2523,11 +2515,11 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
             } else {
 
                 if (token == null | cookie == null) {
-                    Log.d("Debug", "MainActivity - getting new token");
+//                    Log.d("Debug", "MainActivity - getting new token");
                     new torrentTokenTask().execute(params);
 
                 } else {
-                    Log.d("Debug", "MainActivity - refreshing");
+//                    Log.d("Debug", "MainActivity - refreshing");
                     // Refresh
                     refresh();
                 }
@@ -2883,7 +2875,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
             if (result == null) {
 
-                Log.d("Debug", "MainActivity - connection400ErrorCounter: " + connection400ErrorCounter);
+//                Log.d("Debug", "MainActivity - connection400ErrorCounter: " + connection400ErrorCounter);
 
                 if (connection400ErrorCounter > 1) {
 
@@ -3333,7 +3325,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
             if (result == null) {
 
-                Log.d("Debug", "MainActivity - connection400ErrorCounter: " + connection400ErrorCounter);
+//                Log.d("Debug", "MainActivity - connection400ErrorCounter: " + connection400ErrorCounter);
 
                 if (connection400ErrorCounter > 1) {
                     Toast.makeText(getApplicationContext(), R.string.connection_error, Toast.LENGTH_SHORT).show();
