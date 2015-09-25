@@ -190,6 +190,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
     private String[] navigationDrawerItemTitles;
     private String[] navigationDrawerServerItems;
     //    private ListView drawerList;
+    public static DrawerItemRecyclerViewAdapter rAdapter;
     protected RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;            // Declaring Layout Manager as a linear layout manager
     public static DrawerLayout drawerLayout;
@@ -375,7 +376,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
         // Set adapter
 
-        DrawerItemRecyclerViewAdapter rAdapter = new DrawerItemRecyclerViewAdapter(getApplicationContext(), this, serverItems, actionItems, settingsItems, null);
+        rAdapter = new DrawerItemRecyclerViewAdapter(getApplicationContext(), this, serverItems, actionItems, settingsItems, null);
         rAdapter.notifyDataSetChanged();
 
 
