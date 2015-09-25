@@ -1354,10 +1354,6 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
         if (requestCode == SETTINGS_CODE) {
 
-
-            // Change current server (from settings or drawer menu)
-            changeCurrentServer();
-
             alarmMgr = (AlarmManager) getApplication().getSystemService(Context.ALARM_SERVICE);
             Intent intent = new Intent(getApplication(), NotifierService.class);
             alarmIntent = PendingIntent.getBroadcast(getApplication(), 0, intent, 0);
@@ -1365,7 +1361,6 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
             alarmMgr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
                     SystemClock.elapsedRealtime() + 5000,
                     notification_period, alarmIntent);
-
 
         }
 
@@ -1450,14 +1445,10 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
         }
 
+        if (requestCode == SETTINGS_CODE && resultCode == RESULT_OK) {
 
-        if (resultCode == RESULT_OK) {
-
-            // Set the refresh layout (refresh icon, etc)
-            refreshSwipeLayout();
-
-            new torrentTokenByIntent().execute(new Intent[]{data});
-
+            // Change current server (from settings or drawer menu)
+            changeCurrentServer();
         }
 
     }
