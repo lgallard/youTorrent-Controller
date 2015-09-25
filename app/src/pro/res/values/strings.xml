@@ -190,6 +190,7 @@
     <string name="drawer_close">Open navigation drawer</string>
     <string name="drawer_open">Close navigation drawer</string>
     <string name="title_activity_settings">Settings</string>
+    <string name="drawer_servers_category">Servers</string>
     <string name="settings_qbittorrent_sort_category">Sort torrent list</string>
     <string name="settings_qbittorrent_darkui_summary">Restart the app to apply the theme</string>
     <string name="sortby_menu_name">Name</string>

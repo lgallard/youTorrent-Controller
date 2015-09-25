@@ -355,11 +355,11 @@ public class DrawerItemRecyclerViewAdapter extends RecyclerView.Adapter<DrawerIt
                 // Open Options
                 if (drawerItem.getAction().equals("openOptions")) {
 
-                    // Seth last actio position
+                    // Seth last action position
                     activeLastActionPosition(lastActionPosition);
 
 
-                    mainActivity.openOptions();
+                    mainActivity.getAndOpenOptions();
 
                     // Close drawer
                     mainActivity.drawerLayout.closeDrawer(mainActivity.mRecyclerView);
