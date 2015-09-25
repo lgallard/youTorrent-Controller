@@ -2494,6 +2494,9 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
                     // Set selection according to last state
                     setSelectionAndTitle(stateBefore);
 
+                    // Set the refresh layout (refresh icon, etc)
+                    refreshSwipeLayout();
+
                     // Refresh state
                     refresh(stateBefore);
 
