@@ -718,7 +718,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
     };// runnable
 
     public void refreshCurrent() {
-        if (!hostname.equals("")) {
+//        if (!hostname.equals("")) {
 
 //            switch (drawerList.getCheckedItemPosition()) {
 //            switch (DrawerItemRecyclerViewAdapter.actionPosition - 1) {
@@ -745,7 +745,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
                     refresh();
                     break;
             }
-        }
+//        }
     }
 
     @Override
@@ -1324,6 +1324,9 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
         // Get values from preferences
         getSettings();
 
+        // Get new cookie
+        cookie = null;
+
         // Get new token and cookie
         new torrentTokenTask().execute();
 
@@ -1854,7 +1857,8 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
     public void refreshAfterCommand(int delay) {
 
 //        switch (drawerList.getCheckedItemPosition()) {
-        switch (DrawerItemRecyclerViewAdapter.actionPosition - 1) {
+//        switch (DrawerItemRecyclerViewAdapter.actionPosition - 1) {
+        switch (actionStates.indexOf(currentState)) {
             case 0:
                 refreshWithDelay("all", delay);
                 break;
