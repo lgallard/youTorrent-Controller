@@ -139,6 +139,7 @@ public class JSONParser {
         // httpclient = new DefaultHttpClient();
         httpclient = getNewHttpClient();
 
+        // Set http parameters
         httpclient.setParams(httpParameters);
 
 
@@ -250,6 +251,7 @@ public class JSONParser {
 
         httpclient = getNewHttpClient();
 
+        // Set http parameters
         httpclient.setParams(httpParameters);
 
         try {
@@ -477,6 +479,7 @@ public class JSONParser {
         // httpclient = new DefaultHttpClient();
         httpclient = getNewHttpClient();
 
+        // Set http parameters
         httpclient.setParams(httpParameters);
 
         try {
@@ -657,6 +660,9 @@ public class JSONParser {
         // httpclient = new DefaultHttpClient();
         httpclient = getNewHttpClient();
 
+        // Set http parameters
+        httpclient.setParams(httpParameters);
+
         try {
 
 //            AuthScope authScope = new AuthScope(targetHost.getHostName(), targetHost.getPort());
@@ -761,6 +767,9 @@ public class JSONParser {
         // httpclient = new DefaultHttpClient();
         httpclient = getNewHttpClient();
 
+        // Set http parameters
+        httpclient.setParams(httpParameters);
+
         try {
 
             AuthScope authScope = new AuthScope(targetHost.getHostName(), targetHost.getPort());
@@ -855,6 +864,9 @@ public class JSONParser {
 
         // httpclient = new DefaultHttpClient();
         httpclient = getNewHttpClient();
+
+        // Set http parameters
+        httpclient.setParams(httpParameters);
 
         try {
 
@@ -972,6 +984,9 @@ public class JSONParser {
         // httpclient = new DefaultHttpClient();
         httpclient = getNewHttpClient();
 
+        // Set http parameters
+        httpclient.setParams(httpParameters);
+
         try {
 
             AuthScope authScope = new AuthScope(targetHost.getHostName(), targetHost.getPort());
@@ -979,7 +994,6 @@ public class JSONParser {
 
             httpclient.getCredentialsProvider().setCredentials(authScope, credentials);
 
-            // set http parameters
 
 
             url = protocol + "://" + hostname + ":" + port + "/" + url;

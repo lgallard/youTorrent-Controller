@@ -190,6 +190,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
     private String[] navigationDrawerItemTitles;
     private String[] navigationDrawerServerItems;
     //    private ListView drawerList;
+    public static DrawerItemRecyclerViewAdapter rAdapter;
     protected RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;            // Declaring Layout Manager as a linear layout manager
     public static DrawerLayout drawerLayout;
@@ -328,7 +329,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
 
         // Add server category
-        serverItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_servers, "Servers", DRAWER_CATEGORY, false, null));
+        serverItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_servers, getResources().getString(R.string.drawer_servers_category), DRAWER_CATEGORY, false, null));
 
         // Server items
         int currentServerValue = 1;
@@ -372,18 +373,10 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
             settingsItems.add(new ObjectDrawerItem(R.drawable.ic_drawer_help, navigationDrawerItemTitles[7], DRAWER_ITEM_ACTIONS, false, "openHelp"));
         }
 
-        // Create object for drawer item OnbjectDrawerItem
-//        DrawerItemCustomAdapter adapter = new DrawerItemCustomAdapter(this, R.layout.drawer_row, drawerItems);
 
+        // Set adapter
 
-//        // Set oldposition in adapter
-//        DrawerItemRecyclerViewAdapter.oldActionPosition = Arrays.asList(actionStates).indexOf(lastState)+1;
-//        ObjectDrawerItem item = drawerItems.get(DrawerItemRecyclerViewAdapter.oldActionPosition-1);
-//        item.setActive(true);
-//        drawerItems.set(DrawerItemRecyclerViewAdapter.oldActionPosition-1, item);
-
-
-        DrawerItemRecyclerViewAdapter rAdapter = new DrawerItemRecyclerViewAdapter(getApplicationContext(), this, serverItems, actionItems, settingsItems, null);
+        rAdapter = new DrawerItemRecyclerViewAdapter(getApplicationContext(), this, serverItems, actionItems, settingsItems, null);
         rAdapter.notifyDataSetChanged();
 
 
@@ -726,7 +719,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
     };// runnable
 
     public void refreshCurrent() {
-        if (!hostname.equals("")) {
+//        if (!hostname.equals("")) {
 
 //            switch (drawerList.getCheckedItemPosition()) {
 //            switch (DrawerItemRecyclerViewAdapter.actionPosition - 1) {
@@ -753,7 +746,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
                     refresh();
                     break;
             }
-        }
+//        }
     }
 
     @Override
@@ -1277,47 +1270,47 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
             case R.id.action_sortby_name:
                 saveSortBy(getResources().getStringArray(R.array.sortByValues)[0]);
                 invalidateOptionsMenu();
-                refreshCurrent();
+                swipeRefresh();
                 return true;
             case R.id.action_sortby_size:
                 saveSortBy(getResources().getStringArray(R.array.sortByValues)[1]);
                 invalidateOptionsMenu();
-                refreshCurrent();
+                swipeRefresh();
                 return true;
             case R.id.action_sortby_eta:
                 saveSortBy(getResources().getStringArray(R.array.sortByValues)[2]);
                 invalidateOptionsMenu();
-                refreshCurrent();
+                swipeRefresh();
                 return true;
             case R.id.action_sortby_priority:
                 saveSortBy(getResources().getStringArray(R.array.sortByValues)[3]);
                 invalidateOptionsMenu();
-                refreshCurrent();
+                swipeRefresh();
                 return true;
             case R.id.action_sortby_progress:
                 saveSortBy(getResources().getStringArray(R.array.sortByValues)[4]);
                 invalidateOptionsMenu();
-                refreshCurrent();
+                swipeRefresh();
                 return true;
             case R.id.action_sortby_ratio:
                 saveSortBy(getResources().getStringArray(R.array.sortByValues)[5]);
                 invalidateOptionsMenu();
-                refreshCurrent();
+                swipeRefresh();
                 return true;
             case R.id.action_sortby_downloadSpeed:
                 saveSortBy(getResources().getStringArray(R.array.sortByValues)[6]);
                 invalidateOptionsMenu();
-                refreshCurrent();
+                swipeRefresh();
                 return true;
             case R.id.action_sortby_uploadSpeed:
                 saveSortBy(getResources().getStringArray(R.array.sortByValues)[7]);
                 invalidateOptionsMenu();
-                refreshCurrent();
+                swipeRefresh();
                 return true;
             case R.id.action_sortby_reverse_order:
                 saveReverseOrder(!reverse_order);
                 invalidateOptionsMenu();
-                refreshCurrent();
+                swipeRefresh();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -1331,6 +1324,9 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
         // Get values from preferences
         getSettings();
+
+        // Get new cookie
+        cookie = null;
 
         // Get new token and cookie
         new torrentTokenTask().execute();
@@ -1366,10 +1362,6 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
         if (requestCode == SETTINGS_CODE) {
 
-
-            // Change current server (from settings or drawer menu)
-            changeCurrentServer();
-
             alarmMgr = (AlarmManager) getApplication().getSystemService(Context.ALARM_SERVICE);
             Intent intent = new Intent(getApplication(), NotifierService.class);
             alarmIntent = PendingIntent.getBroadcast(getApplication(), 0, intent, 0);
@@ -1377,7 +1369,6 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
             alarmMgr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
                     SystemClock.elapsedRealtime() + 5000,
                     notification_period, alarmIntent);
-
 
         }
 
@@ -1462,11 +1453,10 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
         }
 
+        if (requestCode == SETTINGS_CODE && resultCode == RESULT_OK) {
 
-        if (resultCode == RESULT_OK) {
-
-            new torrentTokenByIntent().execute(new Intent[]{data});
-
+            // Change current server (from settings or drawer menu)
+            changeCurrentServer();
         }
 
     }
@@ -1528,13 +1518,24 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
     }
 
-    protected void openOptions() {
+    private void openOptions() {
         canrefresh = false;
         // Retrieve preferences for options
         Intent intent = new Intent(getBaseContext(), OptionsActivity.class);
         startActivityForResult(intent, OPTION_CODE);
 
     }
+
+    // This get options to save them in shared preferences variables and then open the Option activity
+    protected void getAndOpenOptions() {
+
+        // Options - Execute the task in background
+        Toast.makeText(getApplicationContext(), R.string.getQBittorrentPrefefrences, Toast.LENGTH_SHORT).show();
+        qBittorrentOptions qso = new qBittorrentOptions();
+        qso.execute(new String[]{qbQueryString + "/preferences", "setOptions"});
+
+    }
+
 
     protected void getPRO() {
         Intent intent = new Intent(
@@ -1862,7 +1863,8 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
     public void refreshAfterCommand(int delay) {
 
 //        switch (drawerList.getCheckedItemPosition()) {
-        switch (DrawerItemRecyclerViewAdapter.actionPosition - 1) {
+//        switch (DrawerItemRecyclerViewAdapter.actionPosition - 1) {
+        switch (actionStates.indexOf(currentState)) {
             case 0:
                 refreshWithDelay("all", delay);
                 break;
@@ -2511,8 +2513,14 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
                     // Set selection according to last state
                     setSelectionAndTitle(stateBefore);
 
+                    // Set the refresh layout (refresh icon, etc)
+                    refreshSwipeLayout();
+
                     // Refresh state
                     refresh(stateBefore);
+
+                    // load banner
+                    loadBanner();
 
                 } else {
                     // The intent is used for sending a file, so
