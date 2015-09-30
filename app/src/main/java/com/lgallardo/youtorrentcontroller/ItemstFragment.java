@@ -484,6 +484,9 @@ public class ItemstFragment extends ListFragment {
                     @Override
                     public void onClick(View v) {
 
+                        // Disable refreshing
+                        MainActivity.disableRefreshSwipeLayout();
+
                         // Set default toolbar behaviour
                         ((MainActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(true);
                         MainActivity.drawerToggle.setDrawerIndicatorEnabled(true);

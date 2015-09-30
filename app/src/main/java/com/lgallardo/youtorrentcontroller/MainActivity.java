@@ -794,6 +794,9 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
             } else {
 
+                // Disable refreshing
+                disableRefreshSwipeLayout();
+
                 // Enable toolbar title
                 getSupportActionBar().setDisplayShowTitleEnabled(true);
 
@@ -1049,6 +1052,9 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
 
         drawerToggle.setToolbarNavigationClickListener(ItemstFragment.originalListener);
+
+        // Set title
+        setSelectionAndTitle(MainActivity.currentState);
 
         // Show herderInfo in phone's view
         if (findViewById(R.id.one_frame) != null) {
@@ -2311,7 +2317,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
     }
 
-    public void disableRefreshSwipeLayout() {
+    public static void disableRefreshSwipeLayout() {
 
         if (com.lgallardo.youtorrentcontroller.AboutFragment.mSwipeRefreshLayout != null) {
             com.lgallardo.youtorrentcontroller.AboutFragment.mSwipeRefreshLayout.setRefreshing(false);
