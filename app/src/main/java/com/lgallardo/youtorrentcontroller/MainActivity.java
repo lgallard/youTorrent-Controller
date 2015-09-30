@@ -479,9 +479,17 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
             FragmentManager fragmentManager = getFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-            fragmentTransaction.add(R.id.list_frame, helpTabletFragment, "firstFragment");
-            fragmentTransaction.add(R.id.content_frame, secondFragment, "secondFragment");
-            // .addToBackStack("secondFragment");
+            if (fragmentManager.findFragmentByTag("firstFragment") == null) {
+                fragmentTransaction.add(R.id.list_frame, helpTabletFragment, "firstFragment");
+            } else {
+                fragmentTransaction.replace(R.id.list_frame, helpTabletFragment, "firstFragment");
+            }
+
+            if (fragmentManager.findFragmentByTag("secondFragment") == null) {
+                fragmentTransaction.add(R.id.content_frame, secondFragment, "secondFragment");
+            } else {
+                fragmentTransaction.replace(R.id.content_frame, secondFragment, "secondFragment");
+            }
 
             fragmentTransaction.commit();
 
