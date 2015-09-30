@@ -517,7 +517,8 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 //                        refreshCurrent();
 //
 //                    }
-//                } catch (Exception e) {
+//                }
+//                catch (Exception e) {
 //                }
 //
 //                return;
@@ -527,7 +528,11 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
             FragmentManager fragmentManager = getFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-            fragmentTransaction.add(R.id.one_frame, secondFragment, "firstFragment");
+            if (fragmentManager.findFragmentByTag("firstFragment") == null) {
+                fragmentTransaction.add(R.id.one_frame, secondFragment, "firstFragment");
+            } else {
+                fragmentTransaction.replace(R.id.one_frame, secondFragment, "firstFragment");
+            }
 
             // if torrent details was loaded reset back button stack
             for (int i = 0; i < fragmentManager.getBackStackEntryCount(); ++i) {
@@ -535,8 +540,6 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
             }
 
             fragmentTransaction.commit();
-
-
         }
 
         // Activity is visible
