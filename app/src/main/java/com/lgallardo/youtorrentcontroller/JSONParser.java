@@ -974,7 +974,7 @@ public class JSONParser {
         // Set http parameters
         HttpConnectionParams.setConnectionTimeout(httpParameters, timeoutConnection);
         HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
-        HttpProtocolParams.setUserAgent(httpParameters, "µTorrent Controller");
+        HttpProtocolParams.setUserAgent(httpParameters, "youTorrent Controller");
         HttpProtocolParams.setVersion(httpParameters, HttpVersion.HTTP_1_1);
         HttpProtocolParams.setContentCharset(httpParameters, HTTP.UTF_8);
 
