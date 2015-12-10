@@ -225,4 +225,5 @@
     <string name="options_qbittorrent_scheduler_days_title">Cuándo:</string>
     <string name="settings_qbittorrent_pro_title">Opción no disponible</string>
     <string name="settings_qbittorrent_pro_message">Esta opción está solo disponible en la versión youTorrent Controller Pro!</string>
+    <string name="torrentsSelectedStopped">Torrents detenidos!</string>
 </resources>

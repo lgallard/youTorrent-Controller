@@ -1597,6 +1597,30 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
     }
 
+    public void stopTorrent(String hash) {
+        // Execute the task in background
+        qBittorrentCommand qtc = new qBittorrentCommand();
+        qtc.execute(new String[]{"stop", hash});
+    }
+
+
+    public void stopSelectedTorrents(String hashes) {
+        // Execute the task in background
+
+        String[] hashesArray = hashes.split("\\|");
+
+        for (int i = 0; hashesArray.length > i; i++) {
+            qBittorrentCommand qtc = new qBittorrentCommand();
+            qtc.execute(new String[]{"stopSelected", hashesArray[i]});
+        }
+
+        Toast.makeText(getApplicationContext(), R.string.torrentsSelectedStopped, Toast.LENGTH_SHORT).show();
+
+        // Delay of 1 second
+        refreshAfterCommand(1);
+
+    }
+
     public void deleteTorrent(String hash) {
         // Execute the task in background
         qBittorrentCommand qtc = new qBittorrentCommand();

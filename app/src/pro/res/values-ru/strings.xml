@@ -216,4 +216,5 @@
   <string name="options_qbittorrent_scheduler_days_title">Когда:</string>
   <string name="settings_qbittorrent_pro_title">Опция недоступна</string>
   <string name="settings_qbittorrent_pro_message">Данная опция доступна только в PRO-версии</string>
+  <string name="torrentsSelectedStopped">Торренты остановлены!</string>
 </resources>

@@ -216,4 +216,5 @@
     <string name="options_qbittorrent_schedule_alt_to">A</string>
     <string name="settings_qbittorrent_pro_title">Funzione non disponibile</string>
     <string name="settings_qbittorrent_pro_message">Questa funzione è disponibile solo su youTorrent versione PRO!</string>
+    <string name="torrentsSelectedStopped">Torrents fermato!</string>
 </resources>

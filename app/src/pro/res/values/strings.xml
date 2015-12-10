@@ -50,6 +50,7 @@
     <string name="torrentstoggleSequentialDownload">Toggled sequential download!</string>
     <string name="torrentPaused">Torrent paused!</string>
     <string name="torrentsSelectedPaused">Torrents paused!</string>
+    <string name="torrentsSelectedStopped">Torrents stopped!</string>
     <string name="AllTorrentsPaused">All torrents were paused!</string>
     <string name="AllTorrentsResumed">All torrents were resumed!</string>
     <string name="torrentDeleted">Torrent deleted!</string>
@@ -227,4 +228,5 @@
     <string name="options_qbittorrent_schedule_alt_to">To</string>
     <string name="settings_qbittorrent_pro_title">Feature not available</string>
     <string name="settings_qbittorrent_pro_message">This feature is only available on youTorrent Pro version!</string>
+    <string name="action_stop">Stop</string>
 </resources>

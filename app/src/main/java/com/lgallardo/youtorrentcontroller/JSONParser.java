@@ -349,6 +349,11 @@ public class JSONParser {
             url = url + "gui/?action=pause&hash="+hash;
         }
 
+        if ("stop".equals(command) || "stopSelected".equals(command)) {
+            url = url + "gui/?action=stop&hash="+hash;
+            Log.d("Debug", "Stoping torrent " + hash);
+        }
+
         if ("delete".equals(command) || "deleteSelected".equals(command)) {
             url = url + "gui/?action=remove&hash="+hash.replace("|","&hash=");
             key = "hashes";

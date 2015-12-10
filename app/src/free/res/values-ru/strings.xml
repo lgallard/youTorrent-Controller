@@ -220,4 +220,5 @@
   <string name="options_qbittorrent_schedule_alt_from">С</string>
   <string name="options_qbittorrent_schedule_alt_to">до</string>
   <string name="options_qbittorrent_scheduler_days_title">Когда:</string>
+  <string name="torrentsSelectedStopped">Торренты остановлены!</string>
 </resources>

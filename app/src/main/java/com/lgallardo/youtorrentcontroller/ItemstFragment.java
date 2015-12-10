@@ -186,6 +186,21 @@ public class ItemstFragment extends ListFragment {
                             return true;
 
 
+                        case R.id.action_stop:
+                            m.stopSelectedTorrents(hashes);
+
+                            // Clear selection
+                            nr = 0;
+
+                            // Enable SwipeRefresh
+                            mSwipeRefreshLayout.setEnabled(true);
+
+                            mAdapter.clearSelection();
+                            mode.finish();
+
+                            return true;
+
+
                         case R.id.action_resume:
 
                             m.startSelectedTorrents(hashes);

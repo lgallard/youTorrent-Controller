@@ -216,4 +216,5 @@
     <string name="options_qbittorrent_scheduler_days_title">Kiedy:</string>
     <string name="settings_qbittorrent_pro_title">Funkcja nie jest dostępna</string>
     <string name="settings_qbittorrent_pro_message">Ta funkcja jest dostępna tylko w wersji youTorrent PRO!</string>
+    <string name="torrentsSelectedStopped">Torrenty zatrzymany!</string>
 </resources>
