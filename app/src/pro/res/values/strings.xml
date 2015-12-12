@@ -229,4 +229,5 @@
     <string name="settings_qbittorrent_pro_title">Feature not available</string>
     <string name="settings_qbittorrent_pro_message">This feature is only available on youTorrent Pro version!</string>
     <string name="action_stop">Stop</string>
+    <string name="torrentStopped">Torrent stopped!</string>
 </resources>

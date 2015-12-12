@@ -217,4 +217,6 @@
   <string name="settings_qbittorrent_pro_title">Опция недоступна</string>
   <string name="settings_qbittorrent_pro_message">Данная опция доступна только в PRO-версии</string>
   <string name="torrentsSelectedStopped">Торренты остановлены!</string>
+  <string name="action_stop">Остановить!</string>
+  <string name="torrentStopped">Торрент остановить!</string>
 </resources>

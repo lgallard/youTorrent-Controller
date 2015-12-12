@@ -220,5 +220,7 @@
     <string name="options_qbittorrent_scheduler_days_title">Quando:</string>
     <string name="options_qbittorrent_schedule_alt_from">Da</string>
     <string name="options_qbittorrent_schedule_alt_to">A</string>
-    <string name="torrentsSelectedStopped">Torrents fermato!</string
+    <string name="torrentsSelectedStopped">Torrents fermato!</string>
+    <string name="action_stop">Stop</string>
+    <string name="torrentStopped">Torrent fermato!</string>
 </resources>

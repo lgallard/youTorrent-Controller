@@ -217,4 +217,6 @@
     <string name="settings_qbittorrent_pro_message">Den här funktionen är endast tillgänglig på youTorrent PRO versionen!</string>
     <string name="settings_qbittorrent_pro_title">Feature inte tillgängligt</string>
     <string name="torrentsSelectedStopped">Torrents slutat!</string>
+    <string name="action_stop">Stopp</string>
+    <string name="torrentStopped">Torrent stoppas!</string>
 </resources>

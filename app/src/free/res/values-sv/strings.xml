@@ -221,4 +221,6 @@
     <string name="options_qbittorrent_schedule_alt_to">Till</string>
     <string name="options_qbittorrent_scheduler_days_title">När:</string>
     <string name="torrentsSelectedStopped">Torrents slutat!</string>
+    <string name="action_stop">Stopp</string>
+    <string name="torrentStopped">Torrent stoppas!</string>
 </resources>

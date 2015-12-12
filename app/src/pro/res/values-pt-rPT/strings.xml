@@ -217,4 +217,6 @@
     <string name="settings_qbittorrent_pro_title">Recurso não disponível</string>
     <string name="settings_qbittorrent_pro_message">Esta funcionalidade só está disponível na versão PRO do youTorrent!</string>
     <string name="torrentsSelectedStopped">Torrents parado!</string>
+    <string name="action_stop">Pare</string>
+    <string name="torrentStopped">Torrent parado!</string>
 </resources>

@@ -217,4 +217,6 @@
     <string name="settings_qbittorrent_pro_title">Funkcja nie jest dostępna</string>
     <string name="settings_qbittorrent_pro_message">Ta funkcja jest dostępna tylko w wersji youTorrent PRO!</string>
     <string name="torrentsSelectedStopped">Torrenty zatrzymany!</string>
+    <string name="action_stop">Zatrzymaj się</string>
+    <string name="torrentStopped">Torrent zatrzymany!</string>
 </resources>

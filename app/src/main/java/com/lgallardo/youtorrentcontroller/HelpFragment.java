@@ -59,6 +59,9 @@ public class HelpFragment extends Fragment {
 			if (menu.findItem(R.id.action_pause) != null) {
 				menu.findItem(R.id.action_pause).setVisible(false);
 			}
+			if (menu.findItem(R.id.action_stop) != null) {
+				menu.findItem(R.id.action_stop).setVisible(false);
+			}
 			if (menu.findItem(R.id.action_increase_prio) != null) {
 				menu.findItem(R.id.action_increase_prio).setVisible(false);
 			}

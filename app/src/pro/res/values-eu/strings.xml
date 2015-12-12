@@ -217,4 +217,6 @@
   <string name="settings_qbittorrent_pro_title">Ezaugarria ez dago eskuragarri</string>
   <string name="settings_qbittorrent_pro_message">Ezaugarri hau youTorrent PRO bertsioan bakarrik dago eskuragarri!</string>
   <string name="torrentsSelectedStopped">Torrents gelditu egin dira!</string>
+  <string name="action_stop">Gelditu</string>
+  <string name="torrentStopped">Torrent gelditu!</string>
 </resources>

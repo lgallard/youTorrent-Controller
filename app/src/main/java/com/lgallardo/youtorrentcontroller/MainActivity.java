@@ -1117,6 +1117,15 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
                     }
                 }
                 return true;
+            case R.id.action_stop:
+                if (com.lgallardo.youtorrentcontroller.TorrentDetailsFragment.hashToUpdate != null) {
+                    stopTorrent(com.lgallardo.youtorrentcontroller.TorrentDetailsFragment.hashToUpdate);
+
+                    if (findViewById(R.id.one_frame) != null) {
+                        popBackStackPhoneView();
+                    }
+                }
+                return true;
             case R.id.action_resume:
                 if (TorrentDetailsFragment.hashToUpdate != null) {
                     startTorrent(TorrentDetailsFragment.hashToUpdate);
@@ -2663,6 +2672,11 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
             if ("pause".equals(result)) {
                 messageId = R.string.torrentPaused;
             }
+
+            if ("stop".equals(result)) {
+                messageId = R.string.torrentStopped;
+            }
+
 
             if ("delete".equals(result)) {
                 messageId = R.string.torrentDeleted;

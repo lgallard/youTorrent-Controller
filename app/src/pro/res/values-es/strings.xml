@@ -226,4 +226,6 @@
     <string name="settings_qbittorrent_pro_title">Opción no disponible</string>
     <string name="settings_qbittorrent_pro_message">Esta opción está solo disponible en la versión youTorrent Controller Pro!</string>
     <string name="torrentsSelectedStopped">Torrents detenidos!</string>
+    <string name="action_stop">Detener</string>
+    <string name="torrentStopped">Torrent detenido!</string>
 </resources>
