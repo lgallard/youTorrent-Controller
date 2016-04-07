@@ -248,6 +248,11 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
     // Connection error counter
     private int connection400ErrorCounter = 0;
 
+    // Keystore for self-signed certificate
+    protected static String keystore_path;
+    protected static String keystore_password;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -2410,7 +2415,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
             getSettings();
 
             // Creating new JSON Parser
-            JSONParser jParser = new JSONParser(hostname, subfolder, protocol, port, username, password, connection_timeout, data_timeout);
+            JSONParser jParser = new JSONParser(hostname, subfolder, protocol, port, keystore_path, keystore_password, username, password, connection_timeout, data_timeout);
 
             String[] tokenCookie = new String[2];
             String newToken = null;
@@ -2479,7 +2484,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
             getSettings();
 
             // Creating new JSON Parser
-            JSONParser jParser = new JSONParser(hostname, subfolder, protocol, port, username, password, connection_timeout, data_timeout);
+            JSONParser jParser = new JSONParser(hostname, subfolder, protocol, port, keystore_path, keystore_password, username, password, connection_timeout, data_timeout);
 
             String[] tokenCookie = new String[2];
             String newToken = null;
@@ -2596,7 +2601,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
             getSettings();
 
             // Creating new JSON Parser
-            com.lgallardo.youtorrentcontroller.JSONParser jParser = new com.lgallardo.youtorrentcontroller.JSONParser(hostname, subfolder, protocol, port, username, password, connection_timeout, data_timeout);
+            com.lgallardo.youtorrentcontroller.JSONParser jParser = new com.lgallardo.youtorrentcontroller.JSONParser(hostname, subfolder, protocol, port, keystore_path, keystore_password, username, password, connection_timeout, data_timeout);
 
             jParser.setCookie(cookie);
 
@@ -2784,7 +2789,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
             try {
 
                 // Creating new JSON Parser
-                jParser = new JSONParser(hostname, subfolder, protocol, port, username, password, connection_timeout, data_timeout);
+                jParser = new JSONParser(hostname, subfolder, protocol, port, keystore_path, keystore_password, username, password, connection_timeout, data_timeout);
                 jParser.setToken(MainActivity.token);
                 jParser.setCookie(MainActivity.cookie);
 
@@ -3301,7 +3306,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
             getSettings();
 
             // Creating new JSON Parser
-            com.lgallardo.youtorrentcontroller.JSONParser jParser = new com.lgallardo.youtorrentcontroller.JSONParser(hostname, subfolder, protocol, port, username, password, connection_timeout, data_timeout);
+            com.lgallardo.youtorrentcontroller.JSONParser jParser = new com.lgallardo.youtorrentcontroller.JSONParser(hostname, subfolder, protocol, port, keystore_path, keystore_password, username, password, connection_timeout, data_timeout);
 
             jParser.setCookie(cookie);
 

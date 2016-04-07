@@ -53,6 +53,11 @@ public class NotifierService extends BroadcastReceiver {
     private StringBuilder builderPrefs;
     private String qbQueryString = "query";
 
+    // Keystore for self-signed certificate
+    protected static String keystore_path;
+    protected static String keystore_password;
+
+
 
     public NotifierService() {
         super();
@@ -167,7 +172,7 @@ public class NotifierService extends BroadcastReceiver {
             getSettings();
 
             // Creating new JSON Parser
-            JSONParser jParser = new JSONParser(hostname, subfolder, protocol, port, username, password, connection_timeout, data_timeout);
+            JSONParser jParser = new JSONParser(hostname, subfolder, protocol, port, keystore_path, keystore_password, username, password, connection_timeout, data_timeout);
 
             String[] tokenCookie = new String[2];
             String newToken = null;
@@ -273,7 +278,7 @@ public class NotifierService extends BroadcastReceiver {
             try {
 
                 // Creating new JSON Parser
-                jParser = new JSONParser(hostname, subfolder, protocol, port, username, password, connection_timeout, data_timeout);
+                jParser = new JSONParser(hostname, subfolder, protocol, port, keystore_path, keystore_password, username, password, connection_timeout, data_timeout);
                 jParser.setToken(NotifierService.token);
                 jParser.setCookie(NotifierService.cookie);
 //
@@ -585,7 +590,7 @@ public class NotifierService extends BroadcastReceiver {
 
 
             // Creating new JSON Parser
-            JSONParser jParser = new JSONParser(hostname, subfolder, protocol, port, username, password, connection_timeout, data_timeout);
+            JSONParser jParser = new JSONParser(hostname, subfolder, protocol, port, keystore_path, keystore_password, username, password, connection_timeout, data_timeout);
 
             String cookie = "";
             String api = "";
