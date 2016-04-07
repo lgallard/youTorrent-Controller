@@ -4,9 +4,9 @@
  * are made available under the terms of the GNU Public License v3.0
  * which accompanies this distribution, and is available at
  * http://www.gnu.org/licenses/gpl.html
- *
+ * <p/>
  * Contributors:
- *     Luis M. Gallardo D. - initial implementation
+ * Luis M. Gallardo D. - initial implementation
  ******************************************************************************/
 package com.lgallardo.youtorrentcontroller;
 
@@ -25,7 +25,10 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.view.Menu;
 
+import com.nbsp.materialfilepicker.ui.FilePickerActivity;
+
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 public class SettingsActivity extends PreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -48,6 +51,10 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
 
     private CheckBoxPreference enable_notifications;
     private ListPreference notification_period;
+
+    private Preference keystore_path;
+    private EditTextPreference keystore_password;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +83,9 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
 
         enable_notifications = (CheckBoxPreference) findPreference("enable_notifications");
         notification_period = (ListPreference) findPreference("notification_period");
+
+        keystore_path = (Preference) findPreference("keystore_path");
+        keystore_password = (EditTextPreference) findPreference("keystore_password");
 
         // Get values for server
         getQBittorrentServerValues(currentServer.getValue());
@@ -133,11 +143,46 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
             }
         });
 
+        Preference keystore_path = (Preference) findPreference("keystore_path");
+        keystore_path.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                Intent intent = new Intent(getApplicationContext(), FilePickerActivity.class);
+                intent.putExtra(FilePickerActivity.ARG_FILE_FILTER, Pattern.compile(".*\\.bks"));
+                startActivityForResult(intent, 1);
+
+                return true;
+            }
+        });
+
+
         // Set last state in intent result
         Intent result = new Intent();
         result.putExtra("currentState", MainActivity.currentState);
         setResult(Activity.RESULT_OK, result);
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        super.onActivityResult(requestCode, resultCode, data);
+
+        String keystore_path_value = "";
+
+        // MaterialDesignPicker
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            keystore_path_value = data.getStringExtra(FilePickerActivity.RESULT_FILE_PATH);
+        }
+
+        // Save keystore path
+        SharedPreferences sharedPrefs = getPreferenceManager().getSharedPreferences();
+        Editor editor = sharedPrefs.edit();
+
+        editor.putString("keystore_path" + currentServerValue, keystore_path_value);
+        editor.commit();
+
+        keystore_path.setSummary(keystore_path_value);
     }
 
     @Override
@@ -213,6 +258,10 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
 
         notification_period.setSummary(notification_period.getEntry());
 
+        keystore_path.setSummary(sharedPrefs.getString("keystore_path" + value, ""));
+        keystore_password.setText(sharedPrefs.getString("keystore_password" + value, ""));
+
+
     }
 
     public void refreshScreenValues() {
@@ -272,6 +321,14 @@ public class SettingsActivity extends PreferenceActivity implements SharedPrefer
         }
 
         editor.putBoolean("dark_ui" + currentServerValue, dark_ui.isChecked());
+
+        if (keystore_path.getSummary().toString() != null) {
+            editor.putString("keystore_path" + currentServerValue, keystore_path.getSummary().toString());
+        }
+
+        if (keystore_password.getText().toString() != null) {
+            editor.putString("keystore_password" + currentServerValue, keystore_password.getText().toString());
+        }
 
         // Commit changes
         editor.commit();
