@@ -28,6 +28,7 @@ import org.apache.http.conn.ClientConnectionManager;
 import org.apache.http.conn.scheme.PlainSocketFactory;
 import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.scheme.SchemeRegistry;
+import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.cookie.Cookie;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.HttpMultipartMode;
@@ -47,6 +48,7 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -58,8 +60,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.net.ssl.SSLPeerUnverifiedException;
+
 public class JSONParser {
     private static final int TIMEOUT_ERROR = 1;
+    private static final int NO_PEER_CERTIFICATE = 2;
     static InputStream is = null;
     private JSONObject jObj = null;
     private JSONArray jArray = null;
@@ -75,21 +80,28 @@ public class JSONParser {
     private static String token;
     private static String cookie;
 
+    private File localTrustStoreFile;
+    private String keystore_path;
+    private String keystore_password;
+
+
     // constructor
     public JSONParser() {
-        this("", "", "", 0, "", "", 10, 20);
+        this("", "", "", 0, "", "", "", "", 10, 20);
     }
 
     public JSONParser(String hostname, String subfolder, int port, String username, String password) {
-        this(hostname, subfolder, "http", port, username, password, 10, 20);
+        this(hostname, subfolder, "http", port, "", "", username, password, 10, 20);
     }
 
-    public JSONParser(String hostname, String subfolder, String protocol, int port, String username, String password, int connection_timeout, int data_timeout) {
+    public JSONParser(String hostname, String subfolder, String protocol, int port, String keystore_path, String keystore_password, String username, String password, int connection_timeout, int data_timeout) {
 
         this.hostname = hostname;
         this.subfolder = subfolder;
         this.protocol = protocol;
         this.port = port;
+        this.keystore_path = keystore_path;
+        this.keystore_password = keystore_password;
         this.username = username;
         this.password = password;
         this.connection_timeout = connection_timeout;
@@ -198,6 +210,9 @@ public class JSONParser {
         } catch (ClientProtocolException e) {
             Log.e("Debug", "getJSONFromUrl - ClientProtocolException: " + e.toString());
             e.printStackTrace();
+        } catch (SSLPeerUnverifiedException e) {
+            Log.e("JSON", "SSLPeerUnverifiedException: " + e.toString());
+            throw new JSONParserStatusCodeException(NO_PEER_CERTIFICATE);
         } catch (IOException e) {
             Log.e("Debug", "getJSONFromUrl - IOException: " + e.toString());
             // e.printStackTrace();
@@ -301,6 +316,9 @@ public class JSONParser {
         } catch (ClientProtocolException e) {
             Log.e("JSON", "Client: " + e.toString());
             e.printStackTrace();
+        } catch (SSLPeerUnverifiedException e) {
+            Log.e("JSON", "SSLPeerUnverifiedException: " + e.toString());
+            throw new JSONParserStatusCodeException(NO_PEER_CERTIFICATE);
         } catch (IOException e) {
             Log.e("JSON", "IO: " + e.toString());
             // e.printStackTrace();
@@ -580,6 +598,9 @@ public class JSONParser {
         } catch (ClientProtocolException e) {
             Log.e("Debug", "Client: " + e.toString());
             e.printStackTrace();
+        } catch (SSLPeerUnverifiedException e) {
+            Log.e("JSON", "SSLPeerUnverifiedException: " + e.toString());
+            throw new JSONParserStatusCodeException(NO_PEER_CERTIFICATE);
         } catch (IOException e) {
             Log.e("Debug", "IO: " + e.toString());
             // e.printStackTrace();
@@ -603,12 +624,24 @@ public class JSONParser {
 
     public DefaultHttpClient getNewHttpClient() {
         try {
-            KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
-            trustStore.load(null, null);
+            KeyStore localTrustStore = KeyStore.getInstance("BKS");
 
-            MySSLSocketFactory sf = new MySSLSocketFactory(trustStore);
-            sf.setHostnameVerifier(org.apache.http.conn.ssl.SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+            InputStream in = null;
 
+            try {
+
+                localTrustStoreFile = new File(keystore_path);
+                in = new FileInputStream(localTrustStoreFile);
+
+                localTrustStore.load(in, keystore_password.toCharArray());
+            } finally {
+                if (in != null) {
+                    in.close();
+                }
+            }
+
+            MySSLSocketFactory sf = new MySSLSocketFactory(localTrustStore);
+            sf.setHostnameVerifier(SSLSocketFactory.STRICT_HOSTNAME_VERIFIER);
             HttpParams params = new BasicHttpParams();
 
 //            HttpProtocolParams.setVersion(params, HttpVersion.HTTP_1_1);
