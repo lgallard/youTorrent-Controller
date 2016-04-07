@@ -62,17 +62,36 @@
                 android:summary="@string/settings_qbittorrent_port_summary"
                 android:title="@string/settings_qbittorrent_port_title" />
 
-            <CheckBoxPreference
-                android:defaultValue="false"
-                android:key="https"
-                android:summary="@string/settings_qbittorrent_https_summary"
-                android:title="@string/settings_qbittorrent_https_title" />
 
             <EditTextPreference
                 android:defaultValue=""
                 android:dialogTitle="@string/settings_qbittorrent_subfolder_dialog_title"
                 android:key="subfolder"
                 android:title="@string/settings_qbittorrent_subfolder_title" />
+        </PreferenceCategory>
+
+        <PreferenceCategory
+            android:key="https_category"
+            android:title="@string/settings_https_category">
+            <CheckBoxPreference
+                android:defaultValue="false"
+                android:key="https"
+                android:summary="@string/settings_qbittorrent_https_summary"
+                android:title="@string/settings_qbittorrent_https_title" />
+
+            <Preference
+                android:dependency="https"
+                android:key="keystore_path"
+                android:title="@string/settings_https_self_signed_bks_file_title" />
+
+            <EditTextPreference
+                android:defaultValue=""
+                android:dependency="https"
+                android:dialogTitle="@string/settings_https_self_signed_keystore_password_title"
+                android:inputType="textPassword"
+                android:key="keystore_password"
+                android:summary="@string/settings_qbittorrent_password_summary"
+                android:title="@string/settings_https_self_signed_keystore_password_title" />
         </PreferenceCategory>
 
         <PreferenceCategory
