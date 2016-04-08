@@ -438,7 +438,7 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 //        qBittorrentOptions qso = new qBittorrentOptions();
 //        qso.execute(new String[]{qbQueryString + "/preferences", "getSettings"});
 
-        // If it were awaked from an intent-filter,
+        // If it was awoken from an intent-filter,
         // Get token and cookie and then
         // get intent from the intent filter and Add URL torrent
 //        Log.d("Debug", "MainActivity - 1");
@@ -2117,6 +2117,11 @@ public class MainActivity extends AppCompatActivity implements RefreshListener {
 
         // Get package name
         packageName = pInfo.packageName;
+
+        // Get keystore for self-signed certificate
+        keystore_path = sharedPrefs.getString("keystore_path" + currentServer, "");
+        keystore_password = sharedPrefs.getString("keystore_password" + currentServer, "");
+
 
     }
 
