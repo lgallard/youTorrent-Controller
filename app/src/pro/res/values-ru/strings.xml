@@ -219,4 +219,9 @@
   <string name="torrentsSelectedStopped">Торренты остановлены!</string>
   <string name="action_stop">Остановить!</string>
   <string name="torrentStopped">Торрент остановить!</string>
+  <string name="settings_https_category">HTTPS</string>
+  <string name="settings_https_self_signed_keystore_password_title">Хранилище ключей пароль</string>
+  <string name="settings_https_self_signed_bks_file_title">Keystore для собственного сертификата
+  </string>
+
 </resources>

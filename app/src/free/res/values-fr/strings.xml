@@ -223,4 +223,8 @@
     <string name="torrentsSelectedStopped">Torrents arrêtés!</string>
     <string name="action_stop">Arrêtez</string>
     <string name="torrentStopped">Torrent arrêté!</string>
+    <string name="settings_https_category">HTTPS</string>
+    <string name="settings_https_self_signed_keystore_password_title">Mot de passe keystore</string>
+    <string name="settings_https_self_signed_bks_file_title">Keystore de certificat auto-signé</string>
+
 </resources>

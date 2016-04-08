@@ -223,4 +223,8 @@
   <string name="torrentsSelectedStopped">Torrents gelditu egin dira!</string>
   <string name="action_stop">Gelditu</string>
   <string name="torrentStopped">Torrent gelditu!</string>
+  <string name="settings_https_category">HTTPS</string>
+  <string name="settings_https_self_signed_bks_file_title">Norberak sinatutako ziurtagiria keystore</string>
+  <string name="settings_https_self_signed_keystore_password_title">Keystore pasahitza</string>
+
 </resources>
